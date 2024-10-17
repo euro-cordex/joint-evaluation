@@ -9,3 +9,4 @@ dependencies:
   - xlsxwriter
   - dask
   - netcdf4
+  - aiohttp
