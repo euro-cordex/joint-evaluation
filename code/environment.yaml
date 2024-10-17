@@ -2,6 +2,10 @@ name: jsc-cordex
 channels:
   - conda-forge
 dependencies:
+  - python=3.9
+  - intake-esm
   - pandas
   - openpyxl
   - xlsxwriter
+  - dask
+  - netcdf4

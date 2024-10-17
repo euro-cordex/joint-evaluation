@@ -12,6 +12,7 @@ ROOT = "/mnt/CORDEX_CMIP6_tmp/sim_data/CORDEX/CMIP6"
 CATALOG = "catalog.csv"
 
 COLS = [
+    "project_id",
     "activity_id",
     "domain_id",
     "institution_id",
@@ -73,7 +74,7 @@ def human_readable(df):
 
 
 def create_excel(filename):
-    """create human readable excel file with one sheet per periority"""
+    """create human readable excel file"""
 
     df = pd.read_csv(filename)
     sheets = {"jsc-cordex": human_readable(df)}
