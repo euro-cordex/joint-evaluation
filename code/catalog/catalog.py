@@ -1,5 +1,3 @@
-
-
 import os
 import re
 import pandas as pd
@@ -7,7 +5,7 @@ from os import path as op
 
 DRS = {
     "directory_path_template": "<project_id>/<mip_era>/<activity_id>/<domain_id>/<institution_id>/<driving_source_id>/<driving_experiment_id>/<driving_variant_label>/<source_id>/<version_realization>/<frequency>/<variable_id>/<version>",
-    "filename_template": "<variable_id>_<domain_id>_<driving_source_id>_<driving_experiment_id>_<driving_variant_label>_<institution_id>_<source_id>_<version_realization>_<frequency>[_<time_range>].nc"
+    "filename_template": "<variable_id>_<domain_id>_<driving_source_id>_<driving_experiment_id>_<driving_variant_label>_<institution_id>_<source_id>_<version_realization>_<frequency>[_<time_range>].nc",
 }
 
 ROOT = "/mnt/CORDEX_CMIP6_tmp/sim_data/CORDEX/CMIP6"
@@ -46,13 +44,20 @@ def create_catalog(root):
             continue
     return datasets
 
-def create_excel(df):
-    df=df[['activity_id', 'domain_id', 'institution_id','driving_source_id', 'driving_experiment_id', 'driving_variant_label', 'source_id', 'version_realization', 'frequency', 'variable_id','version']]
-    excel = df.groupby(['activity_id', 'domain_id', 'institution_id','driving_source_id', 'driving_experiment_id', 'driving_variant_label', 'source_id', 'version_realization', 'frequency','version'])['variable_id'].apply(list).to_frame()
-    excel.to_excel('catalog.xlsx')
 
 def human_readable(df):
-    cols = ['activity_id', 'domain_id', 'institution_id','driving_source_id', 'driving_experiment_id', 'driving_variant_label', 'source_id', 'version_realization', 'frequency','version']
+    cols = [
+        "activity_id",
+        "domain_id",
+        "institution_id",
+        "driving_source_id",
+        "driving_experiment_id",
+        "driving_variant_label",
+        "source_id",
+        "version_realization",
+        "frequency",
+        "version",
+    ]
     return df.groupby(cols)["variable_id"].apply(list).to_frame()  # .reset_index()
 
 
@@ -76,14 +81,15 @@ def create_excel(filename):
 
     return xlsxfile
 
+
 def update_catalog(catalog, root):
     df = pd.DataFrame(create_catalog(root))
     print(f"writing catalog to {catalog}")
     df.to_csv(catalog, index=False)
     return df
-    
+
+
 if __name__ == "__main__":
     df = update_catalog(CATALOG, ROOT)
     create_excel(CATALOG)
     print(df)
-
