@@ -2,7 +2,7 @@
   "esmcat_version": "0.1.0",
   "id": "CORDEX-CMIP6",
   "description": "This is an ESM collection for CORDEX-CMIP6 data residing at JSC in Juelich.",
-  "catalog_file": "/home/lbuntemeyer/python/joint-evaluation/catalog.csv",
+  "catalog_file": "https://raw.githubusercontent.com/euro-cordex/joint-evaluation/refs/heads/main/catalog.csv",
   "attributes": [
     {
       "column_name": "project_id"
