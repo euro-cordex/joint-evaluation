@@ -12,19 +12,19 @@ ROOT = "/mnt/CORDEX_CMIP6_tmp/sim_data/CORDEX/CMIP6"
 CATALOG = "catalog.csv"
 
 COLS = [
-        "activity_id",
-        "domain_id",
-        "institution_id",
-        "driving_source_id",
-        "driving_experiment_id",
-        "driving_variant_label",
-        "source_id",
-        "version_realization",
-        "frequency",
-        "version",
-        "time_range",
-        "variable_id",
-    ]
+    "activity_id",
+    "domain_id",
+    "institution_id",
+    "driving_source_id",
+    "driving_experiment_id",
+    "driving_variant_label",
+    "source_id",
+    "version_realization",
+    "frequency",
+    "version",
+    "time_range",
+    "variable_id",
+]
 
 
 def create_path_pattern(drs, sep="/"):
@@ -36,8 +36,8 @@ def create_path_pattern(drs, sep="/"):
 
 
 def parse_filepath(filename):
-    #pattern = create_pattern(drs)
-    regex = r'(?P<project_id>[^/]+)/(?P<mip_era>[^/]+)/(?P<activity_id>[^/]+)/(?P<domain_id>[^/]+)/(?P<institution_id>[^/]+)/(?P<driving_source_id>[^/]+)/(?P<driving_experiment_id>[^/]+)/(?P<driving_variant_label>[^/]+)/(?P<source_id>[^/]+)/(?P<version_realization>[^/]+)/(?P<frequency>[^/]+)/(?P<variable_id>[^/]+)/(?P<version>[^/]+)/(?P<filename>(?P<variable_id_2>[^_]+)_(?P<domain_id_2>[^_]+)_(?P<driving_source_id_2>[^_]+)_(?P<driving_experiment_id_2>[^_]+)_(?P<driving_variant_label_2>[^_]+)_(?P<institution_id_2>[^_]+)_(?P<source_id_2>[^_]+)_(?P<version_realization_2>[^_]+)_(?P<frequency_2>[^_]+)_(?P<time_range>[^.]+)\.nc)'
+    # pattern = create_pattern(drs)
+    regex = r"(?P<project_id>[^/]+)/(?P<mip_era>[^/]+)/(?P<activity_id>[^/]+)/(?P<domain_id>[^/]+)/(?P<institution_id>[^/]+)/(?P<driving_source_id>[^/]+)/(?P<driving_experiment_id>[^/]+)/(?P<driving_variant_label>[^/]+)/(?P<source_id>[^/]+)/(?P<version_realization>[^/]+)/(?P<frequency>[^/]+)/(?P<variable_id>[^/]+)/(?P<version>[^/]+)/(?P<filename>(?P<variable_id_2>[^_]+)_(?P<domain_id_2>[^_]+)_(?P<driving_source_id_2>[^_]+)_(?P<driving_experiment_id_2>[^_]+)_(?P<driving_variant_label_2>[^_]+)_(?P<institution_id_2>[^_]+)_(?P<source_id_2>[^_]+)_(?P<version_realization_2>[^_]+)_(?P<frequency_2>[^_]+)_(?P<time_range>[^.]+)\.nc)"
     regex = r"^/?(?:[^/]+/)*" + regex
     pattern = re.compile(regex)
     match = pattern.match(filename)
@@ -55,7 +55,7 @@ def create_catalog(root):
         if not files:
             continue
         for file in files:
-            filename = op.join(root,file)
+            filename = op.join(root, file)
             print(f"parsing {filename}")
             metadata = parse_filepath(filename)
             metadata["path"] = filename
@@ -65,8 +65,10 @@ def create_catalog(root):
 
 def human_readable(df):
     cols = [item for item in COLS if item not in ["variable_id", "time_range"]]
+
     def to_list(x):
         return list(dict.fromkeys(list(x)))
+
     return df.groupby(cols)["variable_id"].apply(to_list).to_frame()  # .reset_index()
 
 
@@ -92,7 +94,7 @@ def create_excel(filename):
 
 
 def update_catalog(catalog, root):
-    df = pd.DataFrame(create_catalog(root))[COLS+["path"]]
+    df = pd.DataFrame(create_catalog(root))[COLS + ["path"]]
     print(f"writing catalog to {catalog}")
     df.to_csv(catalog, index=False)
     return df
