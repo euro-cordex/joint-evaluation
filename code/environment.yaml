@@ -1,0 +1,7 @@
+name: jsc-cordex
+channels:
+  - conda-forge
+dependencies:
+  - pandas
+  - openpyxl
+  - xlsxwriter
