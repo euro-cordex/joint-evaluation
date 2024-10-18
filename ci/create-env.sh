@@ -1,2 +1,3 @@
-conda env remove -y -n catalog-update || true
-conda env create -f code/environment.yaml -n catalog-update
+env = catalog-update
+conda env remove -y -n $env || true
+conda env create -f code/environment.yaml -n $env
