@@ -8,7 +8,7 @@ python code/catalog/catalog.py
 
 if [[ `git diff --quiet catalog.csv` ]]; then
   git commit catalog.csv catalog.xlsx -m"catalog update"
-  git push origin main 
+  git push origin main
 else
   echo "no change!"
 fi
