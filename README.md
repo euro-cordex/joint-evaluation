@@ -36,7 +36,7 @@ If you want to work interactively on jsc-cordex, you can use jupyterlab via ssh 
 
 Once you are logged in to jsc-cordex and set up, you can start the jupyter server (without a browser) like this:
 ```
-jupyter lab --no-browser 
+jupyter lab --no-browser
 ```
 Note the port in the URL, e.g. `http://localhost:8888` and start a ssh tunnel with port forwarding on your local computer:
 ```
