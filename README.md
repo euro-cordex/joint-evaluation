@@ -38,8 +38,8 @@ Once you are logged in to jsc-cordex and set up, you can start the jupyter serve
 ```
 jupyter lab --no-browser
 ```
-Note the port in the URL, e.g. `http://localhost:8888` and start a ssh tunnel with port forwarding on your local computer:
+Note the port in the URL, e.g. `http://localhost:8888` (the port can be different if several servers are running) and start an ssh tunnel with port forwarding on your local computer:
 ```
 ssh -N -L 8000:localhost:8888 jsc-cordex
 ```
-The jupyterlab should then be available in your local browser at `https://localhost:8000/`. The login token can also be found in the URL on the jsc-terminal.
+The jupyterlab should then be available in your local browser at `https://localhost:8000/`. The login token can also be found in the URL on the jsc-terminal. Please don't forget to kill your server once you are finished. It will be killed automatically if you close the terminal in which you started the server.
