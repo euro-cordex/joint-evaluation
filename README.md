@@ -1,6 +1,7 @@
 # Joint evaluation
 Joint evaluation of the CMIP6 downscaling within EURO-CORDEX.
 
+This repository is supposed to hold meta data concerning the EURO-CORDEX joint evaluation, e.g., tables and catalogs. If you have any questions, please don't hesitate to [open an issue](https://github.com/euro-cordex/joint-evaluation/issues/new)!
 
 ## Data exchange
 Some storage space on the existing jsc-cordex data exchange infrastructure at Jülich Supercomputing Centre (JSC) is available and may be used to provide some intermediate, temporary, limited storage for the first joint analyses publications of CORDEX-CMIP6 simulations before data will be stored longer-term on ESGF-related storage at the respective centres.
