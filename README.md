@@ -12,6 +12,28 @@ Some storage space on the existing jsc-cordex data exchange infrastructure at JÃ
 
 Access to storate at JSC is decribed [here](https://github.com/euro-cordex/jsc-cordex) (private repo until this is released to the community).
 
+The variables requested for this joint evaluation, along their corresponding metadata, are available in this repository, under the file [dreq_EUR_joint_evaluation.csv](./dreq_EUR_joint_evaluation.csv). This file can be explored using the search box in Github; e.g. search for "Overview" to filter the variables currently requested for the overview evaluation work. This file can also be downloaded [here](https://raw.githubusercontent.com/euro-cordex/joint-evaluation/refs/heads/main/dreq_EUR_joint_evaluation.csv), to use it in your data uploading scripts.
+
+```python
+import pandas as pd
+
+pd.read_csv("https://raw.githubusercontent.com/euro-cordex/joint-evaluation/refs/heads/main/dreq_EUR_joint_evaluation.csv")
+```
+```
+   out_name frequency  units                       long_name        standard_name            cell_methods   priority comment 
+0       clt       mon      %    Total Cloud Cover Percentage  cloud_area_fraction        area: time: mean     Trends     NaN 
+1      hurs       1hr      %  Near-Surface Relative Humidity    relative_humidity  area: mean time: point        FWI     NaN 
+2      hurs       day      %  Near-Surface Relative Humidity    relative_humidity        area: time: mean        FWI     NaN 
+3   hus1000       6hr      1               Specific Humidity    specific_humidity  area: mean time: point  AtmRivers     NaN 
+4    hus200       6hr      1               Specific Humidity    specific_humidity  area: mean time: point  AtmRivers     NaN 
+..      ...       ...    ...                             ...                  ...                     ...        ...     ... 
+63    va700       6hr  m s-1                  Northward Wind       northward_wind  area: mean time: point  AtmRivers     NaN 
+64    va850       6hr  m s-1                  Northward Wind       northward_wind  area: mean time: point  AtmRivers     NaN 
+65    va925       6hr  m s-1                  Northward Wind       northward_wind  area: mean time: point  AtmRivers     NaN 
+66      vas       mon  m s-1     Northward Near-Surface Wind       northward_wind        area: time: mean     Trends     NaN 
+67    zg500       mon      m             Geopotential Height  geopotential_height        area: time: mean     Trends     NaN 
+```
+
 ## Catalog
 A catalog of available data at JSC-CORDEX is available from this repository. For example,
 ```python
