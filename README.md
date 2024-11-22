@@ -54,7 +54,7 @@ gives
  'CORDEX.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020.v1.mon.uas.v20240529',
  'CORDEX.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020.v1.mon.vas.v20240529']
 ```
-You can filter and filter and load datasets using, e.g.,:
+You can filter and load datasets using, e.g.,:
 ```python
 dataset_dict = cat.search(variable_id=["tas", "orog", "sftlf"]).to_dataset_dict()
 ```
