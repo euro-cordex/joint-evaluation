@@ -20,18 +20,18 @@ import pandas as pd
 pd.read_csv("https://raw.githubusercontent.com/euro-cordex/joint-evaluation/refs/heads/main/dreq_EUR_joint_evaluation.csv")
 ```
 ```
-   out_name frequency  units                       long_name        standard_name            cell_methods   priority comment 
-0       clt       mon      %    Total Cloud Cover Percentage  cloud_area_fraction        area: time: mean     Trends     NaN 
-1      hurs       1hr      %  Near-Surface Relative Humidity    relative_humidity  area: mean time: point        FWI     NaN 
-2      hurs       day      %  Near-Surface Relative Humidity    relative_humidity        area: time: mean        FWI     NaN 
-3   hus1000       6hr      1               Specific Humidity    specific_humidity  area: mean time: point  AtmRivers     NaN 
-4    hus200       6hr      1               Specific Humidity    specific_humidity  area: mean time: point  AtmRivers     NaN 
-..      ...       ...    ...                             ...                  ...                     ...        ...     ... 
-63    va700       6hr  m s-1                  Northward Wind       northward_wind  area: mean time: point  AtmRivers     NaN 
-64    va850       6hr  m s-1                  Northward Wind       northward_wind  area: mean time: point  AtmRivers     NaN 
-65    va925       6hr  m s-1                  Northward Wind       northward_wind  area: mean time: point  AtmRivers     NaN 
-66      vas       mon  m s-1     Northward Near-Surface Wind       northward_wind        area: time: mean     Trends     NaN 
-67    zg500       mon      m             Geopotential Height  geopotential_height        area: time: mean     Trends     NaN 
+   out_name frequency  units                       long_name        standard_name            cell_methods   priority comment
+0       clt       mon      %    Total Cloud Cover Percentage  cloud_area_fraction        area: time: mean     Trends     NaN
+1      hurs       1hr      %  Near-Surface Relative Humidity    relative_humidity  area: mean time: point        FWI     NaN
+2      hurs       day      %  Near-Surface Relative Humidity    relative_humidity        area: time: mean        FWI     NaN
+3   hus1000       6hr      1               Specific Humidity    specific_humidity  area: mean time: point  AtmRivers     NaN
+4    hus200       6hr      1               Specific Humidity    specific_humidity  area: mean time: point  AtmRivers     NaN
+..      ...       ...    ...                             ...                  ...                     ...        ...     ...
+63    va700       6hr  m s-1                  Northward Wind       northward_wind  area: mean time: point  AtmRivers     NaN
+64    va850       6hr  m s-1                  Northward Wind       northward_wind  area: mean time: point  AtmRivers     NaN
+65    va925       6hr  m s-1                  Northward Wind       northward_wind  area: mean time: point  AtmRivers     NaN
+66      vas       mon  m s-1     Northward Near-Surface Wind       northward_wind        area: time: mean     Trends     NaN
+67    zg500       mon      m             Geopotential Height  geopotential_height        area: time: mean     Trends     NaN
 ```
 
 ## Catalog
@@ -54,6 +54,11 @@ gives
  'CORDEX.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020.v1.mon.uas.v20240529',
  'CORDEX.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020.v1.mon.vas.v20240529']
 ```
+You can filter and filter and load datasets using, e.g.,:
+```
+dataset_dict = cat.search(variable_id=["tas", "orog", "sftlf"]).to_dataset_dict()
+```
+and you will get a dictionary of datasets back. Note that this, for now, will only work when you are logged in to `jsc-cordex` since datasets reside on the local filesystem. For more info about `intake-esm`, please also see the [documentation](https://intake-esm.readthedocs.io/en/stable/how-to/understand-keys-and-how-to-change-them.html).
 
 ## Starting Jupyter Lab
 
