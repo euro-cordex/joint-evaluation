@@ -6,4 +6,3 @@ conda env list
 conda activate $env
 
 jupyter nbconvert --to notebook --execute eval-book/eobs.ipynb
-
