@@ -21,5 +21,6 @@ dependencies:
   - fsspec
   - requests
   - aiohttp
+  - nbconvert
   - pip:
     - git+https://github.com/euro-cordex/evaltools # always use master for now
