@@ -1,10 +1,12 @@
 #!/bin/bash
 
+file=$1
+name=$2
+
 source /mnt/CORDEX_CMIP6_tmp/software/miniforge3/etc/profile.d/conda.sh
-env=catalog-update
-conda env remove -y -n $env || true
-conda env create -f code/environment.yaml -n $env
-conda activate $env
+conda env remove -y -n $name || true
+conda env create -f $file -n $name
+conda activate $name
 which python
 #python code/catalog/catalog.py
 

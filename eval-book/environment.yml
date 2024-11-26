@@ -1,0 +1,26 @@
+name: eval-book
+channels:
+  - conda-forge
+  - nodefaults
+dependencies:
+  - cartopy
+  - matplotlib-base
+  - regionmask
+  - xarray
+  - cf_xarray
+  - cftime
+  - flox
+  - netCDF4
+  - xesmf
+  - cdo
+  - python-cdo
+  - jupyter-book
+  - intake-esm
+  - ghp-import
+  - gcsfs
+  - fsspec
+  - requests
+  - aiohttp
+  - nbconvert
+  - pip:
+    - git+https://github.com/euro-cordex/evaltools # always use master for now
