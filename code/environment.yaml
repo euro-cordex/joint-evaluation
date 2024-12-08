@@ -13,3 +13,5 @@ dependencies:
   - dask
   - netcdf4
   - aiohttp
+  - pip:
+    - git+https://github.com/euro-cordex/evaltools
