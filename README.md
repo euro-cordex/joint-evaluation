@@ -78,7 +78,7 @@ The jupyterlab should then be available in your local browser at `https://localh
 
 ## Plots
 
-These plots show some preliminary results from available data at `jsc-cordex`. These plots are updated once new data comes in.
+These plots show some preliminary results from available data at `jsc-cordex`. These plots give an overview of what data is available and are updated once new data comes in.
 
 ![alt text](plots/prudence-timeseries-tas.png)
 ![alt text](plots/prudence-timeseries-pr.png)
