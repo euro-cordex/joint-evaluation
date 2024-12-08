@@ -13,7 +13,7 @@ changed=$?
 if [ $changed -ne 0 ]; then
   echo "committing changes!"
   git add catalog.csv catalog.xlsx
-  git commit -m "catalog update"
+  git commit --author="github-actions[bot] <github-actions[bot]@users.noreply.github.com>" -m "catalog update"
   git push origin main
 else
   echo "no change!"
