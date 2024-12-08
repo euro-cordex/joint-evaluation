@@ -75,3 +75,5 @@ Note the port in the URL, e.g. `http://localhost:8888` (the port can be differen
 ssh -N -L 8000:localhost:8888 jsc-cordex
 ```
 The jupyterlab should then be available in your local browser at `https://localhost:8000/`. The login token can also be found in the URL on the jsc-terminal. Please don't forget to kill your server once you are finished. It will be killed automatically if you close the terminal in which you started the server.
+
+## Plots
