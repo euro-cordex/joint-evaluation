@@ -4,7 +4,7 @@
 
 <img src="https://imgs.xkcd.com/comics/data_trap.png" width="200" align="right"/>
 
-Joint evaluation of the CMIP6 downscaling within EURO-CORDEX. 
+Joint evaluation of the CMIP6 downscaling within EURO-CORDEX.
 
 This repository is supposed to help in organizing the EURO-CORDEX joint evaluation, e.g., it holds meta data like tables, and catalogs, but also README files and [issues](https://github.com/euro-cordex/joint-evaluation/issues) regarding evaluation. If you have any topics, questions or suggestions, please don't hesitate to [open a new issue](https://github.com/euro-cordex/joint-evaluation/issues/new)! There is also the possibility to [join a team](https://github.com/orgs/euro-cordex/teams) to stay in touch easily if you want.
 
@@ -13,7 +13,7 @@ For a broader overview, you can also have a look at the [project board](https://
 There is also a repository ([evaltools](https://github.com/euro-cordex/evaltools)) that might hold useful code used in the evaluation analysis. This is separated for better maintainability.
 
 ###### [xkcd](https://xkcd.com) comic used under [CC BY-NC 2.5 license](https://xkcd.com/license.html)
- 
+
 ## Data exchange
 Some storage space on the existing jsc-cordex data exchange infrastructure at Jülich Supercomputing Centre (JSC) is available and may be used to provide some intermediate, temporary, limited storage for the first joint analyses publications of CORDEX-CMIP6 simulations before data will be stored longer-term on ESGF-related storage at the respective centres.
 
