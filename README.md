@@ -1,3 +1,5 @@
+<img src="https://mirrors.creativecommons.org/presskit/logos/cc.logo.large.png" width="150" align="right"/>
+
 # Joint evaluation
 Joint evaluation of the CMIP6 downscaling within EURO-CORDEX.
 
