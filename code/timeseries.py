@@ -1,3 +1,15 @@
+"""
+timeseries.py
+
+This script processes climate model datasets to create regional mean time series and plots them.
+It includes functions to open and sort datasets, compute regional means, and plot the results.
+The script uses Dask for parallel computing and Seaborn for plotting.
+
+Functions:
+- create_regional_means(dsets, regions): Computes regional mean time series for given datasets and regions.
+- plot(data, y, prefix="timeseries"): Plots the regional mean time series.
+"""
+
 import dask
 from dask.diagnostics import ProgressBar
 import matplotlib.pyplot as plt
@@ -96,6 +108,16 @@ def open_datasets(variables, frequency="mon"):
 
 
 def create_regional_means(dsets, regions):
+    """
+    Computes regional mean time series for given datasets and regions.
+
+    Parameters:
+    dsets (xarray.Dataset): The datasets to process.
+    regions (dict): Dictionary of regions to compute means for.
+
+    Returns:
+    pandas.DataFrame: DataFrame containing the regional mean time series.
+    """
     means = regional_means(dsets, regions)
     means["region"] = means.names
 
@@ -106,6 +128,17 @@ def create_regional_means(dsets, regions):
 
 
 def plot(data, y, prefix="timeseries"):
+    """
+    Plots the regional mean time series.
+
+    Parameters:
+    data (pandas.DataFrame): DataFrame containing the regional mean time series.
+    y (str): The variable to plot.
+    prefix (str): Prefix for the plot filename.
+
+    Returns:
+    None
+    """
     nregions = data.region.nunique()
     col_wrap = 4
     if nregions > 4:
