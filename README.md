@@ -2,7 +2,7 @@
 
 # Joint evaluation
 
-<img src="https://imgs.xkcd.com/comics/data_trap.png" width="200" align="right"/>
+<img src="https://imgs.xkcd.com/comics/data_trap.png" width="300" align="right"/>
 
 Joint evaluation of the CMIP6 downscaling within EURO-CORDEX.
 
