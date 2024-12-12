@@ -1,12 +1,20 @@
+"""
+catalog.py
+
+This script processes and organizes metadata for the EURO-CORDEX joint evaluation project.
+It includes functions to parse file paths, create human-readable summaries, and export data to Excel.
+The script uses pandas for data manipulation and xlsxwriter for Excel file creation.
+
+Functions:
+- human_readable(df): Creates a human-readable summary of the dataset.
+- create_excel(filename): Creates a human-readable Excel file from the dataset.
+- update_catalog(catalog, root): Updates the catalog with metadata from the specified root directory.
+"""
+
 import os
 import re
 import pandas as pd
 from os import path as op
-
-# DRS = {
-#     "directory_path_template": "<project_id>/<mip_era>/<activity_id>/<domain_id>/<institution_id>/<driving_source_id>/<driving_experiment_id>/<driving_variant_label>/<source_id>/<version_realization>/<frequency>/<variable_id>/<version>",
-#     "filename_template": "<variable_id>_<domain_id>_<driving_source_id>_<driving_experiment_id>_<driving_variant_label>_<institution_id>_<source_id>_<version_realization>_<frequency>[_<time_range>].nc",
-# }
 
 ROOT = "/mnt/CORDEX_CMIP6_tmp/sim_data/CORDEX/CMIP6"
 CATALOG = "catalog.csv"
@@ -65,6 +73,15 @@ def create_catalog(root):
 
 
 def human_readable(df):
+    """
+    Creates a human-readable summary of the dataset.
+
+    Parameters:
+    df (pandas.DataFrame): The input DataFrame containing the dataset.
+
+    Returns:
+    pandas.DataFrame: A DataFrame with grouped and summarized data.
+    """
     cols = [item for item in COLS if item not in ["variable_id", "time_range"]]
 
     def to_list(x):
@@ -74,21 +91,27 @@ def human_readable(df):
 
 
 def create_excel(filename):
-    """create human readable excel file"""
+    """
+    Creates a human-readable Excel file from the dataset.
 
+    Parameters:
+    filename (str): The path to the CSV file containing the dataset.
+
+    Returns:
+    str: The path to the created Excel file.
+    """
     df = pd.read_csv(filename)
     sheets = {"jsc-cordex": human_readable(df)}
 
     stem, suffix = op.splitext(filename)
     xlsxfile = f"{stem}.xlsx"
 
-    with pd.ExcelWriter(xlsxfile) as writer:
-        for k, v in sheets.items():
-            print(k)
-            v.to_excel(writer, sheet_name=k, index=True)
-            nlevels = v.index.nlevels + len(v.columns)
-            worksheet = writer.sheets[k]  # pull worksheet object
-            
+    with pd.ExcelWriter(xlsxfile, engine='xlsxwriter') as writer:
+        for sheet_name, sheet_df in sheets.items():
+            print(sheet_name)
+            sheet_df.to_excel(writer, sheet_name=sheet_name, index=True)
+            worksheet = writer.sheets[sheet_name]  # pull worksheet object
+
             # Set the column width to the maximum width of the content
             for idx, col in enumerate(sheet_df.columns):
                 max_len = max(
@@ -109,6 +132,16 @@ def create_excel(filename):
 
 
 def update_catalog(catalog, root):
+    """
+    Updates the catalog with metadata from the specified root directory.
+
+    Parameters:
+    catalog (str): The path to the catalog CSV file.
+    root (str): The root directory to scan for metadata.
+
+    Returns:
+    pandas.DataFrame: The updated catalog DataFrame.
+    """
     df = pd.DataFrame(create_catalog(root))[COLS + ["path"]]
     print(f"writing catalog to {catalog}")
     df.to_csv(catalog, index=False)
