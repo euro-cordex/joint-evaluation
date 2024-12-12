@@ -106,7 +106,7 @@ def create_excel(filename):
     stem, suffix = op.splitext(filename)
     xlsxfile = f"{stem}.xlsx"
 
-    with pd.ExcelWriter(xlsxfile, engine='xlsxwriter') as writer:
+    with pd.ExcelWriter(xlsxfile, engine="xlsxwriter") as writer:
         for sheet_name, sheet_df in sheets.items():
             print(sheet_name)
             sheet_df.to_excel(writer, sheet_name=sheet_name, index=True)
@@ -114,18 +114,31 @@ def create_excel(filename):
 
             # Set the column width to the maximum width of the content
             for idx, col in enumerate(sheet_df.columns):
-                max_len = max(
-                    sheet_df[col].astype(str).map(len).max(),  # len of largest item
-                    len(str(col))  # len of column name/header
-                ) + 2  # adding a little extra space
-                worksheet.set_column(idx + len(sheet_df.index.names), idx + len(sheet_df.index.names), max_len)
+                max_len = (
+                    max(
+                        sheet_df[col].astype(str).map(len).max(),  # len of largest item
+                        len(str(col)),  # len of column name/header
+                    )
+                    + 2
+                )  # adding a little extra space
+                worksheet.set_column(
+                    idx + len(sheet_df.index.names),
+                    idx + len(sheet_df.index.names),
+                    max_len,
+                )
 
             # Set the column width for the index levels
             for idx, level in enumerate(sheet_df.index.names):
-                max_len = max(
-                    sheet_df.index.get_level_values(level).astype(str).map(len).max(),  # len of largest item in index level
-                    len(str(level))  # len of index level name
-                ) + 2  # adding a little extra space
+                max_len = (
+                    max(
+                        sheet_df.index.get_level_values(level)
+                        .astype(str)
+                        .map(len)
+                        .max(),  # len of largest item in index level
+                        len(str(level)),  # len of index level name
+                    )
+                    + 2
+                )  # adding a little extra space
                 worksheet.set_column(idx, idx, max_len)
 
     return xlsxfile
