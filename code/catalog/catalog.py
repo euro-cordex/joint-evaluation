@@ -88,8 +88,22 @@ def create_excel(filename):
             v.to_excel(writer, sheet_name=k, index=True)
             nlevels = v.index.nlevels + len(v.columns)
             worksheet = writer.sheets[k]  # pull worksheet object
-            for i in range(nlevels):
-                worksheet.set_column(i, i, 40)
+            
+            # Set the column width to the maximum width of the content
+            for idx, col in enumerate(sheet_df.columns):
+                max_len = max(
+                    sheet_df[col].astype(str).map(len).max(),  # len of largest item
+                    len(str(col))  # len of column name/header
+                ) + 2  # adding a little extra space
+                worksheet.set_column(idx + len(sheet_df.index.names), idx + len(sheet_df.index.names), max_len)
+
+            # Set the column width for the index levels
+            for idx, level in enumerate(sheet_df.index.names):
+                max_len = max(
+                    sheet_df.index.get_level_values(level).astype(str).map(len).max(),  # len of largest item in index level
+                    len(str(level))  # len of index level name
+                ) + 2  # adding a little extra space
+                worksheet.set_column(idx, idx, max_len)
 
     return xlsxfile
 
