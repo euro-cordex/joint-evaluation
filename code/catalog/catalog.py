@@ -16,11 +16,11 @@ import re
 import pandas as pd
 from os import path as op
 
-project = "cmip5-cordex"# cmip6-cordex
+project = "cmip5-cordex"  # cmip6-cordex
 
 root_dic = {
-        'cmip5-cordex': "/mnt/CORDEX_CMIP6_tmp/aux_data/cmip5-cordex",
-        'cmip6-cordex': "/mnt/CORDEX_CMIP6_tmp/sim_data/CORDEX/CMIP6",
+    "cmip5-cordex": "/mnt/CORDEX_CMIP6_tmp/aux_data/cmip5-cordex",
+    "cmip6-cordex": "/mnt/CORDEX_CMIP6_tmp/sim_data/CORDEX/CMIP6",
 }
 
 
@@ -53,7 +53,7 @@ def create_path_pattern(drs, sep="/"):
 
 def parse_filepath(filename):
     # pattern = create_pattern(drs)
-    if project == 'cmip6-cordex':
+    if project == "cmip6-cordex":
         regex = r"(?P<project_id>[^/]+)/(?P<mip_era>[^/]+)/(?P<activity_id>[^/]+)/(?P<domain_id>[^/]+)/(?P<institution_id>[^/]+)/(?P<driving_source_id>[^/]+)/(?P<driving_experiment_id>[^/]+)/(?P<driving_variant_label>[^/]+)/(?P<source_id>[^/]+)/(?P<version_realization>[^/]+)/(?P<frequency>[^/]+)/(?P<variable_id>[^/]+)/(?P<version>[^/]+)/(?P<filename>(?P<variable_id_2>[^_]+)_(?P<domain_id_2>[^_]+)_(?P<driving_source_id_2>[^_]+)_(?P<driving_experiment_id_2>[^_]+)_(?P<driving_variant_label_2>[^_]+)_(?P<institution_id_2>[^_]+)_(?P<source_id_2>[^_]+)_(?P<version_realization_2>[^_]+)_(?P<frequency_2>[^_]+)(?:_(?P<time_range>[^.]+))?\.nc)"
         regex = r"^/?(?:[^/]+/)*" + regex
     if project == "cmip5-cordex":
@@ -75,7 +75,7 @@ def create_catalog(root):
         if not files:
             continue
         for file in files:
-            if '.nc' in file:
+            if ".nc" in file:
                 filename = op.join(root, file)
                 print(f"parsing {filename}")
                 metadata = parse_filepath(filename)
