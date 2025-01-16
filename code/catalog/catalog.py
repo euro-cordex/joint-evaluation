@@ -1,7 +1,7 @@
 """
 catalog.py
 
-This script processes and organizes metadata for the EURO-CORDEX joint evaluation project, encompassing both CMIP5 and CMIP6 driving models.
+This script processes and organizes metadata for the EURO-CORDEX joint evaluation project, encompassing both CMIP5 and CMIP6 driving models in a single catalog.
 It includes functions to parse file paths, create human-readable summaries, and export data to Excel.
 The script uses pandas for data manipulation and xlsxwriter for Excel file creation.
 
@@ -16,18 +16,16 @@ import re
 import pandas as pd
 from os import path as op
 
-project = "cmip5-cordex"  # cmip6-cordex
-
 root_dic = {
-    "cmip5-cordex": "/mnt/CORDEX_CMIP6_tmp/aux_data/cmip5-cordex",
+    "cmip5-cordex": "/mnt/CORDEX_CMIP6_tmp/aux_data/cordex-cmip5",
     "cmip6-cordex": "/mnt/CORDEX_CMIP6_tmp/sim_data/CORDEX/CMIP6",
 }
-
 
 CATALOG = "catalog.csv"
 
 COLS = [
     "project_id",
+    "mip_era",
     "activity_id",
     "domain_id",
     "institution_id",
@@ -42,6 +40,13 @@ COLS = [
     "variable_id",
 ]
 
+def insert_at_position(string, constant, position, string_ = '/'):
+    parts = string.split(string_)
+    if position <= len(parts):
+        parts.insert(position, constant)
+    else:
+        parts.append(constant)
+    return string_.join(parts)
 
 def create_path_pattern(drs, sep="/"):
     attrs = drs.split(sep)
@@ -51,14 +56,18 @@ def create_path_pattern(drs, sep="/"):
     return re.compile(drs)
 
 
-def parse_filepath(filename):
+def parse_filepath(filename, project):
     # pattern = create_pattern(drs)
     if project == "cmip6-cordex":
         regex = r"(?P<project_id>[^/]+)/(?P<mip_era>[^/]+)/(?P<activity_id>[^/]+)/(?P<domain_id>[^/]+)/(?P<institution_id>[^/]+)/(?P<driving_source_id>[^/]+)/(?P<driving_experiment_id>[^/]+)/(?P<driving_variant_label>[^/]+)/(?P<source_id>[^/]+)/(?P<version_realization>[^/]+)/(?P<frequency>[^/]+)/(?P<variable_id>[^/]+)/(?P<version>[^/]+)/(?P<filename>(?P<variable_id_2>[^_]+)_(?P<domain_id_2>[^_]+)_(?P<driving_source_id_2>[^_]+)_(?P<driving_experiment_id_2>[^_]+)_(?P<driving_variant_label_2>[^_]+)_(?P<institution_id_2>[^_]+)_(?P<source_id_2>[^_]+)_(?P<version_realization_2>[^_]+)_(?P<frequency_2>[^_]+)(?:_(?P<time_range>[^.]+))?\.nc)"
         regex = r"^/?(?:[^/]+/)*" + regex
     if project == "cmip5-cordex":
-        regex = r"/(?P<project_id>[^/]+)/(?P<activity_id>[^/]+)/(?P<domain_id>[^/]+)/(?P<institution_id>[^/]+)/(?P<driving_source_id>[^/]+)/(?P<driving_experiment_id>[^/]+)/(?P<driving_variant_label>[^/]+)/(?P<source_id>[^/]+)/(?P<version_realization>[^/]+)/(?P<frequency>[^/]+)/(?P<variable_id>[^/]+)/(?P<version>[^/]+)/(?P<filename>(?P<variable_id_2>[^_]+)_(?P<domain_id_2>[^_]+)_(?P<driving_source_id_2>[^_]+)_(?P<driving_experiment_id_2>[^_]+)_(?P<driving_variant_label_2>[^_]+)_(?P<source_id_2>[^_]+)_(?P<version_realization_2>[^_]+)_(?P<frequency_2>[^_]+)(?:_(?P<time_range>[^.]+))?\.nc)"
+        regex = r"/(?P<project_id>[^/]+)/(?P<mip_era>[^/]+)/(?P<activity_id>[^/]+)/(?P<domain_id>[^/]+)/(?P<institution_id>[^/]+)/(?P<driving_source_id>[^/]+)/(?P<driving_experiment_id>[^/]+)/(?P<driving_variant_label>[^/]+)/(?P<source_id>[^/]+)/(?P<version_realization>[^/]+)/(?P<frequency>[^/]+)/(?P<variable_id>[^/]+)/(?P<version>[^/]+)/(?P<filename>(?P<variable_id_2>[^_]+)_(?P<domain_id_2>[^_]+)_(?P<driving_source_id_2>[^_]+)_(?P<driving_experiment_id_2>[^_]+)_(?P<driving_variant_label_2>[^_]+)_(?P<institution_id_2>[^_]+)_(?P<source_id_2>[^_]+)_(?P<version_realization_2>[^_]+)_(?P<frequency_2>[^_]+)(?:_(?P<time_range>[^.]+))?\.nc)"
+        mip_era = 'CMIP5'
+        institution_id_2 = filename.split('/')[8]
         filename = re.sub(root_dic[project], "", filename)
+        filename = insert_at_position(filename, mip_era, 2, string_ = '/')
+        filename = filename.replace(f"{institution_id_2}-" ,f"{institution_id_2}_")
     pattern = re.compile(regex)
     match = pattern.match(filename)
     if match:
@@ -67,7 +76,7 @@ def parse_filepath(filename):
         raise ValueError("The filepath does not match the expected pattern.")
 
 
-def create_catalog(root):
+def create_catalog(root, project):
     datasets = []
     # Define the regex pattern for the filename
     for root, dirs, files in os.walk(root):
@@ -78,7 +87,7 @@ def create_catalog(root):
             if ".nc" in file:
                 filename = op.join(root, file)
                 print(f"parsing {filename}")
-                metadata = parse_filepath(filename)
+                metadata = parse_filepath(filename, project)
                 metadata["path"] = filename
                 datasets.append(metadata)
     return datasets
@@ -156,7 +165,7 @@ def create_excel(filename):
     return xlsxfile
 
 
-def update_catalog(catalog, root):
+def update_catalog(catalog, root, project):
     """
     Updates the catalog with metadata from the specified root directory.
 
@@ -167,13 +176,17 @@ def update_catalog(catalog, root):
     Returns:
     pandas.DataFrame: The updated catalog DataFrame.
     """
-    df = pd.DataFrame(create_catalog(root))[COLS + ["path"]]
-    print(f"writing catalog to {catalog}")
-    df.to_csv(catalog, index=False)
+    df = pd.DataFrame(create_catalog(root, project))[COLS + ["path"]]
+    #print(f"writing catalog to {catalog}")
+    #df.to_csv(catalog, index=False)
     return df
 
 
 if __name__ == "__main__":
-    df = update_catalog(CATALOG, root_dic[project])
-    create_excel(CATALOG)
-    print(df)
+    #df = update_catalog(CATALOG, root_dic[project])
+    #create_excel(CATALOG)
+    df_CMIP5 = update_catalog(CATALOG, root_dic['cmip5-cordex'], 'cmip5-cordex')
+    df_CMIP6 = update_catalog(CATALOG, root_dic['cmip6-cordex'], 'cmip6-cordex')
+    df = pd.concat([df_CMIP5, df_CMIP6])
+    df.to_csv(f"../../{CATALOG}", index=False)
+    create_excel(f"../../{CATALOG}")
