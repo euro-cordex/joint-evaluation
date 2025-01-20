@@ -40,13 +40,15 @@ COLS = [
     "variable_id",
 ]
 
-def insert_at_position(string, constant, position, string_ = '/'):
+
+def insert_at_position(string, constant, position, string_="/"):
     parts = string.split(string_)
     if position <= len(parts):
         parts.insert(position, constant)
     else:
         parts.append(constant)
     return string_.join(parts)
+
 
 def create_path_pattern(drs, sep="/"):
     attrs = drs.split(sep)
@@ -63,11 +65,11 @@ def parse_filepath(filename, project):
         regex = r"^/?(?:[^/]+/)*" + regex
     if project == "cmip5-cordex":
         regex = r"/(?P<project_id>[^/]+)/(?P<mip_era>[^/]+)/(?P<activity_id>[^/]+)/(?P<domain_id>[^/]+)/(?P<institution_id>[^/]+)/(?P<driving_source_id>[^/]+)/(?P<driving_experiment_id>[^/]+)/(?P<driving_variant_label>[^/]+)/(?P<source_id>[^/]+)/(?P<version_realization>[^/]+)/(?P<frequency>[^/]+)/(?P<variable_id>[^/]+)/(?P<version>[^/]+)/(?P<filename>(?P<variable_id_2>[^_]+)_(?P<domain_id_2>[^_]+)_(?P<driving_source_id_2>[^_]+)_(?P<driving_experiment_id_2>[^_]+)_(?P<driving_variant_label_2>[^_]+)_(?P<institution_id_2>[^_]+)_(?P<source_id_2>[^_]+)_(?P<version_realization_2>[^_]+)_(?P<frequency_2>[^_]+)(?:_(?P<time_range>[^.]+))?\.nc)"
-        mip_era = 'CMIP5'
-        institution_id_2 = filename.split('/')[8]
+        mip_era = "CMIP5"
+        institution_id_2 = filename.split("/")[8]
         filename = re.sub(root_dic[project], "", filename)
-        filename = insert_at_position(filename, mip_era, 2, string_ = '/')
-        filename = filename.replace(f"{institution_id_2}-" ,f"{institution_id_2}_")
+        filename = insert_at_position(filename, mip_era, 2, string_="/")
+        filename = filename.replace(f"{institution_id_2}-", f"{institution_id_2}_")
     pattern = re.compile(regex)
     match = pattern.match(filename)
     if match:
@@ -177,16 +179,16 @@ def update_catalog(catalog, root, project):
     pandas.DataFrame: The updated catalog DataFrame.
     """
     df = pd.DataFrame(create_catalog(root, project))[COLS + ["path"]]
-    #print(f"writing catalog to {catalog}")
-    #df.to_csv(catalog, index=False)
+    # print(f"writing catalog to {catalog}")
+    # df.to_csv(catalog, index=False)
     return df
 
 
 if __name__ == "__main__":
-    #df = update_catalog(CATALOG, root_dic[project])
-    #create_excel(CATALOG)
-    df_CMIP5 = update_catalog(CATALOG, root_dic['cmip5-cordex'], 'cmip5-cordex')
-    df_CMIP6 = update_catalog(CATALOG, root_dic['cmip6-cordex'], 'cmip6-cordex')
+    # df = update_catalog(CATALOG, root_dic[project])
+    # create_excel(CATALOG)
+    df_CMIP5 = update_catalog(CATALOG, root_dic["cmip5-cordex"], "cmip5-cordex")
+    df_CMIP6 = update_catalog(CATALOG, root_dic["cmip6-cordex"], "cmip6-cordex")
     df = pd.concat([df_CMIP5, df_CMIP6])
     df.to_csv(f"../../{CATALOG}", index=False)
     create_excel(f"../../{CATALOG}")
