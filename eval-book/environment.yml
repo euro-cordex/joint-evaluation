@@ -23,4 +23,5 @@ dependencies:
   - aiohttp
   - nbconvert
   - pip:
-    - git+https://github.com/euro-cordex/evaltools # always use master for now
+    - git+https://github.com/euro-cordex/evaltools # always use main for now
+    - git+https://github.com/euro-cordex/py-cordex # always use main for now
