@@ -4,4 +4,4 @@
 format: jb-book
 root: intro
 chapters:
-- file: eobs
+- file: eobs.nbconvert
