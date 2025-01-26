@@ -16,14 +16,15 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
-    - name: Create conda environment
-      uses: mamba-org/setup-micromamba@v2
+    # Install dependencies
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v4
       with:
-        cache-downloads: true
-        cache-downloads-key: "${{runner.os}}-${{runner.arch}}"
-        environment-file: eval-book/environment.yml
-        create-args: >-
-          python=3.11
+        python-version: 3.11
+
+    - name: Install dependencies
+      run: |
+        pip install jupyter-book
 
     # Build the book
     - name: Build the book
