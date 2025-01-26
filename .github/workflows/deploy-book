@@ -1,0 +1,42 @@
+name: deploy jupyterbook
+
+on:
+  # Trigger the workflow on push to main branch
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy-book:
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Create conda environment
+        uses: mamba-org/setup-micromamba@v2
+        with:
+          cache-downloads: true
+          cache-downloads-key: "${{runner.os}}-${{runner.arch}}"
+          environment-file: eval-book/environment.yml
+          create-args: >-
+            python=3.11
+
+    # Build the book
+    - name: Build the book
+      run: |
+        jupyter-book build eval-book
+
+    # Upload the book's HTML as an artifact
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v2
+      with:
+        path: "eval-book/_build/html"
+
+    # Deploy the book's HTML to GitHub Pages
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v2
