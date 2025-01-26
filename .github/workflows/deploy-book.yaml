@@ -1,11 +1,11 @@
 name: deploy jupyterbook
 
 on:
+  workflow_dispatch:
   # Trigger the workflow on push to main branch
   push:
     branches:
       - main
-  workflow_dispatch:
 
 jobs:
   deploy-book:
