@@ -30,6 +30,7 @@ jobs:
     # Build the book
     - name: Build the book
       run: |
+        cp README.md ./eval-book
         jupyter-book build eval-book
 
     # Upload the book's HTML as an artifact
