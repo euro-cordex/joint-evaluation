@@ -1,5 +1,7 @@
 out_name,frequency,units,long_name,standard_name,cell_methods,priority,comment
 clt,mon,%,Total Cloud Cover Percentage,cloud_area_fraction,area: time: mean,Trends,
+evspsbl,mon,kg m-2 s-1,Evaporation Including Sublimation and Transpiration,water_evapotranspiration_flux, area: time: mean, WaterBudget,
+hfls,mon,W m-2,Surface Upward Latent Heat Flux,surface_upward_latent_heat_flux,area: time: mean, WaterBudget,
 hurs,1hr,%,Near-Surface Relative Humidity,relative_humidity,area: mean time: point,FWI,
 hurs,day,%,Near-Surface Relative Humidity,relative_humidity,area: time: mean,FWI,
 hus1000,6hr,1,Specific Humidity,specific_humidity,area: mean time: point,AtmRivers,
@@ -12,11 +14,14 @@ hus600,6hr,1,Specific Humidity,specific_humidity,area: mean time: point,AtmRiver
 hus700,6hr,1,Specific Humidity,specific_humidity,area: mean time: point,AtmRivers,
 hus850,6hr,1,Specific Humidity,specific_humidity,area: mean time: point,AtmRivers,
 hus925,6hr,1,Specific Humidity,specific_humidity,area: mean time: point,AtmRivers,
+mrros,mon,kg m-2 s-1,Surface Runoff,surface_runoff_flux,area: time: mean, WaterBudget,
+mrro,mon,kg m-2 s-1,Total Runoff,runoff_flux,area: time: mean, WaterBudget,
+mrso,mon,kg m-2,Total Soil Moisture Content,mass_content_of_water_in_soil,area: time: point, WaterBudget,
 od550aer,mon,1,Ambient Aerosol Optical Thickness at 550nm,atmosphere_optical_thickness_due_to_ambient_aerosol_particles,area: time: mean,Trends,"long_name fixed, 2022.09.22  https://github.com/WCRP-CORDEX/cordex-cmip6-data-request/issues/6"
-orog,fx,m,Surface Altitude,surface_altitude,area: mean,Overview,
+orog,fx,m,Surface Altitude,surface_altitude,area: mean,Overview WaterBudget,
 pr,1hr,kg m-2 s-1,Precipitation,precipitation_flux,area: time: mean,AtmRivers,
 pr,day,kg m-2 s-1,Precipitation,precipitation_flux,area: time: mean,PrecipScales FWI,
-pr,mon,kg m-2 s-1,Precipitation,precipitation_flux,area: time: mean,Overview Trends Snow,
+pr,mon,kg m-2 s-1,Precipitation,precipitation_flux,area: time: mean,Overview Trends Snow WaterBudget,
 prw,1hr,kg m-2,Water Vapor Path,atmosphere_mass_content_of_water_vapor,area: mean time: point,AtmRivers,
 psl,mon,Pa,Sea Level Pressure,air_pressure_at_mean_sea_level,area: time: mean,Overview Trends,
 rlds,mon,W m-2,Surface Downwelling Longwave Radiation,surface_downwelling_longwave_flux_in_air,area: time: mean,Trends,
@@ -31,14 +36,14 @@ sfcWind,1hr,m s-1,Near-Surface Wind Speed,wind_speed,area: mean time: point,FWI,
 sfcWind,mon,m s-1,Near-Surface Wind Speed,wind_speed,area: time: mean,Trends,
 sfcWindmax,day,m s-1,Daily Maximum Near-Surface Wind Speed,wind_speed,area: mean time: maximum,FWI,Maximum from all integrated time steps per day
 sftlaf,fx,%,Percentage of the Grid Cell Occupied by Lake,area_fraction,area: mean where fresh_free_water,Overview,not in CMIP or in CF
-sftlf,fx,%,Percentage of the Grid Cell Occupied by Land,land_area_fraction,area: mean,Overview,
+sftlf,fx,%,Percentage of the Grid Cell Occupied by Land,land_area_fraction,area: mean,Overview WaterBudget,
 sfturf,fx,%,Percentage of the Grid Cell Occupied by Urban Area,area_fraction,area: mean where urban,Overview,not in CMIP or in CF
 snc,day,%,Snow Area Percentage,surface_snow_area_fraction,area: time: mean,Snow,
-snc,mon,%,Snow Area Percentage,surface_snow_area_fraction,area: time: mean,Snow,
+snc,mon,%,Snow Area Percentage,surface_snow_area_fraction,area: time: mean,Snow WaterBudget,
 snd,day,m,Snow Depth,surface_snow_thickness,area: mean where land time: mean,Snow,
-snd,mon,m,Snow Depth,surface_snow_thickness,area: mean where land time: mean,Snow,
+snd,mon,m,Snow Depth,surface_snow_thickness,area: mean where land time: mean,Snow WaterBudget,
 snw,day,kg m-2,Surface Snow Amount,surface_snow_amount,area: mean where land time: mean,Snow,
-snw,mon,kg m-2,Surface Snow Amount,surface_snow_amount,area: mean where land time: mean,Snow,
+snw,mon,kg m-2,Surface Snow Amount,surface_snow_amount,area: mean where land time: mean,Snow WaterBudget,
 tas,1hr,K,Near-Surface Air Temperature,air_temperature,area: mean time: point,FWI,
 tas,mon,K,Near-Surface Air Temperature,air_temperature,area: time: mean,Overview Trends Snow,
 tasmax,day,K,Daily Maximum Near-Surface Air Temperature,air_temperature,area: mean time: maximum,FWI,maximum from all integrated time steps per day
