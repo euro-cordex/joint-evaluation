@@ -87,5 +87,5 @@ The jupyterlab should then be available in your local browser at `https://localh
 
 These plots show some preliminary results from available data at `jsc-cordex` and show regional and yearly means in the PRUDENCE regions. These plots give an overview of what data is available and are [updated](https://github.com/euro-cordex/joint-evaluation/blob/main/code/timeseries.py) once new data comes in.
 
-![Timeseries Prudence tas](https://github.com/euro-cordex/joint-evaluation/blob/main/plots/timeseries-prudence-tas.png)
-![Timeseries Prudence pr](https://github.com/euro-cordex/joint-evaluation/blob/main/plots/timeseries-prudence-pr.png)
+<img src="https://raw.githubusercontent.com/euro-cordex/joint-evaluation/main/plots/timeseries-prudence-tas.png">
+<img src="https://raw.githubusercontent.com/euro-cordex/joint-evaluation/main/plots/timeseries-prudence-pr.png">
