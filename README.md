@@ -19,7 +19,7 @@ Some storage space on the existing jsc-cordex data exchange infrastructure at JÃ
 
 Access to storate at JSC is decribed [here](https://github.com/euro-cordex/jsc-cordex) (private repo until this is released to the community).
 
-The variables requested for this joint evaluation, along their corresponding metadata, are available in this repository, under the file [dreq_EUR_joint_evaluation.csv](./dreq_EUR_joint_evaluation.csv). This file can be explored using the search box in Github; e.g. search for "Overview" to filter the variables currently requested for the overview evaluation work. This file can also be downloaded [here](https://raw.githubusercontent.com/euro-cordex/joint-evaluation/refs/heads/main/dreq_EUR_joint_evaluation.csv), to use it in your data uploading scripts.
+The variables requested for this joint evaluation, along their corresponding metadata, are available in this repository, under the file [dreq_EUR_joint_evaluation.csv](https://github.com/euro-cordex/joint-evaluation/blob/main/dreq_EUR_joint_evaluation.csv). This file can be explored using the search box in Github; e.g. search for "Overview" to filter the variables currently requested for the overview evaluation work. This file can also be downloaded [here](https://raw.githubusercontent.com/euro-cordex/joint-evaluation/refs/heads/main/dreq_EUR_joint_evaluation.csv), to use it in your data uploading scripts.
 
 ```python
 import pandas as pd
@@ -87,5 +87,5 @@ The jupyterlab should then be available in your local browser at `https://localh
 
 These plots show some preliminary results from available data at `jsc-cordex` and show regional and yearly means in the PRUDENCE regions. These plots give an overview of what data is available and are [updated](https://github.com/euro-cordex/joint-evaluation/blob/main/code/timeseries.py) once new data comes in.
 
-![alt text](plots/timeseries-prudence-tas.png)
-![alt text](plots/timeseries-prudence-pr.png)
+![Timeseries Prudence tas](https://github.com/euro-cordex/joint-evaluation/blob/main/plots/timeseries-prudence-tas.png)
+![Timeseries Prudence pr](https://github.com/euro-cordex/joint-evaluation/blob/main/plots/timeseries-prudence-pr.png)
