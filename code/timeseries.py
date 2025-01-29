@@ -10,22 +10,25 @@ Functions:
 - plot(data, y, prefix="timeseries"): Plots the regional mean time series.
 """
 
-import dask
-from dask.diagnostics import ProgressBar
 import matplotlib.pyplot as plt
 from dask.distributed import Client
 import regionmask
 import seaborn as sns
 import numpy as np
-
+import xarray as xr
 
 from evaltools.source import get_source_collection, open_and_sort
-from evaltools.eval import regional_means
+from evaltools.eval import regional_mean
+from evaltools.obs import eobs
 
-dask.config.set(scheduler="single-threaded")
+time_range = slice("1979", "2020")
+
+# dask.config.set(scheduler="single-threaded")
 sns.set_theme(style="darkgrid")
 
 variables = ["tas", "pr"]
+
+add_eobs = True
 
 european_countries = [
     "Albania",
@@ -102,12 +105,39 @@ regions_dict = {
 }
 
 
+def concat(dsets, concat_dim="iid"):
+    concat_dim = xr.DataArray(list(dsets.keys()), dims=concat_dim, name=concat_dim)
+    return xr.concat(
+        dsets.values(),
+        dim=concat_dim,
+        coords="minimal",
+        compat="override",
+    )
+
+
 def open_datasets(variables, frequency="mon"):
     catalog = get_source_collection(variables, frequency)
-    return open_and_sort(catalog, merge=True)
+    return open_and_sort(catalog, merge=True, time_range=time_range)
 
 
-def create_regional_means(dsets, regions):
+def yearly_means(dsets, compute=False):
+    """
+    Computes yearly means for given datasets.
+
+    Parameters:
+    dsets (xarray.Dataset): The datasets to process.
+
+    Returns:
+    xarray.Dataset: Dataset containing the yearly means.
+    """
+    means = {dset_id: ds.groupby("time.year").mean() for dset_id, ds in dsets.items()}
+    if compute is True:
+        # with ProgressBar():
+        means = {dset_id: mean.compute() for dset_id, mean in means.items()}
+    return means
+
+
+def regional_means(dsets, regions, compute=False):
     """
     Computes regional mean time series for given datasets and regions.
 
@@ -118,13 +148,12 @@ def create_regional_means(dsets, regions):
     Returns:
     pandas.DataFrame: DataFrame containing the regional mean time series.
     """
-    means = regional_means(dsets, regions)
-    means["region"] = means.names
+    means = {dset_id: regional_mean(ds, regions) for dset_id, ds in dsets.items()}
+    if compute is True:
+        # with ProgressBar():
+        means = {dset_id: mean.compute() for dset_id, mean in means.items()}
 
-    with ProgressBar():
-        data = means.groupby("time.year").mean().compute().to_dataframe().reset_index()
-
-    return data
+    return means
 
 
 def plot(data, y, prefix="timeseries"):
@@ -153,17 +182,21 @@ def plot(data, y, prefix="timeseries"):
         kind="line",
         facet_kws=dict(sharey=True),
     )
-    sns.move_legend(ax, "lower left", bbox_to_anchor=(0.2, -0.1))
-    ax.savefig(f"plots/{prefix}-{y}.png", dpi=300)
+    sns.move_legend(ax, "lower left", bbox_to_anchor=(0.2, -0.2))
+    ax.savefig(f"{prefix}-{y}.png", dpi=300)
     plt.close()
 
 
 if __name__ == "__main__":
     with Client(dashboard_address=None, threads_per_worker=1) as client:
         dsets = open_datasets(variables)
+        if add_eobs is True:
+            dsets["eobs"] = eobs(to_cf=True)[variables].sel(time=time_range)
+        ymeans = yearly_means(dsets, compute=True)
         for name, regions in regions_dict.items():
             print(f"plotting: {name}")
-            data = create_regional_means(dsets, regions)
+            means = regional_means(ymeans, regions)
+            data = concat(means).to_dataframe().reset_index()
             for y in variables:
                 print(f"plotting: {y}")
                 plot(data, y, prefix=f"timeseries-{name}")
