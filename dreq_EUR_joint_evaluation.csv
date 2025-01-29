@@ -2,7 +2,7 @@ out_name,frequency,units,long_name,standard_name,cell_methods,priority,comment
 clt,mon,%,Total Cloud Cover Percentage,cloud_area_fraction,area: time: mean,Trends,
 evspsbl,mon,kg m-2 s-1,Evaporation Including Sublimation and Transpiration,water_evapotranspiration_flux, area: time: mean, WaterBudget,
 hfls,mon,W m-2,Surface Upward Latent Heat Flux,surface_upward_latent_heat_flux,area: time: mean, WaterBudget,
-hurs,1hr,%,Near-Surface Relative Humidity,relative_humidity,area: mean time: point,FWI,
+hurs,1hr,%,Near-Surface Relative Humidity,relative_humidity,area: mean time: point,FWI,Only 12:00 UTC output will be used
 hurs,day,%,Near-Surface Relative Humidity,relative_humidity,area: time: mean,FWI,
 hus1000,6hr,1,Specific Humidity,specific_humidity,area: mean time: point,AtmRivers,
 hus200,6hr,1,Specific Humidity,specific_humidity,area: mean time: point,AtmRivers,
@@ -32,9 +32,9 @@ rsds,mon,W m-2,Surface Downwelling Shortwave Radiation,surface_downwelling_short
 rsdscs,mon,W m-2,Surface Downwelling Clear-Sky Shortwave Radiation,surface_downwelling_shortwave_flux_in_air_assuming_clear_sky,area: time: mean,Trends,
 rsut,mon,W m-2,TOA Outgoing Shortwave Radiation,toa_outgoing_shortwave_flux,area: time: mean,Trends,
 rsutcs,mon,W m-2,TOA Outgoing Clear-Sky Shortwave Radiation,toa_outgoing_shortwave_flux_assuming_clear_sky,area: time: mean,Trends,
-sfcWind,1hr,m s-1,Near-Surface Wind Speed,wind_speed,area: mean time: point,FWI,
+sfcWind,1hr,m s-1,Near-Surface Wind Speed,wind_speed,area: mean time: point,FWI,Only 12:00 UTC output will be used
 sfcWind,mon,m s-1,Near-Surface Wind Speed,wind_speed,area: time: mean,Trends,
-sfcWindmax,day,m s-1,Daily Maximum Near-Surface Wind Speed,wind_speed,area: mean time: maximum,FWI,Maximum from all integrated time steps per day
+sfcWindmax,day,m s-1,Daily Maximum Near-Surface Wind Speed,wind_speed,area: mean time: maximum,,Maximum from all integrated time steps per day
 sftlaf,fx,%,Percentage of the Grid Cell Occupied by Lake,area_fraction,area: mean where fresh_free_water,Overview,not in CMIP or in CF
 sftlf,fx,%,Percentage of the Grid Cell Occupied by Land,land_area_fraction,area: mean,Overview WaterBudget,
 sfturf,fx,%,Percentage of the Grid Cell Occupied by Urban Area,area_fraction,area: mean where urban,Overview,not in CMIP or in CF
@@ -44,9 +44,9 @@ snd,day,m,Snow Depth,surface_snow_thickness,area: mean where land time: mean,Sno
 snd,mon,m,Snow Depth,surface_snow_thickness,area: mean where land time: mean,Snow WaterBudget,
 snw,day,kg m-2,Surface Snow Amount,surface_snow_amount,area: mean where land time: mean,Snow,
 snw,mon,kg m-2,Surface Snow Amount,surface_snow_amount,area: mean where land time: mean,Snow WaterBudget,
-tas,1hr,K,Near-Surface Air Temperature,air_temperature,area: mean time: point,FWI,
+tas,1hr,K,Near-Surface Air Temperature,air_temperature,area: mean time: point,FWI,Only 12:00 UTC output will be used
 tas,mon,K,Near-Surface Air Temperature,air_temperature,area: time: mean,Overview Trends Snow,
-tasmax,day,K,Daily Maximum Near-Surface Air Temperature,air_temperature,area: mean time: maximum,FWI,maximum from all integrated time steps per day
+tasmax,day,K,Daily Maximum Near-Surface Air Temperature,air_temperature,area: mean time: maximum,,maximum from all integrated time steps per day
 tasmax,mon,K,Daily Maximum Near-Surface Air Temperature,air_temperature,area: mean time: maximum within days time: mean over days,Overview Trends,maximum from all integrated time steps per day
 tasmin,mon,K,Daily Minimum Near-Surface Air Temperature,air_temperature,area: mean time: minimum within days time: mean over days,Overview Trends,minimum from all integrated time steps per day
 ua1000,6hr,m s-1,Eastward Wind,eastward_wind,area: mean time: point,AtmRivers,
