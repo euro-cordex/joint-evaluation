@@ -27,7 +27,7 @@ If you have never contributed on github before, you find also some helpful insig
 ## Data exchange
 Some storage space on the existing jsc-cordex data exchange infrastructure at Jülich Supercomputing Centre (JSC) is available and may be used to provide some intermediate, temporary, limited storage for the first joint analyses publications of CORDEX-CMIP6 simulations before data will be stored longer-term on ESGF-related storage at the respective centres.
 
-Access to storate at JSC is decribed [here](https://github.com/euro-cordex/jsc-cordex) (private repo until this is released to the community).
+Access to storate at JSC is decribed [here](https://github.com/euro-cordex/jsc-cordex).
 
 The variables requested for this joint evaluation, along their corresponding metadata, are available in this repository, under the file [dreq_EUR_joint_evaluation.csv](https://github.com/euro-cordex/joint-evaluation/blob/main/dreq_EUR_joint_evaluation.csv). This file can be explored using the search box in Github; e.g. search for "Overview" to filter the variables currently requested for the overview evaluation work. This file can also be downloaded [here](https://raw.githubusercontent.com/euro-cordex/joint-evaluation/refs/heads/main/dreq_EUR_joint_evaluation.csv), to use it in your data uploading scripts.
 
