@@ -16,7 +16,7 @@ There is also a repository ([evaltools](https://github.com/euro-cordex/evaltools
 
 ## How to contribute an analysis
 
-You are very welcome and encouraged to [contribute](https://book.the-turing-way.org/reproducible-research/vcs/vcs-github.html#contributing-to-other-projects) your own analysis to the workflow here, we recommend the following:
+You are very welcome and encouraged to contribute your own analysis to the workflow here, we recommend the following:
 * [Create an issue](https://github.com/euro-cordex/joint-evaluation/issues/new) to let us know about your analysis and find synergies with other topics (maybe reuse code from other topics?)
 * [Fork and Clone](https://docs.github.com/en/get-started/exploring-projects-on-github/contributing-to-a-project) the joint-evaluation repository to be ready to contribute your code.
 * Add a new script in the `code` subdirectory that drives your analysis (optional: add reusable code to [evaltools](https://github.com/euro-cordex/evaltools) repository or host it somewhere else. We can help with this.).
