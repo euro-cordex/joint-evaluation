@@ -75,7 +75,10 @@ def parse_filepath(filename, project):
     if match:
         return match.groupdict()
     else:
-        raise ValueError("The filepath does not match the expected pattern.")
+        print(
+            f"The filepath does not match the expected pattern (will be ignored): {filename}"
+        )
+        return {}
 
 
 def create_catalog(root, project):
@@ -90,8 +93,9 @@ def create_catalog(root, project):
                 filename = op.join(root, file)
                 print(f"parsing {filename}")
                 metadata = parse_filepath(filename, project)
-                metadata["path"] = filename
-                datasets.append(metadata)
+                if metadata:
+                    metadata["path"] = filename
+                    datasets.append(metadata)
     return datasets
 
 
@@ -190,5 +194,5 @@ if __name__ == "__main__":
     df_CMIP5 = update_catalog(CATALOG, root_dic["cmip5-cordex"], "cmip5-cordex")
     df_CMIP6 = update_catalog(CATALOG, root_dic["cmip6-cordex"], "cmip6-cordex")
     df = pd.concat([df_CMIP5, df_CMIP6])
-    df.to_csv(f"../../{CATALOG}", index=False)
-    create_excel(f"../../{CATALOG}")
+    df.to_csv(f"{CATALOG}", index=False)
+    create_excel(f"{CATALOG}")
