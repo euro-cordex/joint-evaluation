@@ -41,6 +41,16 @@ COLS = [
 ]
 
 
+def check_consistency(attrs):
+    inconsistent = []
+    check_keys = [k for k in attrs.keys() if k.endswith("_2")]
+    for k in check_keys:
+        if attrs[k] != attrs[k[:-2]]:
+            print(f"Warning: {k} != {k[:-2]}")
+            inconsistent.append(k)
+    return inconsistent
+
+
 def insert_at_position(string, constant, position, string_="/"):
     parts = string.split(string_)
     if position <= len(parts):
@@ -73,6 +83,11 @@ def parse_filepath(filename, project):
     pattern = re.compile(regex)
     match = pattern.match(filename)
     if match:
+        check = check_consistency(match.groupdict())
+        if check:
+            print(f"Warning: parsing returns inconsistent attributes: {check}")
+            print(f"Ignoring: {filename}")
+            return {}
         return match.groupdict()
     else:
         print(
