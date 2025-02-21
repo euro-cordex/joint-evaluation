@@ -16,33 +16,30 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
-  <!--
-    this give us a css class that will be invisible only if js is disabled
-  -->
-  <noscript>
-    <style>
-      .pst-js-only { display: none !important; }
-
-    </style>
-  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
-<link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
-    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
   
-  <!-- So that users can add custom icons -->
-  <script src="_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
-<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
     <script src="_static/documentation_options.js?v=9eb32ce0"></script>
     <script src="_static/doctools.js?v=9a2dae69"></script>
@@ -66,7 +63,6 @@
     <link rel="prev" title="Joint evaluation" href="README.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="" />
   </head>
   
   
@@ -82,8 +78,19 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <dialog id="pst-search-dialog">
-    
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
 <form class="bd-search d-flex align-items-center"
       action="search.html"
       method="get">
@@ -91,6 +98,7 @@
   <input type="search"
          class="form-control"
          name="q"
+         id="search-input"
          placeholder="Search this book..."
          aria-label="Search this book..."
          autocomplete="off"
@@ -98,8 +106,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form>
-  </dialog>
+</form></div>
+  </div>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -115,8 +123,7 @@
       
       
       
-      <dialog id="pst-primary-sidebar-modal"></dialog>
-      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+      <div class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -146,17 +153,21 @@
     
     
     <img src="_static/WCRP-CORDEX-logo.png" class="logo__image only-light" alt="Joint evaluation - Home"/>
-    <img src="_static/WCRP-CORDEX-logo.png" class="logo__image only-dark pst-js-only" alt="Joint evaluation - Home"/>
+    <script>document.write(`<img src="_static/WCRP-CORDEX-logo.png" class="logo__image only-dark" alt="Joint evaluation - Home"/>`);</script>
   
   
 </a></div>
         <div class="sidebar-primary-item">
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
- <i class="fa-solid fa-magnifying-glass"></i>
- <span class="search-button__default-text">Search</span>
- <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-</button></div>
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         
@@ -177,14 +188,9 @@
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
-      <div class="sidebar-primary-item">
-<div id="ethical-ad-placement"
-      class="flat"
-      data-ea-publisher="readthedocs"
-      data-ea-type="readthedocs-sidebar"
-      data-ea-manual="true">
-</div></div>
   </div>
+  
+  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -359,16 +365,24 @@
 
 
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button>
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
 
 
-<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-</button>
+  </button>
+`);
+</script>
 
 </div></div>
       
@@ -423,7 +437,7 @@
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;dask.config.set at 0x773f94e847d0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;dask.config.set at 0x75f5f189c7d0&gt;
 </pre></div>
 </div>
 </div>
@@ -440,7 +454,7 @@
     <div style="width: 24px; height: 24px; background-color: #e1e1e1; border: 3px solid #9D9D9D; border-radius: 5px; position: absolute;"> </div>
     <div style="margin-left: 48px;">
         <h3 style="margin-bottom: 0px;">Client</h3>
-        <p style="color: #9D9D9D; margin-bottom: 0px;">Client-b478ee15-ef29-11ef-8ab8-fa163e72b0e0</p>
+        <p style="color: #9D9D9D; margin-bottom: 0px;">Client-ea11943d-eff2-11ef-8074-fa163e72b0e0</p>
         <table style="width: 100%; text-align: left;">
 
         <tr>
@@ -471,7 +485,7 @@
     </div>
     <div style="margin-left: 48px;">
         <h3 style="margin-bottom: 0px; margin-top: 0px;">LocalCluster</h3>
-        <p style="color: #9D9D9D; margin-bottom: 0px;">f9874260</p>
+        <p style="color: #9D9D9D; margin-bottom: 0px;">b5f032a9</p>
         <table style="width: 100%; text-align: left;">
             <tr>
                 <td style="text-align: left;">
@@ -508,11 +522,11 @@
         <div style="width: 24px; height: 24px; background-color: #FFF7E5; border: 3px solid #FF6132; border-radius: 5px; position: absolute;"> </div>
         <div style="margin-left: 48px;">
             <h3 style="margin-bottom: 0px;">Scheduler</h3>
-            <p style="color: #9D9D9D; margin-bottom: 0px;">Scheduler-0e2e2d07-5cdc-446e-b4c2-0809fc3d3496</p>
+            <p style="color: #9D9D9D; margin-bottom: 0px;">Scheduler-1ffe35ac-f022-43db-924c-13067c7ca998</p>
             <table style="width: 100%; text-align: left;">
                 <tr>
                     <td style="text-align: left;">
-                        <strong>Comm:</strong> tcp://127.0.0.1:37621
+                        <strong>Comm:</strong> tcp://127.0.0.1:36901
                     </td>
                     <td style="text-align: left;">
                         <strong>Workers:</strong> 16
@@ -554,7 +568,7 @@
                 <table style="width: 100%; text-align: left;">
                     <tr>
                         <td style="text-align: left;">
-                            <strong>Comm: </strong> tcp://127.0.0.1:41189
+                            <strong>Comm: </strong> tcp://127.0.0.1:32851
                         </td>
                         <td style="text-align: left;">
                             <strong>Total threads: </strong> 1
@@ -562,7 +576,7 @@
                     </tr>
                     <tr>
                         <td style="text-align: left;">
-                            <strong>Dashboard: </strong> <a href="http://127.0.0.1:34071/status" target="_blank">http://127.0.0.1:34071/status</a>
+                            <strong>Dashboard: </strong> <a href="http://127.0.0.1:44165/status" target="_blank">http://127.0.0.1:44165/status</a>
                         </td>
                         <td style="text-align: left;">
                             <strong>Memory: </strong> 7.86 GiB
@@ -570,13 +584,13 @@
                     </tr>
                     <tr>
                         <td style="text-align: left;">
-                            <strong>Nanny: </strong> tcp://127.0.0.1:42349
+                            <strong>Nanny: </strong> tcp://127.0.0.1:44553
                         </td>
                         <td style="text-align: left;"></td>
                     </tr>
                     <tr>
                         <td colspan="2" style="text-align: left;">
-                            <strong>Local directory: </strong> /tmp/dask-scratch-space/worker-p6egoi05
+                            <strong>Local directory: </strong> /tmp/dask-scratch-space/worker-u2zhzv84
                         </td>
                     </tr>
 
@@ -599,7 +613,7 @@
                 <table style="width: 100%; text-align: left;">
                     <tr>
                         <td style="text-align: left;">
-                            <strong>Comm: </strong> tcp://127.0.0.1:44719
+                            <strong>Comm: </strong> tcp://127.0.0.1:38179
                         </td>
                         <td style="text-align: left;">
                             <strong>Total threads: </strong> 1
@@ -607,7 +621,7 @@
                     </tr>
                     <tr>
                         <td style="text-align: left;">
-                            <strong>Dashboard: </strong> <a href="http://127.0.0.1:46313/status" target="_blank">http://127.0.0.1:46313/status</a>
+                            <strong>Dashboard: </strong> <a href="http://127.0.0.1:39623/status" target="_blank">http://127.0.0.1:39623/status</a>
                         </td>
                         <td style="text-align: left;">
                             <strong>Memory: </strong> 7.86 GiB
@@ -615,13 +629,13 @@
                     </tr>
                     <tr>
                         <td style="text-align: left;">
-                            <strong>Nanny: </strong> tcp://127.0.0.1:42339
+                            <strong>Nanny: </strong> tcp://127.0.0.1:41943
                         </td>
                         <td style="text-align: left;"></td>
                     </tr>
                     <tr>
                         <td colspan="2" style="text-align: left;">
-                            <strong>Local directory: </strong> /tmp/dask-scratch-space/worker-fri_94ho
+                            <strong>Local directory: </strong> /tmp/dask-scratch-space/worker-4j9fplhk
                         </td>
                     </tr>
 
@@ -644,7 +658,7 @@
                 <table style="width: 100%; text-align: left;">
                     <tr>
                         <td style="text-align: left;">
-                            <strong>Comm: </strong> tcp://127.0.0.1:45105
+                            <strong>Comm: </strong> tcp://127.0.0.1:36075
                         </td>
                         <td style="text-align: left;">
                             <strong>Total threads: </strong> 1
@@ -652,7 +666,7 @@
                     </tr>
                     <tr>
                         <td style="text-align: left;">
-                            <strong>Dashboard: </strong> <a href="http://127.0.0.1:41807/status" target="_blank">http://127.0.0.1:41807/status</a>
+                            <strong>Dashboard: </strong> <a href="http://127.0.0.1:44291/status" target="_blank">http://127.0.0.1:44291/status</a>
                         </td>
                         <td style="text-align: left;">
                             <strong>Memory: </strong> 7.86 GiB
@@ -660,13 +674,13 @@
                     </tr>
                     <tr>
                         <td style="text-align: left;">
-                            <strong>Nanny: </strong> tcp://127.0.0.1:42367
+                            <strong>Nanny: </strong> tcp://127.0.0.1:36189
                         </td>
                         <td style="text-align: left;"></td>
                     </tr>
                     <tr>
                         <td colspan="2" style="text-align: left;">
-                            <strong>Local directory: </strong> /tmp/dask-scratch-space/worker-qteblw4l
+                            <strong>Local directory: </strong> /tmp/dask-scratch-space/worker-wuervhdv
                         </td>
                     </tr>
 
@@ -689,7 +703,7 @@
                 <table style="width: 100%; text-align: left;">
                     <tr>
                         <td style="text-align: left;">
-                            <strong>Comm: </strong> tcp://127.0.0.1:34461
+                            <strong>Comm: </strong> tcp://127.0.0.1:43445
                         </td>
                         <td style="text-align: left;">
                             <strong>Total threads: </strong> 1
@@ -697,7 +711,7 @@
                     </tr>
                     <tr>
                         <td style="text-align: left;">
-                            <strong>Dashboard: </strong> <a href="http://127.0.0.1:38391/status" target="_blank">http://127.0.0.1:38391/status</a>
+                            <strong>Dashboard: </strong> <a href="http://127.0.0.1:33423/status" target="_blank">http://127.0.0.1:33423/status</a>
                         </td>
                         <td style="text-align: left;">
                             <strong>Memory: </strong> 7.86 GiB
@@ -705,13 +719,13 @@
                     </tr>
                     <tr>
                         <td style="text-align: left;">
-                            <strong>Nanny: </strong> tcp://127.0.0.1:34745
+                            <strong>Nanny: </strong> tcp://127.0.0.1:41617
                         </td>
                         <td style="text-align: left;"></td>
                     </tr>
                     <tr>
                         <td colspan="2" style="text-align: left;">
-                            <strong>Local directory: </strong> /tmp/dask-scratch-space/worker-zv762ivs
+                            <strong>Local directory: </strong> /tmp/dask-scratch-space/worker-np42rhtt
                         </td>
                     </tr>
 
@@ -734,7 +748,7 @@
                 <table style="width: 100%; text-align: left;">
                     <tr>
                         <td style="text-align: left;">
-                            <strong>Comm: </strong> tcp://127.0.0.1:34603
+                            <strong>Comm: </strong> tcp://127.0.0.1:37109
                         </td>
                         <td style="text-align: left;">
                             <strong>Total threads: </strong> 1
@@ -742,7 +756,7 @@
                     </tr>
                     <tr>
                         <td style="text-align: left;">
-                            <strong>Dashboard: </strong> <a href="http://127.0.0.1:34105/status" target="_blank">http://127.0.0.1:34105/status</a>
+                            <strong>Dashboard: </strong> <a href="http://127.0.0.1:44145/status" target="_blank">http://127.0.0.1:44145/status</a>
                         </td>
                         <td style="text-align: left;">
                             <strong>Memory: </strong> 7.86 GiB
@@ -750,13 +764,13 @@
                     </tr>
                     <tr>
                         <td style="text-align: left;">
-                            <strong>Nanny: </strong> tcp://127.0.0.1:33305
+                            <strong>Nanny: </strong> tcp://127.0.0.1:35787
                         </td>
                         <td style="text-align: left;"></td>
                     </tr>
                     <tr>
                         <td colspan="2" style="text-align: left;">
-                            <strong>Local directory: </strong> /tmp/dask-scratch-space/worker-azhykpmk
+                            <strong>Local directory: </strong> /tmp/dask-scratch-space/worker-h4uewzng
                         </td>
                     </tr>
 
@@ -779,7 +793,7 @@
                 <table style="width: 100%; text-align: left;">
                     <tr>
                         <td style="text-align: left;">
-                            <strong>Comm: </strong> tcp://127.0.0.1:45173
+                            <strong>Comm: </strong> tcp://127.0.0.1:33919
                         </td>
                         <td style="text-align: left;">
                             <strong>Total threads: </strong> 1
@@ -787,7 +801,7 @@
                     </tr>
                     <tr>
                         <td style="text-align: left;">
-                            <strong>Dashboard: </strong> <a href="http://127.0.0.1:46209/status" target="_blank">http://127.0.0.1:46209/status</a>
+                            <strong>Dashboard: </strong> <a href="http://127.0.0.1:39741/status" target="_blank">http://127.0.0.1:39741/status</a>
                         </td>
                         <td style="text-align: left;">
                             <strong>Memory: </strong> 7.86 GiB
@@ -795,13 +809,13 @@
                     </tr>
                     <tr>
                         <td style="text-align: left;">
-                            <strong>Nanny: </strong> tcp://127.0.0.1:33637
+                            <strong>Nanny: </strong> tcp://127.0.0.1:35619
                         </td>
                         <td style="text-align: left;"></td>
                     </tr>
                     <tr>
                         <td colspan="2" style="text-align: left;">
-                            <strong>Local directory: </strong> /tmp/dask-scratch-space/worker-6vt20rk6
+                            <strong>Local directory: </strong> /tmp/dask-scratch-space/worker-g750hypa
                         </td>
                     </tr>
 
@@ -824,7 +838,7 @@
                 <table style="width: 100%; text-align: left;">
                     <tr>
                         <td style="text-align: left;">
-                            <strong>Comm: </strong> tcp://127.0.0.1:45099
+                            <strong>Comm: </strong> tcp://127.0.0.1:43759
                         </td>
                         <td style="text-align: left;">
                             <strong>Total threads: </strong> 1
@@ -832,7 +846,7 @@
                     </tr>
                     <tr>
                         <td style="text-align: left;">
-                            <strong>Dashboard: </strong> <a href="http://127.0.0.1:40721/status" target="_blank">http://127.0.0.1:40721/status</a>
+                            <strong>Dashboard: </strong> <a href="http://127.0.0.1:35325/status" target="_blank">http://127.0.0.1:35325/status</a>
                         </td>
                         <td style="text-align: left;">
                             <strong>Memory: </strong> 7.86 GiB
@@ -840,13 +854,13 @@
                     </tr>
                     <tr>
                         <td style="text-align: left;">
-                            <strong>Nanny: </strong> tcp://127.0.0.1:43401
+                            <strong>Nanny: </strong> tcp://127.0.0.1:44403
                         </td>
                         <td style="text-align: left;"></td>
                     </tr>
                     <tr>
                         <td colspan="2" style="text-align: left;">
-                            <strong>Local directory: </strong> /tmp/dask-scratch-space/worker-tbtqr2y6
+                            <strong>Local directory: </strong> /tmp/dask-scratch-space/worker-lxng_mjs
                         </td>
                     </tr>
 
@@ -869,7 +883,7 @@
                 <table style="width: 100%; text-align: left;">
                     <tr>
                         <td style="text-align: left;">
-                            <strong>Comm: </strong> tcp://127.0.0.1:37695
+                            <strong>Comm: </strong> tcp://127.0.0.1:40729
                         </td>
                         <td style="text-align: left;">
                             <strong>Total threads: </strong> 1
@@ -877,7 +891,7 @@
                     </tr>
                     <tr>
                         <td style="text-align: left;">
-                            <strong>Dashboard: </strong> <a href="http://127.0.0.1:45489/status" target="_blank">http://127.0.0.1:45489/status</a>
+                            <strong>Dashboard: </strong> <a href="http://127.0.0.1:43193/status" target="_blank">http://127.0.0.1:43193/status</a>
                         </td>
                         <td style="text-align: left;">
                             <strong>Memory: </strong> 7.86 GiB
@@ -885,13 +899,13 @@
                     </tr>
                     <tr>
                         <td style="text-align: left;">
-                            <strong>Nanny: </strong> tcp://127.0.0.1:46287
+                            <strong>Nanny: </strong> tcp://127.0.0.1:36903
                         </td>
                         <td style="text-align: left;"></td>
                     </tr>
                     <tr>
                         <td colspan="2" style="text-align: left;">
-                            <strong>Local directory: </strong> /tmp/dask-scratch-space/worker-c3uhs2ee
+                            <strong>Local directory: </strong> /tmp/dask-scratch-space/worker-t46mg_0o
                         </td>
                     </tr>
 
@@ -914,7 +928,7 @@
                 <table style="width: 100%; text-align: left;">
                     <tr>
                         <td style="text-align: left;">
-                            <strong>Comm: </strong> tcp://127.0.0.1:45313
+                            <strong>Comm: </strong> tcp://127.0.0.1:43081
                         </td>
                         <td style="text-align: left;">
                             <strong>Total threads: </strong> 1
@@ -922,7 +936,7 @@
                     </tr>
                     <tr>
                         <td style="text-align: left;">
-                            <strong>Dashboard: </strong> <a href="http://127.0.0.1:34439/status" target="_blank">http://127.0.0.1:34439/status</a>
+                            <strong>Dashboard: </strong> <a href="http://127.0.0.1:43273/status" target="_blank">http://127.0.0.1:43273/status</a>
                         </td>
                         <td style="text-align: left;">
                             <strong>Memory: </strong> 7.86 GiB
@@ -930,13 +944,13 @@
                     </tr>
                     <tr>
                         <td style="text-align: left;">
-                            <strong>Nanny: </strong> tcp://127.0.0.1:36661
+                            <strong>Nanny: </strong> tcp://127.0.0.1:42725
                         </td>
                         <td style="text-align: left;"></td>
                     </tr>
                     <tr>
                         <td colspan="2" style="text-align: left;">
-                            <strong>Local directory: </strong> /tmp/dask-scratch-space/worker-t2br77ji
+                            <strong>Local directory: </strong> /tmp/dask-scratch-space/worker-zcqbn1__
                         </td>
                     </tr>
 
@@ -959,7 +973,7 @@
                 <table style="width: 100%; text-align: left;">
                     <tr>
                         <td style="text-align: left;">
-                            <strong>Comm: </strong> tcp://127.0.0.1:45711
+                            <strong>Comm: </strong> tcp://127.0.0.1:44211
                         </td>
                         <td style="text-align: left;">
                             <strong>Total threads: </strong> 1
@@ -967,7 +981,7 @@
                     </tr>
                     <tr>
                         <td style="text-align: left;">
-                            <strong>Dashboard: </strong> <a href="http://127.0.0.1:33397/status" target="_blank">http://127.0.0.1:33397/status</a>
+                            <strong>Dashboard: </strong> <a href="http://127.0.0.1:37345/status" target="_blank">http://127.0.0.1:37345/status</a>
                         </td>
                         <td style="text-align: left;">
                             <strong>Memory: </strong> 7.86 GiB
@@ -975,13 +989,13 @@
                     </tr>
                     <tr>
                         <td style="text-align: left;">
-                            <strong>Nanny: </strong> tcp://127.0.0.1:35661
+                            <strong>Nanny: </strong> tcp://127.0.0.1:37671
                         </td>
                         <td style="text-align: left;"></td>
                     </tr>
                     <tr>
                         <td colspan="2" style="text-align: left;">
-                            <strong>Local directory: </strong> /tmp/dask-scratch-space/worker-fod9fkql
+                            <strong>Local directory: </strong> /tmp/dask-scratch-space/worker-wvggt1mc
                         </td>
                     </tr>
 
@@ -1004,7 +1018,7 @@
                 <table style="width: 100%; text-align: left;">
                     <tr>
                         <td style="text-align: left;">
-                            <strong>Comm: </strong> tcp://127.0.0.1:46793
+                            <strong>Comm: </strong> tcp://127.0.0.1:34985
                         </td>
                         <td style="text-align: left;">
                             <strong>Total threads: </strong> 1
@@ -1012,7 +1026,7 @@
                     </tr>
                     <tr>
                         <td style="text-align: left;">
-                            <strong>Dashboard: </strong> <a href="http://127.0.0.1:37773/status" target="_blank">http://127.0.0.1:37773/status</a>
+                            <strong>Dashboard: </strong> <a href="http://127.0.0.1:40597/status" target="_blank">http://127.0.0.1:40597/status</a>
                         </td>
                         <td style="text-align: left;">
                             <strong>Memory: </strong> 7.86 GiB
@@ -1020,13 +1034,13 @@
                     </tr>
                     <tr>
                         <td style="text-align: left;">
-                            <strong>Nanny: </strong> tcp://127.0.0.1:43065
+                            <strong>Nanny: </strong> tcp://127.0.0.1:44683
                         </td>
                         <td style="text-align: left;"></td>
                     </tr>
                     <tr>
                         <td colspan="2" style="text-align: left;">
-                            <strong>Local directory: </strong> /tmp/dask-scratch-space/worker-bjvmv03p
+                            <strong>Local directory: </strong> /tmp/dask-scratch-space/worker-ge2w8dem
                         </td>
                     </tr>
 
@@ -1049,7 +1063,7 @@
                 <table style="width: 100%; text-align: left;">
                     <tr>
                         <td style="text-align: left;">
-                            <strong>Comm: </strong> tcp://127.0.0.1:37075
+                            <strong>Comm: </strong> tcp://127.0.0.1:34963
                         </td>
                         <td style="text-align: left;">
                             <strong>Total threads: </strong> 1
@@ -1057,7 +1071,7 @@
                     </tr>
                     <tr>
                         <td style="text-align: left;">
-                            <strong>Dashboard: </strong> <a href="http://127.0.0.1:44731/status" target="_blank">http://127.0.0.1:44731/status</a>
+                            <strong>Dashboard: </strong> <a href="http://127.0.0.1:33619/status" target="_blank">http://127.0.0.1:33619/status</a>
                         </td>
                         <td style="text-align: left;">
                             <strong>Memory: </strong> 7.86 GiB
@@ -1065,13 +1079,13 @@
                     </tr>
                     <tr>
                         <td style="text-align: left;">
-                            <strong>Nanny: </strong> tcp://127.0.0.1:34317
+                            <strong>Nanny: </strong> tcp://127.0.0.1:36915
                         </td>
                         <td style="text-align: left;"></td>
                     </tr>
                     <tr>
                         <td colspan="2" style="text-align: left;">
-                            <strong>Local directory: </strong> /tmp/dask-scratch-space/worker-6kb6z61y
+                            <strong>Local directory: </strong> /tmp/dask-scratch-space/worker-of3irzts
                         </td>
                     </tr>
 
@@ -1094,7 +1108,7 @@
                 <table style="width: 100%; text-align: left;">
                     <tr>
                         <td style="text-align: left;">
-                            <strong>Comm: </strong> tcp://127.0.0.1:33789
+                            <strong>Comm: </strong> tcp://127.0.0.1:38281
                         </td>
                         <td style="text-align: left;">
                             <strong>Total threads: </strong> 1
@@ -1102,7 +1116,7 @@
                     </tr>
                     <tr>
                         <td style="text-align: left;">
-                            <strong>Dashboard: </strong> <a href="http://127.0.0.1:39827/status" target="_blank">http://127.0.0.1:39827/status</a>
+                            <strong>Dashboard: </strong> <a href="http://127.0.0.1:38867/status" target="_blank">http://127.0.0.1:38867/status</a>
                         </td>
                         <td style="text-align: left;">
                             <strong>Memory: </strong> 7.86 GiB
@@ -1110,13 +1124,13 @@
                     </tr>
                     <tr>
                         <td style="text-align: left;">
-                            <strong>Nanny: </strong> tcp://127.0.0.1:40859
+                            <strong>Nanny: </strong> tcp://127.0.0.1:44471
                         </td>
                         <td style="text-align: left;"></td>
                     </tr>
                     <tr>
                         <td colspan="2" style="text-align: left;">
-                            <strong>Local directory: </strong> /tmp/dask-scratch-space/worker-g4em5scv
+                            <strong>Local directory: </strong> /tmp/dask-scratch-space/worker-lj5fgw66
                         </td>
                     </tr>
 
@@ -1139,7 +1153,7 @@
                 <table style="width: 100%; text-align: left;">
                     <tr>
                         <td style="text-align: left;">
-                            <strong>Comm: </strong> tcp://127.0.0.1:35885
+                            <strong>Comm: </strong> tcp://127.0.0.1:38013
                         </td>
                         <td style="text-align: left;">
                             <strong>Total threads: </strong> 1
@@ -1147,7 +1161,7 @@
                     </tr>
                     <tr>
                         <td style="text-align: left;">
-                            <strong>Dashboard: </strong> <a href="http://127.0.0.1:39985/status" target="_blank">http://127.0.0.1:39985/status</a>
+                            <strong>Dashboard: </strong> <a href="http://127.0.0.1:40961/status" target="_blank">http://127.0.0.1:40961/status</a>
                         </td>
                         <td style="text-align: left;">
                             <strong>Memory: </strong> 7.86 GiB
@@ -1155,13 +1169,13 @@
                     </tr>
                     <tr>
                         <td style="text-align: left;">
-                            <strong>Nanny: </strong> tcp://127.0.0.1:32947
+                            <strong>Nanny: </strong> tcp://127.0.0.1:39629
                         </td>
                         <td style="text-align: left;"></td>
                     </tr>
                     <tr>
                         <td colspan="2" style="text-align: left;">
-                            <strong>Local directory: </strong> /tmp/dask-scratch-space/worker-vwl9vz2x
+                            <strong>Local directory: </strong> /tmp/dask-scratch-space/worker-wxtfcpri
                         </td>
                     </tr>
 
@@ -1184,7 +1198,7 @@
                 <table style="width: 100%; text-align: left;">
                     <tr>
                         <td style="text-align: left;">
-                            <strong>Comm: </strong> tcp://127.0.0.1:39205
+                            <strong>Comm: </strong> tcp://127.0.0.1:46199
                         </td>
                         <td style="text-align: left;">
                             <strong>Total threads: </strong> 1
@@ -1192,7 +1206,7 @@
                     </tr>
                     <tr>
                         <td style="text-align: left;">
-                            <strong>Dashboard: </strong> <a href="http://127.0.0.1:44449/status" target="_blank">http://127.0.0.1:44449/status</a>
+                            <strong>Dashboard: </strong> <a href="http://127.0.0.1:37689/status" target="_blank">http://127.0.0.1:37689/status</a>
                         </td>
                         <td style="text-align: left;">
                             <strong>Memory: </strong> 7.86 GiB
@@ -1200,13 +1214,13 @@
                     </tr>
                     <tr>
                         <td style="text-align: left;">
-                            <strong>Nanny: </strong> tcp://127.0.0.1:46599
+                            <strong>Nanny: </strong> tcp://127.0.0.1:36281
                         </td>
                         <td style="text-align: left;"></td>
                     </tr>
                     <tr>
                         <td colspan="2" style="text-align: left;">
-                            <strong>Local directory: </strong> /tmp/dask-scratch-space/worker-lqdjs4vg
+                            <strong>Local directory: </strong> /tmp/dask-scratch-space/worker-70gi1ct9
                         </td>
                     </tr>
 
@@ -1229,7 +1243,7 @@
                 <table style="width: 100%; text-align: left;">
                     <tr>
                         <td style="text-align: left;">
-                            <strong>Comm: </strong> tcp://127.0.0.1:44285
+                            <strong>Comm: </strong> tcp://127.0.0.1:40607
                         </td>
                         <td style="text-align: left;">
                             <strong>Total threads: </strong> 1
@@ -1237,7 +1251,7 @@
                     </tr>
                     <tr>
                         <td style="text-align: left;">
-                            <strong>Dashboard: </strong> <a href="http://127.0.0.1:46809/status" target="_blank">http://127.0.0.1:46809/status</a>
+                            <strong>Dashboard: </strong> <a href="http://127.0.0.1:46415/status" target="_blank">http://127.0.0.1:46415/status</a>
                         </td>
                         <td style="text-align: left;">
                             <strong>Memory: </strong> 7.86 GiB
@@ -1245,13 +1259,13 @@
                     </tr>
                     <tr>
                         <td style="text-align: left;">
-                            <strong>Nanny: </strong> tcp://127.0.0.1:42481
+                            <strong>Nanny: </strong> tcp://127.0.0.1:43725
                         </td>
                         <td style="text-align: left;"></td>
                     </tr>
                     <tr>
                         <td colspan="2" style="text-align: left;">
-                            <strong>Local directory: </strong> /tmp/dask-scratch-space/worker-ocgiubis
+                            <strong>Local directory: </strong> /tmp/dask-scratch-space/worker-v4q6yrtk
                         </td>
                     </tr>
 
@@ -1424,6 +1438,12 @@
   ds = xr.open_dataset(url, **xarray_open_kwargs)
 /mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/eval-book/lib/python3.13/site-packages/intake_esm/source.py:82: UserWarning: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
   ds = xr.open_dataset(url, **xarray_open_kwargs)
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/eval-book/lib/python3.13/site-packages/intake_esm/source.py:82: UserWarning: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+  ds = xr.open_dataset(url, **xarray_open_kwargs)
+/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/eval-book/lib/python3.13/site-packages/intake_esm/source.py:82: UserWarning: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+  ds = xr.open_dataset(url, **xarray_open_kwargs)
 /mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/eval-book/lib/python3.13/site-packages/intake_esm/source.py:82: UserWarning: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
   ds = xr.open_dataset(url, **xarray_open_kwargs)
 /mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/eval-book/lib/python3.13/site-packages/intake_esm/source.py:82: UserWarning: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
@@ -1431,34 +1451,6 @@
 /mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/eval-book/lib/python3.13/site-packages/intake_esm/source.py:82: UserWarning: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
   ds = xr.open_dataset(url, **xarray_open_kwargs)
 /mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/eval-book/lib/python3.13/site-packages/intake_esm/source.py:82: UserWarning: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
-  ds = xr.open_dataset(url, **xarray_open_kwargs)
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/eval-book/lib/python3.13/site-packages/intake_esm/source.py:82: UserWarning: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
-  ds = xr.open_dataset(url, **xarray_open_kwargs)
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/eval-book/lib/python3.13/site-packages/intake_esm/source.py:82: UserWarning: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
-  ds = xr.open_dataset(url, **xarray_open_kwargs)
-/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/eval-book/lib/python3.13/site-packages/intake_esm/source.py:82: UserWarning: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
-  ds = xr.open_dataset(url, **xarray_open_kwargs)
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/eval-book/lib/python3.13/site-packages/intake_esm/source.py:82: UserWarning: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
-  ds = xr.open_dataset(url, **xarray_open_kwargs)
-/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/eval-book/lib/python3.13/site-packages/intake_esm/source.py:82: UserWarning: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
-  ds = xr.open_dataset(url, **xarray_open_kwargs)
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/eval-book/lib/python3.13/site-packages/intake_esm/source.py:82: UserWarning: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
-  ds = xr.open_dataset(url, **xarray_open_kwargs)
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/eval-book/lib/python3.13/site-packages/intake_esm/source.py:82: UserWarning: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
-  ds = xr.open_dataset(url, **xarray_open_kwargs)
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/eval-book/lib/python3.13/site-packages/intake_esm/source.py:82: UserWarning: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
   ds = xr.open_dataset(url, **xarray_open_kwargs)
 /mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/eval-book/lib/python3.13/site-packages/intake_esm/source.py:82: UserWarning: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
   ds = xr.open_dataset(url, **xarray_open_kwargs)
@@ -1472,6 +1464,14 @@
   ds = xr.open_dataset(url, **xarray_open_kwargs)
 /mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/eval-book/lib/python3.13/site-packages/intake_esm/source.py:82: UserWarning: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
   ds = xr.open_dataset(url, **xarray_open_kwargs)
+/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/eval-book/lib/python3.13/site-packages/intake_esm/source.py:82: UserWarning: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+  ds = xr.open_dataset(url, **xarray_open_kwargs)
+/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/eval-book/lib/python3.13/site-packages/intake_esm/source.py:82: UserWarning: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+  ds = xr.open_dataset(url, **xarray_open_kwargs)
+/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/eval-book/lib/python3.13/site-packages/intake_esm/source.py:82: UserWarning: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+  ds = xr.open_dataset(url, **xarray_open_kwargs)
+/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/eval-book/lib/python3.13/site-packages/intake_esm/source.py:82: UserWarning: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+  ds = xr.open_dataset(url, **xarray_open_kwargs)
 </pre></div>
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/eval-book/lib/python3.13/site-packages/intake_esm/source.py:82: UserWarning: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
@@ -1481,6 +1481,12 @@
 </pre></div>
 </div>
 <div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/eval-book/lib/python3.13/site-packages/intake_esm/source.py:82: UserWarning: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+  ds = xr.open_dataset(url, **xarray_open_kwargs)
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/eval-book/lib/python3.13/site-packages/intake_esm/source.py:82: UserWarning: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+  ds = xr.open_dataset(url, **xarray_open_kwargs)
+/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/eval-book/lib/python3.13/site-packages/intake_esm/source.py:82: UserWarning: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
   ds = xr.open_dataset(url, **xarray_open_kwargs)
 </pre></div>
 </div>
@@ -1618,8 +1624,8 @@ See also https://docs.dask.org/en/stable/best-practices.html#load-data-with-dask
   warnings.warn(
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 5.66 s, sys: 1.63 s, total: 7.29 s
-Wall time: 48.4 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 5.88 s, sys: 1.53 s, total: 7.41 s
+Wall time: 49.8 s
 </pre></div>
 </div>
 </div>
@@ -1631,7 +1637,7 @@ Wall time: 48.4 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;xarray.plot.facetgrid.FacetGrid at 0x773f843e23c0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;xarray.plot.facetgrid.FacetGrid at 0x75f5e012f380&gt;
 </pre></div>
 </div>
 <img alt="_images/c5509028c092e31fe7327f23c0199eed7795a1e9753f5475da788e609e9e258b.png" src="_images/c5509028c092e31fe7327f23c0199eed7795a1e9753f5475da788e609e9e258b.png" />
@@ -2066,7 +2072,7 @@ Attributes: (12/51)
     intake_esm_attrs:variable_id:            areacella
     intake_esm_attrs:path:                   /mnt/CORDEX_CMIP6_tmp/sim_data/C...
     intake_esm_attrs:_data_format_:          netcdf
-    intake_esm_dataset_key:                  CORDEX.EUR-12.CLMcom-Hereon.ERA5...</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.Dataset</div></div><ul class='xr-sections'><li class='xr-section-item'><input id='section-5872d518-9801-4c9f-a2ec-352e13e39244' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-5872d518-9801-4c9f-a2ec-352e13e39244' class='xr-section-summary'  title='Expand/collapse section'>Dimensions:</label><div class='xr-section-inline-details'><ul class='xr-dim-list'><li><span class='xr-has-index'>dset_id</span>: 6</li><li><span class='xr-has-index'>season</span>: 4</li><li><span class='xr-has-index'>rlat</span>: 412</li><li><span class='xr-has-index'>rlon</span>: 424</li></ul></div><div class='xr-section-details'></div></li><li class='xr-section-item'><input id='section-dac73e12-a9e2-44b8-95d6-2da436f55788' class='xr-section-summary-in' type='checkbox'  checked><label for='section-dac73e12-a9e2-44b8-95d6-2da436f55788' class='xr-section-summary' >Coordinates: <span>(7)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>rlat</span></div><div class='xr-var-dims'>(rlat)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>-23.38 -23.27 ... 21.73 21.84</div><input id='attrs-9b7617fd-bbb3-4fe5-813d-f3165656e9dc' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-9b7617fd-bbb3-4fe5-813d-f3165656e9dc' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-0d226064-0d03-47ca-8d36-dbdb13296f4d' class='xr-var-data-in' type='checkbox'><label for='data-0d226064-0d03-47ca-8d36-dbdb13296f4d' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>degrees</dd><dt><span>axis :</span></dt><dd>Y</dd><dt><span>long_name :</span></dt><dd>latitude in rotated pole grid</dd><dt><span>standard_name :</span></dt><dd>grid_latitude</dd></dl></div><div class='xr-var-data'><pre>array([-23.375, -23.265, -23.155, ...,  21.615,  21.725,  21.835])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>rlon</span></div><div class='xr-var-dims'>(rlon)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>-28.38 -28.27 ... 18.05 18.16</div><input id='attrs-cdcfc8f8-26f7-4a54-8aca-7f11c8d7bf6f' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-cdcfc8f8-26f7-4a54-8aca-7f11c8d7bf6f' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-b84db8b5-42bd-4e6c-93a8-54a5d3758601' class='xr-var-data-in' type='checkbox'><label for='data-b84db8b5-42bd-4e6c-93a8-54a5d3758601' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>degrees</dd><dt><span>axis :</span></dt><dd>X</dd><dt><span>long_name :</span></dt><dd>longitude in rotated pole grid</dd><dt><span>standard_name :</span></dt><dd>grid_longitude</dd></dl></div><div class='xr-var-data'><pre>array([-28.375, -28.265, -28.155, ...,  17.935,  18.045,  18.155])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>lat</span></div><div class='xr-var-dims'>(rlat, rlon)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>21.99 22.03 22.07 ... 66.75 66.69</div><input id='attrs-6b711878-1a54-4da5-bc48-39cb4d0fb058' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-6b711878-1a54-4da5-bc48-39cb4d0fb058' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-67191d44-c790-433a-859a-be8e7b4b5722' class='xr-var-data-in' type='checkbox'><label for='data-67191d44-c790-433a-859a-be8e7b4b5722' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>latitude</dd><dt><span>long_name :</span></dt><dd>latitude</dd><dt><span>units :</span></dt><dd>degrees_north</dd></dl></div><div class='xr-var-data'><pre>array([[21.98782876, 22.02783807, 22.06771602, ..., 25.1677739 ,
+    intake_esm_dataset_key:                  CORDEX.EUR-12.CLMcom-Hereon.ERA5...</pre><div class='xr-wrap' style='display:none'><div class='xr-header'><div class='xr-obj-type'>xarray.Dataset</div></div><ul class='xr-sections'><li class='xr-section-item'><input id='section-c2717a17-9bf8-442b-9c69-e873074c84e5' class='xr-section-summary-in' type='checkbox' disabled ><label for='section-c2717a17-9bf8-442b-9c69-e873074c84e5' class='xr-section-summary'  title='Expand/collapse section'>Dimensions:</label><div class='xr-section-inline-details'><ul class='xr-dim-list'><li><span class='xr-has-index'>dset_id</span>: 6</li><li><span class='xr-has-index'>season</span>: 4</li><li><span class='xr-has-index'>rlat</span>: 412</li><li><span class='xr-has-index'>rlon</span>: 424</li></ul></div><div class='xr-section-details'></div></li><li class='xr-section-item'><input id='section-b4e26e89-185b-41d3-9ea8-8a37bdaa3d30' class='xr-section-summary-in' type='checkbox'  checked><label for='section-b4e26e89-185b-41d3-9ea8-8a37bdaa3d30' class='xr-section-summary' >Coordinates: <span>(7)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>rlat</span></div><div class='xr-var-dims'>(rlat)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>-23.38 -23.27 ... 21.73 21.84</div><input id='attrs-89d054f9-6b8f-4b80-bb6d-55a501420418' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-89d054f9-6b8f-4b80-bb6d-55a501420418' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-3d8cd16a-d66c-4693-b1a4-55e53736ba59' class='xr-var-data-in' type='checkbox'><label for='data-3d8cd16a-d66c-4693-b1a4-55e53736ba59' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>degrees</dd><dt><span>axis :</span></dt><dd>Y</dd><dt><span>long_name :</span></dt><dd>latitude in rotated pole grid</dd><dt><span>standard_name :</span></dt><dd>grid_latitude</dd></dl></div><div class='xr-var-data'><pre>array([-23.375, -23.265, -23.155, ...,  21.615,  21.725,  21.835])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>rlon</span></div><div class='xr-var-dims'>(rlon)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>-28.38 -28.27 ... 18.05 18.16</div><input id='attrs-7b8096f9-ed58-496a-95ee-deb61019dca7' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-7b8096f9-ed58-496a-95ee-deb61019dca7' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-ce861d09-f59c-4569-a444-c47c808898ac' class='xr-var-data-in' type='checkbox'><label for='data-ce861d09-f59c-4569-a444-c47c808898ac' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>units :</span></dt><dd>degrees</dd><dt><span>axis :</span></dt><dd>X</dd><dt><span>long_name :</span></dt><dd>longitude in rotated pole grid</dd><dt><span>standard_name :</span></dt><dd>grid_longitude</dd></dl></div><div class='xr-var-data'><pre>array([-28.375, -28.265, -28.155, ...,  17.935,  18.045,  18.155])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>lat</span></div><div class='xr-var-dims'>(rlat, rlon)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>21.99 22.03 22.07 ... 66.75 66.69</div><input id='attrs-ec106469-5e7a-4138-82ef-90c284df7371' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-ec106469-5e7a-4138-82ef-90c284df7371' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-ddfea505-15fb-4fef-becd-c418965b702f' class='xr-var-data-in' type='checkbox'><label for='data-ddfea505-15fb-4fef-becd-c418965b702f' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>latitude</dd><dt><span>long_name :</span></dt><dd>latitude</dd><dt><span>units :</span></dt><dd>degrees_north</dd></dl></div><div class='xr-var-data'><pre>array([[21.98782876, 22.02783807, 22.06771602, ..., 25.1677739 ,
         25.14109405, 25.11426239],
        [22.08878725, 22.1288583 , 22.16879786, ..., 25.27388366,
         25.24715843, 25.22028117],
@@ -2078,7 +2084,7 @@ Attributes: (12/51)
        [60.12974984, 60.20521265, 60.28057952, ..., 66.72632651,
         66.66454929, 66.60256233],
        [60.20376337, 60.27933874, 60.35481882, ..., 66.81394504,
-        66.75199541, 66.68983654]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>lon</span></div><div class='xr-var-dims'>(rlat, rlon)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>-10.06 -9.964 ... 64.76 64.96</div><input id='attrs-518ef36f-b11d-4a43-9672-72093a150c2a' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-518ef36f-b11d-4a43-9672-72093a150c2a' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-3cdd5f4d-57b5-47ea-9af9-536358855361' class='xr-var-data-in' type='checkbox'><label for='data-3cdd5f4d-57b5-47ea-9af9-536358855361' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>longitude</dd><dt><span>long_name :</span></dt><dd>longitude</dd><dt><span>units :</span></dt><dd>degrees_east</dd></dl></div><div class='xr-var-data'><pre>array([[-10.06387966,  -9.96388628,  -9.86380363, ...,  36.19872654,
+        66.75199541, 66.68983654]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>lon</span></div><div class='xr-var-dims'>(rlat, rlon)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>-10.06 -9.964 ... 64.76 64.96</div><input id='attrs-0eca8fcd-98d9-4eb8-a626-97588758dd0f' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-0eca8fcd-98d9-4eb8-a626-97588758dd0f' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-cde25efe-295b-4491-a383-438cb02e554d' class='xr-var-data-in' type='checkbox'><label for='data-cde25efe-295b-4491-a383-438cb02e554d' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>longitude</dd><dt><span>long_name :</span></dt><dd>longitude</dd><dt><span>units :</span></dt><dd>degrees_east</dd></dl></div><div class='xr-var-data'><pre>array([[-10.06387966,  -9.96388628,  -9.86380363, ...,  36.19872654,
          36.30631294,  36.41382968],
        [-10.11099589, -10.01086154,  -9.91063756, ...,  36.23077703,
          36.33853934,  36.44623165],
@@ -2090,7 +2096,7 @@ Attributes: (12/51)
        [-44.43028713, -44.29178077, -44.15274426, ...,  64.38488381,
          64.59063409,  64.79546746],
        [-44.59386389, -44.45552794, -44.31666067, ...,  64.55349992,
-         64.75940009,  64.96437667]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>areacella</span></div><div class='xr-var-dims'>(rlat, rlon)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>1.373e+08 1.373e+08 ... 1.389e+08</div><input id='attrs-4999301d-93f8-4cb3-8141-13580ee1f2c4' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-4999301d-93f8-4cb3-8141-13580ee1f2c4' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-edf21816-fb64-4f31-887a-cba3abf6edc3' class='xr-var-data-in' type='checkbox'><label for='data-edf21816-fb64-4f31-887a-cba3abf6edc3' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>cell_area</dd><dt><span>long_name :</span></dt><dd>Atmosphere Grid-Cell Area</dd><dt><span>units :</span></dt><dd>m2</dd><dt><span>original_name :</span></dt><dd>areacella</dd><dt><span>cell_methods :</span></dt><dd>area: sum</dd><dt><span>history :</span></dt><dd>2024-11-21T10:39:42Z altered by CMOR: replaced missing value flag (-9e+33) and corresponding data with standard missing value (1e+20).</dd></dl></div><div class='xr-var-data'><pre>array([[1.3732798e+08, 1.3732970e+08, 1.3733011e+08, ..., 1.3732730e+08,
+         64.75940009,  64.96437667]])</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span>areacella</span></div><div class='xr-var-dims'>(rlat, rlon)</div><div class='xr-var-dtype'>float32</div><div class='xr-var-preview xr-preview'>1.373e+08 1.373e+08 ... 1.389e+08</div><input id='attrs-23b4d875-877a-440e-876e-7464c9210574' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-23b4d875-877a-440e-876e-7464c9210574' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-a7f5d6d3-5e68-4c3b-9aec-d13b943a834a' class='xr-var-data-in' type='checkbox'><label for='data-a7f5d6d3-5e68-4c3b-9aec-d13b943a834a' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>cell_area</dd><dt><span>long_name :</span></dt><dd>Atmosphere Grid-Cell Area</dd><dt><span>units :</span></dt><dd>m2</dd><dt><span>original_name :</span></dt><dd>areacella</dd><dt><span>cell_methods :</span></dt><dd>area: sum</dd><dt><span>history :</span></dt><dd>2024-11-21T10:39:42Z altered by CMOR: replaced missing value flag (-9e+33) and corresponding data with standard missing value (1e+20).</dd></dl></div><div class='xr-var-data'><pre>array([[1.3732798e+08, 1.3732970e+08, 1.3733011e+08, ..., 1.3732730e+08,
         1.3733086e+08, 1.3732923e+08],
        [1.3744293e+08, 1.3744453e+08, 1.3744291e+08, ..., 1.3744443e+08,
         1.3744539e+08, 1.3744114e+08],
@@ -2102,9 +2108,9 @@ Attributes: (12/51)
        [1.3898186e+08, 1.3898274e+08, 1.3898221e+08, ..., 1.3897597e+08,
         1.3897730e+08, 1.3897746e+08],
        [1.3887602e+08, 1.3887568e+08, 1.3887589e+08, ..., 1.3887771e+08,
-        1.3887893e+08, 1.3888106e+08]], dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>season</span></div><div class='xr-var-dims'>(season)</div><div class='xr-var-dtype'>object</div><div class='xr-var-preview xr-preview'>&#x27;DJF&#x27; &#x27;JJA&#x27; &#x27;MAM&#x27; &#x27;SON&#x27;</div><input id='attrs-e83b5da6-b82b-45bd-9b38-21c33aaef0d2' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-e83b5da6-b82b-45bd-9b38-21c33aaef0d2' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-5f604ced-8349-4692-8ca3-e60dfbf81956' class='xr-var-data-in' type='checkbox'><label for='data-5f604ced-8349-4692-8ca3-e60dfbf81956' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([&#x27;DJF&#x27;, &#x27;JJA&#x27;, &#x27;MAM&#x27;, &#x27;SON&#x27;], dtype=object)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>dset_id</span></div><div class='xr-var-dims'>(dset_id)</div><div class='xr-var-dtype'>&lt;U33</div><div class='xr-var-preview xr-preview'>&#x27;CLMcom-Hereon-ICON-CLM-202407-1...</div><input id='attrs-1b0a7e3e-ea08-4172-973e-cea28e3b1533' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-1b0a7e3e-ea08-4172-973e-cea28e3b1533' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-2482036d-353a-4f90-8e68-a127e0f77e8b' class='xr-var-data-in' type='checkbox'><label for='data-2482036d-353a-4f90-8e68-a127e0f77e8b' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([&#x27;CLMcom-Hereon-ICON-CLM-202407-1-1&#x27;, &#x27;CNRM-MF-CNRM-ALADIN64E1&#x27;,
+        1.3887893e+08, 1.3888106e+08]], dtype=float32)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>season</span></div><div class='xr-var-dims'>(season)</div><div class='xr-var-dtype'>object</div><div class='xr-var-preview xr-preview'>&#x27;DJF&#x27; &#x27;JJA&#x27; &#x27;MAM&#x27; &#x27;SON&#x27;</div><input id='attrs-cd101df0-db80-48c7-98b7-b8bdbe36500d' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-cd101df0-db80-48c7-98b7-b8bdbe36500d' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-1b4a4858-1041-4be0-a760-e5aa1f2b4887' class='xr-var-data-in' type='checkbox'><label for='data-1b4a4858-1041-4be0-a760-e5aa1f2b4887' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([&#x27;DJF&#x27;, &#x27;JJA&#x27;, &#x27;MAM&#x27;, &#x27;SON&#x27;], dtype=object)</pre></div></li><li class='xr-var-item'><div class='xr-var-name'><span class='xr-has-index'>dset_id</span></div><div class='xr-var-dims'>(dset_id)</div><div class='xr-var-dtype'>&lt;U33</div><div class='xr-var-preview xr-preview'>&#x27;CLMcom-Hereon-ICON-CLM-202407-1...</div><input id='attrs-f1557f91-fb59-447f-99ce-31400687c872' class='xr-var-attrs-in' type='checkbox' disabled><label for='attrs-f1557f91-fb59-447f-99ce-31400687c872' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-af7ca6c1-cadf-4b7f-bf7d-95ba238846f7' class='xr-var-data-in' type='checkbox'><label for='data-af7ca6c1-cadf-4b7f-bf7d-95ba238846f7' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'></dl></div><div class='xr-var-data'><pre>array([&#x27;CLMcom-Hereon-ICON-CLM-202407-1-1&#x27;, &#x27;CNRM-MF-CNRM-ALADIN64E1&#x27;,
        &#x27;GERICS-REMO2020&#x27;, &#x27;HCLIMcom-SMHI-HCLIM43-ALADIN&#x27;, &#x27;KNMI-RACMO23E&#x27;,
-       &#x27;RMIB-UGent-ALARO1-SFX&#x27;], dtype=&#x27;&lt;U33&#x27;)</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-e0f80b76-ed20-4265-88f2-9c78f88c79ad' class='xr-section-summary-in' type='checkbox'  checked><label for='section-e0f80b76-ed20-4265-88f2-9c78f88c79ad' class='xr-section-summary' >Data variables: <span>(1)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span>tas</span></div><div class='xr-var-dims'>(dset_id, season, rlat, rlon)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>nan nan nan nan ... nan nan nan nan</div><input id='attrs-2e88c624-6d10-41ab-a9ab-4d5e11f2da54' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-2e88c624-6d10-41ab-a9ab-4d5e11f2da54' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-0a9fb5ad-c588-48c4-b80f-c457deea20fd' class='xr-var-data-in' type='checkbox'><label for='data-0a9fb5ad-c588-48c4-b80f-c457deea20fd' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>air_temperature</dd><dt><span>long_name :</span></dt><dd>Near-Surface Air Temperature</dd><dt><span>units :</span></dt><dd>K</dd><dt><span>original_name :</span></dt><dd>T_2M</dd><dt><span>cell_methods :</span></dt><dd>area: time: mean</dd></dl></div><div class='xr-var-data'><pre>array([[[[nan, nan, nan, ..., nan, nan, nan],
+       &#x27;RMIB-UGent-ALARO1-SFX&#x27;], dtype=&#x27;&lt;U33&#x27;)</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-c537fc0a-120d-4631-be03-a21dcf7d2bb6' class='xr-section-summary-in' type='checkbox'  checked><label for='section-c537fc0a-120d-4631-be03-a21dcf7d2bb6' class='xr-section-summary' >Data variables: <span>(1)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-var-name'><span>tas</span></div><div class='xr-var-dims'>(dset_id, season, rlat, rlon)</div><div class='xr-var-dtype'>float64</div><div class='xr-var-preview xr-preview'>nan nan nan nan ... nan nan nan nan</div><input id='attrs-371b5214-4ddc-46ce-8d1f-cc482ff22fa2' class='xr-var-attrs-in' type='checkbox' ><label for='attrs-371b5214-4ddc-46ce-8d1f-cc482ff22fa2' title='Show/Hide attributes'><svg class='icon xr-icon-file-text2'><use xlink:href='#icon-file-text2'></use></svg></label><input id='data-d70e0672-5054-48ad-82e5-66aaf5249f74' class='xr-var-data-in' type='checkbox'><label for='data-d70e0672-5054-48ad-82e5-66aaf5249f74' title='Show/Hide data repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-var-attrs'><dl class='xr-attrs'><dt><span>standard_name :</span></dt><dd>air_temperature</dd><dt><span>long_name :</span></dt><dd>Near-Surface Air Temperature</dd><dt><span>units :</span></dt><dd>K</dd><dt><span>original_name :</span></dt><dd>T_2M</dd><dt><span>cell_methods :</span></dt><dd>area: time: mean</dd></dl></div><div class='xr-var-data'><pre>array([[[[nan, nan, nan, ..., nan, nan, nan],
          [nan, nan, nan, ..., nan, nan, nan],
          [nan, nan, nan, ..., nan, nan, nan],
          ...,
@@ -2144,20 +2150,20 @@ Attributes: (12/51)
          ...,
          [nan, nan, nan, ..., nan, nan, nan],
          [nan, nan, nan, ..., nan, nan, nan],
-         [nan, nan, nan, ..., nan, nan, nan]]]])</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-97a521e9-c486-4f46-9d08-a6af3b4c7d56' class='xr-section-summary-in' type='checkbox'  ><label for='section-97a521e9-c486-4f46-9d08-a6af3b4c7d56' class='xr-section-summary' >Indexes: <span>(4)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-index-name'><div>rlat</div></div><div class='xr-index-preview'>PandasIndex</div><input type='checkbox' disabled/><label></label><input id='index-913aad2b-4b89-4678-981e-0aa7db19c61a' class='xr-index-data-in' type='checkbox'/><label for='index-913aad2b-4b89-4678-981e-0aa7db19c61a' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([-23.375, -23.265, -23.155, -23.045, -22.935, -22.825, -22.715, -22.605,
+         [nan, nan, nan, ..., nan, nan, nan]]]])</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-89da7c5c-7399-4ede-9501-2639776ba89c' class='xr-section-summary-in' type='checkbox'  ><label for='section-89da7c5c-7399-4ede-9501-2639776ba89c' class='xr-section-summary' >Indexes: <span>(4)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><ul class='xr-var-list'><li class='xr-var-item'><div class='xr-index-name'><div>rlat</div></div><div class='xr-index-preview'>PandasIndex</div><input type='checkbox' disabled/><label></label><input id='index-c70cfeba-36cb-4639-915e-2b6e011d4832' class='xr-index-data-in' type='checkbox'/><label for='index-c70cfeba-36cb-4639-915e-2b6e011d4832' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([-23.375, -23.265, -23.155, -23.045, -22.935, -22.825, -22.715, -22.605,
        -22.495, -22.385,
        ...
         20.845,  20.955,  21.065,  21.175,  21.285,  21.395,  21.505,  21.615,
         21.725,  21.835],
-      dtype=&#x27;float64&#x27;, name=&#x27;rlat&#x27;, length=412))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>rlon</div></div><div class='xr-index-preview'>PandasIndex</div><input type='checkbox' disabled/><label></label><input id='index-47c3ce2c-19c2-46bd-8352-939f12fc966e' class='xr-index-data-in' type='checkbox'/><label for='index-47c3ce2c-19c2-46bd-8352-939f12fc966e' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([-28.375, -28.265, -28.155, -28.045, -27.935, -27.825, -27.715, -27.605,
+      dtype=&#x27;float64&#x27;, name=&#x27;rlat&#x27;, length=412))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>rlon</div></div><div class='xr-index-preview'>PandasIndex</div><input type='checkbox' disabled/><label></label><input id='index-7cd9a525-0a1e-4818-8735-2fca49821446' class='xr-index-data-in' type='checkbox'/><label for='index-7cd9a525-0a1e-4818-8735-2fca49821446' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([-28.375, -28.265, -28.155, -28.045, -27.935, -27.825, -27.715, -27.605,
        -27.495, -27.385,
        ...
         17.165,  17.275,  17.385,  17.495,  17.605,  17.715,  17.825,  17.935,
         18.045,  18.155],
-      dtype=&#x27;float64&#x27;, name=&#x27;rlon&#x27;, length=424))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>season</div></div><div class='xr-index-preview'>PandasIndex</div><input type='checkbox' disabled/><label></label><input id='index-9c7cb695-42ea-4a85-a51a-211bed2af60f' class='xr-index-data-in' type='checkbox'/><label for='index-9c7cb695-42ea-4a85-a51a-211bed2af60f' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([&#x27;DJF&#x27;, &#x27;JJA&#x27;, &#x27;MAM&#x27;, &#x27;SON&#x27;], dtype=&#x27;object&#x27;, name=&#x27;season&#x27;))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>dset_id</div></div><div class='xr-index-preview'>PandasIndex</div><input type='checkbox' disabled/><label></label><input id='index-4a4becea-ed7b-4e02-a2c2-9e43cdc3f61f' class='xr-index-data-in' type='checkbox'/><label for='index-4a4becea-ed7b-4e02-a2c2-9e43cdc3f61f' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([&#x27;CLMcom-Hereon-ICON-CLM-202407-1-1&#x27;, &#x27;CNRM-MF-CNRM-ALADIN64E1&#x27;,
+      dtype=&#x27;float64&#x27;, name=&#x27;rlon&#x27;, length=424))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>season</div></div><div class='xr-index-preview'>PandasIndex</div><input type='checkbox' disabled/><label></label><input id='index-2a1c6292-82cb-4685-bf95-4816f5666a80' class='xr-index-data-in' type='checkbox'/><label for='index-2a1c6292-82cb-4685-bf95-4816f5666a80' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([&#x27;DJF&#x27;, &#x27;JJA&#x27;, &#x27;MAM&#x27;, &#x27;SON&#x27;], dtype=&#x27;object&#x27;, name=&#x27;season&#x27;))</pre></div></li><li class='xr-var-item'><div class='xr-index-name'><div>dset_id</div></div><div class='xr-index-preview'>PandasIndex</div><input type='checkbox' disabled/><label></label><input id='index-a6a74fc4-3b42-4088-a787-2a480929d1df' class='xr-index-data-in' type='checkbox'/><label for='index-a6a74fc4-3b42-4088-a787-2a480929d1df' title='Show/Hide index repr'><svg class='icon xr-icon-database'><use xlink:href='#icon-database'></use></svg></label><div class='xr-index-data'><pre>PandasIndex(Index([&#x27;CLMcom-Hereon-ICON-CLM-202407-1-1&#x27;, &#x27;CNRM-MF-CNRM-ALADIN64E1&#x27;,
        &#x27;GERICS-REMO2020&#x27;, &#x27;HCLIMcom-SMHI-HCLIM43-ALADIN&#x27;, &#x27;KNMI-RACMO23E&#x27;,
        &#x27;RMIB-UGent-ALARO1-SFX&#x27;],
-      dtype=&#x27;object&#x27;, name=&#x27;dset_id&#x27;))</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-1b5a50fe-548d-4b58-9efc-86af4cc07f9e' class='xr-section-summary-in' type='checkbox'  ><label for='section-1b5a50fe-548d-4b58-9efc-86af4cc07f9e' class='xr-section-summary' >Attributes: <span>(51)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>CDO :</span></dt><dd>Climate Data Operators version 2.4.4 (https://mpimet.mpg.de/cdo)</dd><dt><span>Conventions :</span></dt><dd>CF-1.11</dd><dt><span>activity_id :</span></dt><dd>DD</dd><dt><span>contact :</span></dt><dd>iconclm@dwd.de</dd><dt><span>creation_date :</span></dt><dd>2024-11-21T10:39:42Z</dd><dt><span>domain :</span></dt><dd>Europe</dd><dt><span>domain_id :</span></dt><dd>EUR-12</dd><dt><span>driving_experiment :</span></dt><dd>reanalysis simulation of the recent past</dd><dt><span>driving_experiment_id :</span></dt><dd>evaluation</dd><dt><span>driving_institution_id :</span></dt><dd>ECMWF</dd><dt><span>driving_source :</span></dt><dd>ECMWF Reanalysis v5</dd><dt><span>driving_source_id :</span></dt><dd>ERA5</dd><dt><span>driving_variant_label :</span></dt><dd>r1i1p1f1</dd><dt><span>external_variables :</span></dt><dd>areacella</dd><dt><span>frequency :</span></dt><dd>fx</dd><dt><span>grid :</span></dt><dd>Rotated-pole latitude-longitude with 0.11 degree grid spacing, interpolated by nearest neighbor remapping from the original unstructured icosahedral ICON grid R13B05 (~12.1 km).</dd><dt><span>history :</span></dt><dd>2024-11-21T10:39:42Z ; CMOR rewrote data to be consistent with CORDEX-CMIP6, CF-1.11 and CF standards.</dd><dt><span>mip_era :</span></dt><dd>CMIP6</dd><dt><span>product :</span></dt><dd>model-output</dd><dt><span>references :</span></dt><dd>https://www.icon-model.org/publications/reference-publications</dd><dt><span>source :</span></dt><dd>ICON model in Climate Limited-area Mode (ICON-CLM), Version 202407-1-1 (2024)</dd><dt><span>source_id :</span></dt><dd>ICON-CLM-202407-1-1</dd><dt><span>source_type :</span></dt><dd>ARCM</dd><dt><span>table_id :</span></dt><dd>fx</dd><dt><span>table_info :</span></dt><dd>Creation Date:(15 October 2024) MD5:2be165c24e5a6138435cf2f63b601442</dd><dt><span>title :</span></dt><dd>CORDEX data prepared for ESGF within UDAG.</dd><dt><span>tracking_id :</span></dt><dd>hdl:21.14103/c97db893-0aed-44e1-a808-996ef1b9bc5b</dd><dt><span>variable_id :</span></dt><dd>areacella</dd><dt><span>version_realization :</span></dt><dd>v1-r1</dd><dt><span>license :</span></dt><dd>https://cordex.org/data-access/cordex-cmip6-data/cordex-cmip6-terms-of-use</dd><dt><span>cmor_version :</span></dt><dd>3.9.0</dd><dt><span>project_id :</span></dt><dd>CORDEX</dd><dt><span>institution_id :</span></dt><dd>CLMcom-Hereon</dd><dt><span>institution :</span></dt><dd>Climate Limited-area Modelling Community (CLMcom) partner: Helmholtz-Zentrum Hereon, Geesthacht, Germany</dd><dt><span>intake_esm_vars :</span></dt><dd>[&#x27;areacella&#x27;]</dd><dt><span>intake_esm_attrs:project_id :</span></dt><dd>CORDEX</dd><dt><span>intake_esm_attrs:mip_era :</span></dt><dd>CMIP6</dd><dt><span>intake_esm_attrs:activity_id :</span></dt><dd>DD</dd><dt><span>intake_esm_attrs:domain_id :</span></dt><dd>EUR-12</dd><dt><span>intake_esm_attrs:institution_id :</span></dt><dd>CLMcom-Hereon</dd><dt><span>intake_esm_attrs:driving_source_id :</span></dt><dd>ERA5</dd><dt><span>intake_esm_attrs:driving_experiment_id :</span></dt><dd>evaluation</dd><dt><span>intake_esm_attrs:driving_variant_label :</span></dt><dd>r1i1p1f1</dd><dt><span>intake_esm_attrs:source_id :</span></dt><dd>ICON-CLM-202407-1-1</dd><dt><span>intake_esm_attrs:version_realization :</span></dt><dd>v1-r1</dd><dt><span>intake_esm_attrs:frequency :</span></dt><dd>fx</dd><dt><span>intake_esm_attrs:version :</span></dt><dd>v20240920</dd><dt><span>intake_esm_attrs:variable_id :</span></dt><dd>areacella</dd><dt><span>intake_esm_attrs:path :</span></dt><dd>/mnt/CORDEX_CMIP6_tmp/sim_data/CORDEX/CMIP6/DD/EUR-12/CLMcom-Hereon/ERA5/evaluation/r1i1p1f1/ICON-CLM-202407-1-1/v1-r1/fx/areacella/v20240920/areacella_EUR-12_ERA5_evaluation_r1i1p1f1_CLMcom-Hereon_ICON-CLM-202407-1-1_v1-r1_fx.nc</dd><dt><span>intake_esm_attrs:_data_format_ :</span></dt><dd>netcdf</dd><dt><span>intake_esm_dataset_key :</span></dt><dd>CORDEX.EUR-12.CLMcom-Hereon.ERA5.evaluation.r1i1p1f1.ICON-CLM-202407-1-1.v1-r1.fx.areacella.v20240920</dd></dl></div></li></ul></div></div></div></div>
+      dtype=&#x27;object&#x27;, name=&#x27;dset_id&#x27;))</pre></div></li></ul></div></li><li class='xr-section-item'><input id='section-a6ef5057-16ce-4fcf-a579-88a234d54324' class='xr-section-summary-in' type='checkbox'  ><label for='section-a6ef5057-16ce-4fcf-a579-88a234d54324' class='xr-section-summary' >Attributes: <span>(51)</span></label><div class='xr-section-inline-details'></div><div class='xr-section-details'><dl class='xr-attrs'><dt><span>CDO :</span></dt><dd>Climate Data Operators version 2.4.4 (https://mpimet.mpg.de/cdo)</dd><dt><span>Conventions :</span></dt><dd>CF-1.11</dd><dt><span>activity_id :</span></dt><dd>DD</dd><dt><span>contact :</span></dt><dd>iconclm@dwd.de</dd><dt><span>creation_date :</span></dt><dd>2024-11-21T10:39:42Z</dd><dt><span>domain :</span></dt><dd>Europe</dd><dt><span>domain_id :</span></dt><dd>EUR-12</dd><dt><span>driving_experiment :</span></dt><dd>reanalysis simulation of the recent past</dd><dt><span>driving_experiment_id :</span></dt><dd>evaluation</dd><dt><span>driving_institution_id :</span></dt><dd>ECMWF</dd><dt><span>driving_source :</span></dt><dd>ECMWF Reanalysis v5</dd><dt><span>driving_source_id :</span></dt><dd>ERA5</dd><dt><span>driving_variant_label :</span></dt><dd>r1i1p1f1</dd><dt><span>external_variables :</span></dt><dd>areacella</dd><dt><span>frequency :</span></dt><dd>fx</dd><dt><span>grid :</span></dt><dd>Rotated-pole latitude-longitude with 0.11 degree grid spacing, interpolated by nearest neighbor remapping from the original unstructured icosahedral ICON grid R13B05 (~12.1 km).</dd><dt><span>history :</span></dt><dd>2024-11-21T10:39:42Z ; CMOR rewrote data to be consistent with CORDEX-CMIP6, CF-1.11 and CF standards.</dd><dt><span>mip_era :</span></dt><dd>CMIP6</dd><dt><span>product :</span></dt><dd>model-output</dd><dt><span>references :</span></dt><dd>https://www.icon-model.org/publications/reference-publications</dd><dt><span>source :</span></dt><dd>ICON model in Climate Limited-area Mode (ICON-CLM), Version 202407-1-1 (2024)</dd><dt><span>source_id :</span></dt><dd>ICON-CLM-202407-1-1</dd><dt><span>source_type :</span></dt><dd>ARCM</dd><dt><span>table_id :</span></dt><dd>fx</dd><dt><span>table_info :</span></dt><dd>Creation Date:(15 October 2024) MD5:2be165c24e5a6138435cf2f63b601442</dd><dt><span>title :</span></dt><dd>CORDEX data prepared for ESGF within UDAG.</dd><dt><span>tracking_id :</span></dt><dd>hdl:21.14103/c97db893-0aed-44e1-a808-996ef1b9bc5b</dd><dt><span>variable_id :</span></dt><dd>areacella</dd><dt><span>version_realization :</span></dt><dd>v1-r1</dd><dt><span>license :</span></dt><dd>https://cordex.org/data-access/cordex-cmip6-data/cordex-cmip6-terms-of-use</dd><dt><span>cmor_version :</span></dt><dd>3.9.0</dd><dt><span>project_id :</span></dt><dd>CORDEX</dd><dt><span>institution_id :</span></dt><dd>CLMcom-Hereon</dd><dt><span>institution :</span></dt><dd>Climate Limited-area Modelling Community (CLMcom) partner: Helmholtz-Zentrum Hereon, Geesthacht, Germany</dd><dt><span>intake_esm_vars :</span></dt><dd>[&#x27;areacella&#x27;]</dd><dt><span>intake_esm_attrs:project_id :</span></dt><dd>CORDEX</dd><dt><span>intake_esm_attrs:mip_era :</span></dt><dd>CMIP6</dd><dt><span>intake_esm_attrs:activity_id :</span></dt><dd>DD</dd><dt><span>intake_esm_attrs:domain_id :</span></dt><dd>EUR-12</dd><dt><span>intake_esm_attrs:institution_id :</span></dt><dd>CLMcom-Hereon</dd><dt><span>intake_esm_attrs:driving_source_id :</span></dt><dd>ERA5</dd><dt><span>intake_esm_attrs:driving_experiment_id :</span></dt><dd>evaluation</dd><dt><span>intake_esm_attrs:driving_variant_label :</span></dt><dd>r1i1p1f1</dd><dt><span>intake_esm_attrs:source_id :</span></dt><dd>ICON-CLM-202407-1-1</dd><dt><span>intake_esm_attrs:version_realization :</span></dt><dd>v1-r1</dd><dt><span>intake_esm_attrs:frequency :</span></dt><dd>fx</dd><dt><span>intake_esm_attrs:version :</span></dt><dd>v20240920</dd><dt><span>intake_esm_attrs:variable_id :</span></dt><dd>areacella</dd><dt><span>intake_esm_attrs:path :</span></dt><dd>/mnt/CORDEX_CMIP6_tmp/sim_data/CORDEX/CMIP6/DD/EUR-12/CLMcom-Hereon/ERA5/evaluation/r1i1p1f1/ICON-CLM-202407-1-1/v1-r1/fx/areacella/v20240920/areacella_EUR-12_ERA5_evaluation_r1i1p1f1_CLMcom-Hereon_ICON-CLM-202407-1-1_v1-r1_fx.nc</dd><dt><span>intake_esm_attrs:_data_format_ :</span></dt><dd>netcdf</dd><dt><span>intake_esm_dataset_key :</span></dt><dd>CORDEX.EUR-12.CLMcom-Hereon.ERA5.evaluation.r1i1p1f1.ICON-CLM-202407-1-1.v1-r1.fx.areacella.v20240920</dd></dl></div></li></ul></div></div></div></div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -2318,21 +2324,21 @@ Attributes: (12/51)
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0 0 0 DJF CLMcom-Hereon-ICON-CLM-202407-1-1
 0 1 4 DJF CNRM-MF-CNRM-ALADIN64E1
-0 2 8 DJF GERICS-REMO2020
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0 3 12 DJF HCLIMcom-SMHI-HCLIM43-ALADIN
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0 2 8 DJF GERICS-REMO2020
+0 3 12 DJF HCLIMcom-SMHI-HCLIM43-ALADIN
 0 4 16 DJF KNMI-RACMO23E
 0 5 20 DJF RMIB-UGent-ALARO1-SFX
-1 0 1 JJA CLMcom-Hereon-ICON-CLM-202407-1-1
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1 1 5 JJA CNRM-MF-CNRM-ALADIN64E1
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1 0 1 JJA CLMcom-Hereon-ICON-CLM-202407-1-1
+1 1 5 JJA CNRM-MF-CNRM-ALADIN64E1
 1 2 9 JJA GERICS-REMO2020
-1 3 13 JJA HCLIMcom-SMHI-HCLIM43-ALADIN
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1 4 17 JJA KNMI-RACMO23E
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1 3 13 JJA HCLIMcom-SMHI-HCLIM43-ALADIN
+1 4 17 JJA KNMI-RACMO23E
 1 5 21 JJA RMIB-UGent-ALARO1-SFX
 2 0 2 MAM CLMcom-Hereon-ICON-CLM-202407-1-1
 </pre></div>
@@ -2340,16 +2346,16 @@ Attributes: (12/51)
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2 1 6 MAM CNRM-MF-CNRM-ALADIN64E1
 2 2 10 MAM GERICS-REMO2020
 2 3 14 MAM HCLIMcom-SMHI-HCLIM43-ALADIN
-2 4 18 MAM KNMI-RACMO23E
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2 5 22 MAM RMIB-UGent-ALARO1-SFX
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2 4 18 MAM KNMI-RACMO23E
+2 5 22 MAM RMIB-UGent-ALARO1-SFX
 3 0 3 SON CLMcom-Hereon-ICON-CLM-202407-1-1
 3 1 7 SON CNRM-MF-CNRM-ALADIN64E1
-3 2 11 SON GERICS-REMO2020
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3 3 15 SON HCLIMcom-SMHI-HCLIM43-ALADIN
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3 2 11 SON GERICS-REMO2020
+3 3 15 SON HCLIMcom-SMHI-HCLIM43-ALADIN
 3 4 19 SON KNMI-RACMO23E
 3 5 23 SON RMIB-UGent-ALARO1-SFX
 </pre></div>
@@ -2448,8 +2454,8 @@ By EURO-CORDEX
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
-<script defer src="_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
 
   <footer class="bd-footer">
   </footer>
