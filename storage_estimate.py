@@ -96,5 +96,5 @@ for study in sorted(list(studies)):
     ic(size_TB.T.sum())
 
     print(
-        f"Total {study:14} study estimated data request size is: {np.nansum(size_TB.values):8.3f} TB"
+        f"Total {study:16} study estimated data request size is: {np.nansum(size_TB.values):8.3f} TB"
     )
