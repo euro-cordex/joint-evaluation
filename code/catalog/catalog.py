@@ -209,6 +209,6 @@ if __name__ == "__main__":
     df_CMIP5 = update_catalog(CATALOG, root_dic["cmip5-cordex"], "cmip5-cordex")
     df_CMIP6 = update_catalog(CATALOG, root_dic["cmip6-cordex"], "cmip6-cordex")
     df = pd.concat([df_CMIP5, df_CMIP6])
-    folder_path = os.path.abspath(os.path.join(os.getcwd(), "..", ".."))
+    folder_path = "./"  # os.path.abspath(os.path.join(os.getcwd(), "..", ".."))
     df.to_csv(os.path.join(folder_path, f"{CATALOG}"), index=False)
     create_excel(os.path.join(folder_path, f"{CATALOG}"))
