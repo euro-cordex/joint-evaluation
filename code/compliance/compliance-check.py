@@ -60,7 +60,7 @@ def compliance_check(catalog_filename):
     checker_names = ["cf:1.9"]
     verbose = 1
     criteria = "normal"
-    output_filename = "./cf-report/cf-report.json"
+    output_filename = "./compliance-report.json"
     output_format = "json_new"
     """
     Inputs to ComplianceChecker.run_checker
@@ -202,3 +202,7 @@ def main():
             f"Too many errors to log: {len(non_empty_errors)}, please check manually"
         )
     return non_empty_errors
+
+
+if __name__ == "__main__":
+    main()
