@@ -16,6 +16,8 @@ dependencies:
   - dask
   - netcdf4
   - aiohttp
+  - compliance-checker
+  - requests
   - pip:
     - git+https://github.com/euro-cordex/evaltools
     - git+https://github.com/euro-cordex/py-cordex
