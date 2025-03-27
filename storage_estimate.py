@@ -1,8 +1,12 @@
 import pandas as pd
 import numpy as np
+import sys
 from icecream import ic
 
 ic.disable()
+
+experiment_patterns = sys.argv[1:]
+experiment_query = ' | '.join([f'experiment.str.contains("{patt}")' for patt in experiment_patterns])
 
 precision_factor = 4  # float
 compression_factor = 0.6
@@ -42,7 +46,7 @@ plans = (
     .query('domain == "EUR-12"')
     .query('status in ["completed", "running"]')
     .query('~comments.str.contains("#ESD", na=False)')
-    .query('experiment.str.contains("eval")')
+    .query(experiment_query)
 )
 
 simulation_count = plans.pivot_table(
@@ -61,6 +65,7 @@ for priorities in dreq["priority"].dropna():
 ic(studies)
 dreq["priority"] = dreq["priority"].fillna("")
 
+print(f'Considering experiments: {experiment_patterns}')
 for study in sorted(list(studies)) + ['ALL-STUDIES']:
     dreq_study = dreq.query("priority.str.contains(@study)").copy() if study != 'ALL-STUDIES' else dreq.copy()
     dreq_study["priority"] = study
