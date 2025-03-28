@@ -6,7 +6,9 @@ from icecream import ic
 ic.disable()
 
 experiment_patterns = sys.argv[1:]
-experiment_query = ' | '.join([f'experiment.str.contains("{patt}")' for patt in experiment_patterns])
+experiment_query = " | ".join(
+    [f'experiment.str.contains("{patt}")' for patt in experiment_patterns]
+)
 
 precision_factor = 4  # float
 compression_factor = 0.6
@@ -51,7 +53,7 @@ plans = (
 
 simulation_count = plans.pivot_table(
     index="domain", columns="experiment", aggfunc="size", fill_value=0
-).drop(columns = ['selected'], errors='ignore')
+).drop(columns=["selected"], errors="ignore")
 ic(simulation_count)
 
 dreq = pd.read_csv(
@@ -65,9 +67,13 @@ for priorities in dreq["priority"].dropna():
 ic(studies)
 dreq["priority"] = dreq["priority"].fillna("")
 
-print(f'Considering experiments: {experiment_patterns}')
-for study in sorted(list(studies)) + ['ALL-STUDIES']:
-    dreq_study = dreq.query("priority.str.contains(@study)").copy() if study != 'ALL-STUDIES' else dreq.copy()
+print(f"Considering experiments: {experiment_patterns}")
+for study in sorted(list(studies)) + ["ALL-STUDIES"]:
+    dreq_study = (
+        dreq.query("priority.str.contains(@study)").copy()
+        if study != "ALL-STUDIES"
+        else dreq.copy()
+    )
     dreq_study["priority"] = study
 
     variable_count = dreq_study.pivot_table(
