@@ -195,12 +195,12 @@ def main():
     non_empty_errors = get_non_empty_errors(cc_data)
     for k, v in non_empty_errors.items():
         log.error(f"{os.path.basename(k)}: {v}")
-    if not len(non_empty_errors) > 10:
-        log_issues_from_errors(non_empty_errors)
-    else:
-        log.error(
-            f"Too many errors to log: {len(non_empty_errors)}, please check manually"
-        )
+    # if not len(non_empty_errors) > 10:
+    #    log_issues_from_errors(non_empty_errors)
+    # else:
+    #    log.error(
+    #        f"Too many errors to log: {len(non_empty_errors)}, please check manually"
+    #    )
     return non_empty_errors
 
 
