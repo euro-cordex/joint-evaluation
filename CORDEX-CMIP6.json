@@ -60,7 +60,6 @@
       "source_id",
       "version_realization",
       "frequency",
-      "variable_id",
       "version"
     ],
     "aggregations": [
