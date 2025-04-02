@@ -104,7 +104,7 @@ regions_dict = {
 
 def open_datasets(variables, frequency="mon"):
     catalog = get_source_collection(variables, frequency)
-    return open_and_sort(catalog, merge=True)
+    return open_and_sort(catalog, merge_fx=True)
 
 
 def create_regional_means(dsets, regions):
