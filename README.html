@@ -380,7 +380,10 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-contribute-an-analysis">How to contribute an analysis</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-exchange">Data exchange</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#catalog">Catalog</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#starting-jupyter-lab">Starting Jupyter Lab</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#starting-jupyter-lab">Starting Jupyter Lab</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#port-forwarding-for-dask-dashbaord">Port forwarding for Dask dashbaord</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plots">Plots</a></li>
 </ul>
             </nav>
@@ -481,6 +484,14 @@ You need to activate a virtual environemt, e.g., using <code class="docutils lit
 </pre></div>
 </div>
 <p>The jupyterlab should then be available in your local browser at <code class="docutils literal notranslate"><span class="pre">https://localhost:8000/</span></code>. The login token can also be found in the URL on the jsc-terminal. Please don’t forget to kill your server once you are finished. It will be killed automatically if you close the terminal in which you started the server.</p>
+<section id="port-forwarding-for-dask-dashbaord">
+<h3>Port forwarding for Dask dashbaord<a class="headerlink" href="#port-forwarding-for-dask-dashbaord" title="Link to this heading">#</a></h3>
+<p>If you are working with Juypter notebooks in other environments, (e.g., VS Code), you probably have to explicitly set the dashboard adress, e.g.,</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">dashboard_address</span><span class="o">=</span><span class="s2">&quot;localhost:8787&quot;</span><span class="p">,</span> <span class="n">threads_per_worker</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can then forward the port to the localhost on your laptop and see the dashboard.d</p>
+</section>
 </section>
 <section id="plots">
 <h2>Plots<a class="headerlink" href="#plots" title="Link to this heading">#</a></h2>
@@ -550,7 +561,10 @@ You need to activate a virtual environemt, e.g., using <code class="docutils lit
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-contribute-an-analysis">How to contribute an analysis</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-exchange">Data exchange</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#catalog">Catalog</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#starting-jupyter-lab">Starting Jupyter Lab</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#starting-jupyter-lab">Starting Jupyter Lab</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#port-forwarding-for-dask-dashbaord">Port forwarding for Dask dashbaord</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plots">Plots</a></li>
 </ul>
   </nav></div>

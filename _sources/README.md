@@ -93,6 +93,14 @@ ssh -N -L 8000:localhost:8888 jsc-cordex
 ```
 The jupyterlab should then be available in your local browser at `https://localhost:8000/`. The login token can also be found in the URL on the jsc-terminal. Please don't forget to kill your server once you are finished. It will be killed automatically if you close the terminal in which you started the server.
 
+### Port forwarding for Dask dashbaord
+
+If you are working with Juypter notebooks in other environments, (e.g., VS Code), you probably have to explicitly set the dashboard adress, e.g.,
+```
+client = Client(dashboard_address="localhost:8787", threads_per_worker=1)
+```
+You can then forward the port to the localhost on your laptop and see the dashboard.d
+
 ## Plots
 
 These plots show some preliminary results from available data at `jsc-cordex` and show regional and yearly means in the PRUDENCE regions. These plots give an overview of what data is available and are [updated](https://github.com/euro-cordex/joint-evaluation/blob/main/code/timeseries.py) once new data comes in.
