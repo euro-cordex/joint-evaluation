@@ -25,7 +25,8 @@ from evaltools.eval import regional_means
 dask.config.set(scheduler="single-threaded")
 sns.set_theme(style="darkgrid")
 
-variables = ["tas", "pr"]
+variables = ["tas"]
+time_range = slice("1980", "2020")
 
 european_countries = [
     "Albania",
@@ -103,8 +104,10 @@ regions_dict = {
 
 
 def open_datasets(variables, frequency="mon"):
-    catalog = get_source_collection(variables, frequency)
-    return open_and_sort(catalog, merge_fx=True)
+    catalog = get_source_collection(variables, frequency, add_fx=False)
+    return open_and_sort(
+        catalog, merge_fx=False, apply_fixes=True, time_range=time_range
+    )
 
 
 def create_regional_means(dsets, regions):
