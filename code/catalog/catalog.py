@@ -17,8 +17,8 @@ import pandas as pd
 from os import path as op
 
 root_dic = {
-    "cmip5-cordex": "/mnt/CORDEX_CMIP6_tmp/aux_data/cordex-cmip5",
-    "cmip6-cordex": "/mnt/CORDEX_CMIP6_tmp/sim_data/CORDEX-CMIP6",
+    "CORDEX-CMIP5": "/mnt/CORDEX_CMIP6_tmp/aux_data/cordex-cmip5",
+    "CORDEX-CMIP6": "/mnt/CORDEX_CMIP6_tmp/sim_data/CORDEX-CMIP6",
 }
 
 CATALOG = "catalog.csv"
@@ -70,11 +70,11 @@ def create_path_pattern(drs, sep="/"):
 
 def parse_filepath(filename, project):
     # pattern = create_pattern(drs)
-    if project == "cmip6-cordex":
+    if project == "CORDEX-CMIP6":
         regex = r"(?P<project_id>[^/]+)/(?P<activity_id>[^/]+)/(?P<domain_id>[^/]+)/(?P<institution_id>[^/]+)/(?P<driving_source_id>[^/]+)/(?P<driving_experiment_id>[^/]+)/(?P<driving_variant_label>[^/]+)/(?P<source_id>[^/]+)/(?P<version_realization>[^/]+)/(?P<frequency>[^/]+)/(?P<variable_id>[^/]+)/(?P<version>[^/]+)/(?P<filename>(?P<variable_id_2>[^_]+)_(?P<domain_id_2>[^_]+)_(?P<driving_source_id_2>[^_]+)_(?P<driving_experiment_id_2>[^_]+)_(?P<driving_variant_label_2>[^_]+)_(?P<institution_id_2>[^_]+)_(?P<source_id_2>[^_]+)_(?P<version_realization_2>[^_]+)_(?P<frequency_2>[^_]+)(?:_(?P<time_range>[^.]+))?\.nc)"
         mip_era = "CMIP6"
         regex = r"^/?(?:[^/]+/)*" + regex
-    if project == "cmip5-cordex":
+    if project == "CORDEX-CMIP5":
         regex = r"/(?P<project_id>[^/]+)/(?P<mip_era>[^/]+)/(?P<activity_id>[^/]+)/(?P<domain_id>[^/]+)/(?P<institution_id>[^/]+)/(?P<driving_source_id>[^/]+)/(?P<driving_experiment_id>[^/]+)/(?P<driving_variant_label>[^/]+)/(?P<source_id>[^/]+)/(?P<version_realization>[^/]+)/(?P<frequency>[^/]+)/(?P<variable_id>[^/]+)/(?P<version>[^/]+)/(?P<filename>(?P<variable_id_2>[^_]+)_(?P<domain_id_2>[^_]+)_(?P<driving_source_id_2>[^_]+)_(?P<driving_experiment_id_2>[^_]+)_(?P<driving_variant_label_2>[^_]+)_(?P<institution_id_2>[^_]+)_(?P<source_id_2>[^_]+)_(?P<version_realization_2>[^_]+)_(?P<frequency_2>[^_]+)(?:_(?P<time_range>[^.]+))?\.nc)"
         mip_era = "CMIP5"
         institution_id_2 = filename.split("/")[8]
@@ -211,8 +211,8 @@ def update_catalog(catalog, root, project):
 if __name__ == "__main__":
     # df = update_catalog(CATALOG, root_dic[project])
     # create_excel(CATALOG)
-    df_CMIP5 = update_catalog(CATALOG, root_dic["cmip5-cordex"], "cmip5-cordex")
-    df_CMIP6 = update_catalog(CATALOG, root_dic["cmip6-cordex"], "cmip6-cordex")
+    df_CMIP5 = update_catalog(CATALOG, root_dic["CORDEX-CMIP5"], "CORDEX-CMIP5")
+    df_CMIP6 = update_catalog(CATALOG, root_dic["CORDEX-CMIP6"], "CORDEX-CMIP6")
     df = pd.concat([df_CMIP5, df_CMIP6])
     folder_path = "./"  # os.path.abspath(os.path.join(os.getcwd(), "..", ".."))
     df.to_csv(os.path.join(folder_path, f"{CATALOG}"), index=False)
