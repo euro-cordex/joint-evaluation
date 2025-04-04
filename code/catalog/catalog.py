@@ -18,7 +18,7 @@ from os import path as op
 
 root_dic = {
     "cmip5-cordex": "/mnt/CORDEX_CMIP6_tmp/aux_data/cordex-cmip5",
-    "cmip6-cordex": "/mnt/CORDEX_CMIP6_tmp/sim_data/CORDEX/CMIP6",
+    "cmip6-cordex": "/mnt/CORDEX_CMIP6_tmp/sim_data/CORDEX-CMIP6",
 }
 
 CATALOG = "catalog.csv"
@@ -71,7 +71,8 @@ def create_path_pattern(drs, sep="/"):
 def parse_filepath(filename, project):
     # pattern = create_pattern(drs)
     if project == "cmip6-cordex":
-        regex = r"(?P<project_id>[^/]+)/(?P<mip_era>[^/]+)/(?P<activity_id>[^/]+)/(?P<domain_id>[^/]+)/(?P<institution_id>[^/]+)/(?P<driving_source_id>[^/]+)/(?P<driving_experiment_id>[^/]+)/(?P<driving_variant_label>[^/]+)/(?P<source_id>[^/]+)/(?P<version_realization>[^/]+)/(?P<frequency>[^/]+)/(?P<variable_id>[^/]+)/(?P<version>[^/]+)/(?P<filename>(?P<variable_id_2>[^_]+)_(?P<domain_id_2>[^_]+)_(?P<driving_source_id_2>[^_]+)_(?P<driving_experiment_id_2>[^_]+)_(?P<driving_variant_label_2>[^_]+)_(?P<institution_id_2>[^_]+)_(?P<source_id_2>[^_]+)_(?P<version_realization_2>[^_]+)_(?P<frequency_2>[^_]+)(?:_(?P<time_range>[^.]+))?\.nc)"
+        regex = r"(?P<project_id>[^/]+)/(?P<activity_id>[^/]+)/(?P<domain_id>[^/]+)/(?P<institution_id>[^/]+)/(?P<driving_source_id>[^/]+)/(?P<driving_experiment_id>[^/]+)/(?P<driving_variant_label>[^/]+)/(?P<source_id>[^/]+)/(?P<version_realization>[^/]+)/(?P<frequency>[^/]+)/(?P<variable_id>[^/]+)/(?P<version>[^/]+)/(?P<filename>(?P<variable_id_2>[^_]+)_(?P<domain_id_2>[^_]+)_(?P<driving_source_id_2>[^_]+)_(?P<driving_experiment_id_2>[^_]+)_(?P<driving_variant_label_2>[^_]+)_(?P<institution_id_2>[^_]+)_(?P<source_id_2>[^_]+)_(?P<version_realization_2>[^_]+)_(?P<frequency_2>[^_]+)(?:_(?P<time_range>[^.]+))?\.nc)"
+        mip_era = "CMIP6"
         regex = r"^/?(?:[^/]+/)*" + regex
     if project == "cmip5-cordex":
         regex = r"/(?P<project_id>[^/]+)/(?P<mip_era>[^/]+)/(?P<activity_id>[^/]+)/(?P<domain_id>[^/]+)/(?P<institution_id>[^/]+)/(?P<driving_source_id>[^/]+)/(?P<driving_experiment_id>[^/]+)/(?P<driving_variant_label>[^/]+)/(?P<source_id>[^/]+)/(?P<version_realization>[^/]+)/(?P<frequency>[^/]+)/(?P<variable_id>[^/]+)/(?P<version>[^/]+)/(?P<filename>(?P<variable_id_2>[^_]+)_(?P<domain_id_2>[^_]+)_(?P<driving_source_id_2>[^_]+)_(?P<driving_experiment_id_2>[^_]+)_(?P<driving_variant_label_2>[^_]+)_(?P<institution_id_2>[^_]+)_(?P<source_id_2>[^_]+)_(?P<version_realization_2>[^_]+)_(?P<frequency_2>[^_]+)(?:_(?P<time_range>[^.]+))?\.nc)"
@@ -82,13 +83,17 @@ def parse_filepath(filename, project):
         filename = filename.replace(f"{institution_id_2}-", f"{institution_id_2}_")
     pattern = re.compile(regex)
     match = pattern.match(filename)
+    if not match:
+        print(f"Error: Parsing failed for: {filename}")
+        return {}
+    attrs = match.groupdict() | {"mip_era": mip_era}
     if match:
-        check = check_consistency(match.groupdict())
+        check = check_consistency(attrs)
         if check:
             print(f"Warning: parsing returns inconsistent attributes: {check}")
             print(f"Ignoring: {filename}")
             return {}
-        return match.groupdict()
+        return attrs
     else:
         print(
             f"The filepath does not match the expected pattern (will be ignored): {filename}"
