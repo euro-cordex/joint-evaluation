@@ -59,7 +59,7 @@ attrs_mapping = {
 }
 
 
-def check_consistency(attrs):
+def check_for_inconsistency(attrs):
     inconsistent = []
     check_keys = [k for k in attrs.keys() if k.endswith("_2")]
     for k in check_keys:
@@ -113,9 +113,11 @@ def parse_filepath(filename, project):
         return {}
     attrs = match.groupdict() | {"mip_era": mip_era}
     if match:
-        check = check_consistency(attrs)
-        if check:
-            print(f"Warning: parsing returns inconsistent attributes: {check}")
+        inconsistencies = check_for_inconsistency(attrs)
+        if inconsistencies:
+            print(
+                f"Warning: parsing returns inconsistent attributes: {inconsistencies}"
+            )
             print(f"Ignoring: {filename}")
             return {}
     else:
