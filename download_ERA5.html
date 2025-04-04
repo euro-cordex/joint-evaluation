@@ -1,0 +1,824 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>&lt;no title&gt; &#8212; Joint evaluation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'download_ERA5';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="README.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/WCRP-CORDEX-logo.png" class="logo__image only-light" alt="Joint evaluation - Home"/>
+    <script>document.write(`<img src="_static/WCRP-CORDEX-logo.png" class="logo__image only-dark" alt="Joint evaluation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="README.html">
+                    Joint evaluation
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="eobs.nbconvert.html">EOBS seasonal means</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/euro-cordex/joint-evaluation/main?urlpath=lab/tree/eval/download_ERA5.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/euro-cordex/joint-evaluation" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/euro-cordex/joint-evaluation/issues/new?title=Issue%20on%20page%20%2Fdownload_ERA5.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/download_ERA5.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1><no title></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="simple visible nav section-nav flex-column">
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">cdsapi</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dest</span> <span class="o">=</span> <span class="s2">&quot;/mnt/CORDEX_CMIP6_tmp/aux_data/era5/&quot;</span>
+<span class="n">dataset</span> <span class="o">=</span> <span class="s2">&quot;reanalysis-era5-single-levels-monthly-means&quot;</span>
+<span class="n">YEARS</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">&quot;1979&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;1980&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;1981&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;1982&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;1983&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;1984&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;1985&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;1986&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;1987&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;1988&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;1989&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;1990&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;1991&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;1992&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;1993&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;1994&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;1995&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;1996&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;1997&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;1998&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;1999&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;2000&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;2001&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;2002&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;2003&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;2004&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;2005&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;2006&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;2007&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;2008&quot;</span><span class="p">,</span>
+<span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">year</span> <span class="ow">in</span> <span class="n">YEARS</span><span class="p">:</span>
+    <span class="n">filedir</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">dest</span><span class="si">}</span><span class="s2">mon/msl/&quot;</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">filedir</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">filename</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;msl_ERA5_mon_</span><span class="si">{</span><span class="n">year</span><span class="si">}</span><span class="s2">.nc&quot;</span>
+    <span class="n">request</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;product_type&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;monthly_averaged_reanalysis&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;mean_sea_level_pressure&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;year&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">year</span><span class="p">],</span>
+        <span class="s2">&quot;month&quot;</span><span class="p">:</span> <span class="p">[</span>
+            <span class="s2">&quot;01&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;02&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;03&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;04&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;05&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;06&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;07&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;08&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;09&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;10&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;11&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;12&quot;</span><span class="p">,</span>
+        <span class="p">],</span>
+        <span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;00:00&quot;</span><span class="p">],</span>
+        <span class="s2">&quot;data_format&quot;</span><span class="p">:</span> <span class="s2">&quot;netcdf&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;download_format&quot;</span><span class="p">:</span> <span class="s2">&quot;unarchived&quot;</span><span class="p">,</span>
+        <span class="s2">&quot;area&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">75</span><span class="p">,</span> <span class="o">-</span><span class="mi">35</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">],</span>
+    <span class="p">}</span>
+
+    <span class="n">client</span> <span class="o">=</span> <span class="n">cdsapi</span><span class="o">.</span><span class="n">Client</span><span class="p">()</span>
+    <span class="n">client</span><span class="o">.</span><span class="n">retrieve</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">request</span><span class="p">)</span><span class="o">.</span><span class="n">download</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">filedir</span><span class="si">}{</span><span class="n">filename</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-02-26 14:12:34,524 INFO [2024-09-26T00:00:00] Watch our [Forum](https://forum.ecmwf.int/) for Announcements, news and other discussed topics.
+2025-02-26 14:12:34,525 WARNING [2024-06-16T00:00:00] CDS API syntax is changed and some keys or parameter names may have also changed. To avoid requests failing, please use the &quot;Show API request code&quot; tool on the dataset Download Form to check you are using the correct syntax for your API request.
+2025-02-26 14:12:34,730 INFO Request ID is 58b94f43-bb02-4600-a6c3-c21f75dcdba1
+2025-02-26 14:12:34,800 INFO status has been updated to accepted
+2025-02-26 14:12:39,791 INFO status has been updated to running
+2025-02-26 14:12:48,356 WARNING Structural differences in grib fields detected when opening in xarray. Opening the grib file safely, however this may result in files with non-intuitive filenames.
+2025-02-26 14:12:48,357 INFO status has been updated to successful
+2025-02-26 14:12:49,864 INFO [2024-09-26T00:00:00] Watch our [Forum](https://forum.ecmwf.int/) for Announcements, news and other discussed topics.
+2025-02-26 14:12:49,865 WARNING [2024-06-16T00:00:00] CDS API syntax is changed and some keys or parameter names may have also changed. To avoid requests failing, please use the &quot;Show API request code&quot; tool on the dataset Download Form to check you are using the correct syntax for your API request.
+2025-02-26 14:12:50,092 INFO Request ID is ad0f851d-4f91-4e44-b5b1-b0934292f4c8
+2025-02-26 14:12:50,177 INFO status has been updated to accepted
+2025-02-26 14:12:58,531 INFO status has been updated to running
+2025-02-26 14:13:03,675 WARNING Structural differences in grib fields detected when opening in xarray. Opening the grib file safely, however this may result in files with non-intuitive filenames.
+2025-02-26 14:13:03,676 INFO status has been updated to successful
+                                                                                2025-02-26 14:13:04,283 INFO [2024-09-26T00:00:00] Watch our [Forum](https://forum.ecmwf.int/) for Announcements, news and other discussed topics.
+2025-02-26 14:13:04,283 WARNING [2024-06-16T00:00:00] CDS API syntax is changed and some keys or parameter names may have also changed. To avoid requests failing, please use the &quot;Show API request code&quot; tool on the dataset Download Form to check you are using the correct syntax for your API request.
+2025-02-26 14:13:04,532 INFO Request ID is 5a65ea2f-99f2-4732-8fae-be9c6843a979
+2025-02-26 14:13:04,598 INFO status has been updated to accepted
+2025-02-26 14:13:12,941 INFO status has been updated to running
+2025-02-26 14:13:18,055 WARNING Structural differences in grib fields detected when opening in xarray. Opening the grib file safely, however this may result in files with non-intuitive filenames.
+2025-02-26 14:13:25,692 INFO status has been updated to successful
+2025-02-26 14:13:26,318 INFO [2024-09-26T00:00:00] Watch our [Forum](https://forum.ecmwf.int/) for Announcements, news and other discussed topics.
+2025-02-26 14:13:26,318 WARNING [2024-06-16T00:00:00] CDS API syntax is changed and some keys or parameter names may have also changed. To avoid requests failing, please use the &quot;Show API request code&quot; tool on the dataset Download Form to check you are using the correct syntax for your API request.
+2025-02-26 14:13:26,486 INFO Request ID is 18800463-2514-45df-9385-c051b097eec2
+2025-02-26 14:13:26,533 INFO status has been updated to accepted
+2025-02-26 14:13:47,929 WARNING Structural differences in grib fields detected when opening in xarray. Opening the grib file safely, however this may result in files with non-intuitive filenames.
+2025-02-26 14:13:47,929 INFO status has been updated to successful
+2025-02-26 14:13:48,557 INFO [2024-09-26T00:00:00] Watch our [Forum](https://forum.ecmwf.int/) for Announcements, news and other discussed topics.
+2025-02-26 14:13:48,557 WARNING [2024-06-16T00:00:00] CDS API syntax is changed and some keys or parameter names may have also changed. To avoid requests failing, please use the &quot;Show API request code&quot; tool on the dataset Download Form to check you are using the correct syntax for your API request.
+2025-02-26 14:13:48,814 INFO Request ID is 795e13e2-f4aa-48ac-a74b-38d4b83ddd73
+2025-02-26 14:13:48,863 INFO status has been updated to accepted
+2025-02-26 14:14:10,058 WARNING Structural differences in grib fields detected when opening in xarray. Opening the grib file safely, however this may result in files with non-intuitive filenames.
+2025-02-26 14:14:10,059 INFO status has been updated to successful
+2025-02-26 14:14:10,673 INFO [2024-09-26T00:00:00] Watch our [Forum](https://forum.ecmwf.int/) for Announcements, news and other discussed topics.
+2025-02-26 14:14:10,673 WARNING [2024-06-16T00:00:00] CDS API syntax is changed and some keys or parameter names may have also changed. To avoid requests failing, please use the &quot;Show API request code&quot; tool on the dataset Download Form to check you are using the correct syntax for your API request.
+2025-02-26 14:14:10,925 INFO Request ID is 54ee4609-9fcd-48bb-a040-7e1439e4e28b
+2025-02-26 14:14:10,990 INFO status has been updated to accepted
+2025-02-26 14:14:24,535 WARNING Structural differences in grib fields detected when opening in xarray. Opening the grib file safely, however this may result in files with non-intuitive filenames.
+2025-02-26 14:14:24,535 INFO status has been updated to successful
+2025-02-26 14:14:25,057 INFO [2024-09-26T00:00:00] Watch our [Forum](https://forum.ecmwf.int/) for Announcements, news and other discussed topics.
+2025-02-26 14:14:25,058 WARNING [2024-06-16T00:00:00] CDS API syntax is changed and some keys or parameter names may have also changed. To avoid requests failing, please use the &quot;Show API request code&quot; tool on the dataset Download Form to check you are using the correct syntax for your API request.
+2025-02-26 14:14:25,243 INFO Request ID is 2a3a5404-6bce-4cca-bd0a-39b4963c4968
+2025-02-26 14:14:25,327 INFO status has been updated to accepted
+2025-02-26 14:14:33,653 INFO status has been updated to running
+2025-02-26 14:14:46,402 WARNING Structural differences in grib fields detected when opening in xarray. Opening the grib file safely, however this may result in files with non-intuitive filenames.
+2025-02-26 14:14:46,403 INFO status has been updated to successful
+                                                                                2025-02-26 14:14:47,120 INFO [2024-09-26T00:00:00] Watch our [Forum](https://forum.ecmwf.int/) for Announcements, news and other discussed topics.
+2025-02-26 14:14:47,121 WARNING [2024-06-16T00:00:00] CDS API syntax is changed and some keys or parameter names may have also changed. To avoid requests failing, please use the &quot;Show API request code&quot; tool on the dataset Download Form to check you are using the correct syntax for your API request.
+2025-02-26 14:14:47,419 INFO Request ID is 15d740ee-26fe-40ab-a604-48b3c281583d
+2025-02-26 14:14:47,504 INFO status has been updated to accepted
+2025-02-26 14:14:52,547 INFO status has been updated to running
+2025-02-26 14:14:55,998 WARNING Structural differences in grib fields detected when opening in xarray. Opening the grib file safely, however this may result in files with non-intuitive filenames.
+2025-02-26 14:15:08,779 INFO status has been updated to successful
+2025-02-26 14:15:09,386 INFO [2024-09-26T00:00:00] Watch our [Forum](https://forum.ecmwf.int/) for Announcements, news and other discussed topics.
+2025-02-26 14:15:09,387 WARNING [2024-06-16T00:00:00] CDS API syntax is changed and some keys or parameter names may have also changed. To avoid requests failing, please use the &quot;Show API request code&quot; tool on the dataset Download Form to check you are using the correct syntax for your API request.
+2025-02-26 14:15:09,582 INFO Request ID is 046640d1-8f33-4f07-baf8-12338501fca7
+2025-02-26 14:15:09,640 INFO status has been updated to accepted
+2025-02-26 14:15:18,040 INFO status has been updated to running
+2025-02-26 14:15:23,146 WARNING Structural differences in grib fields detected when opening in xarray. Opening the grib file safely, however this may result in files with non-intuitive filenames.
+2025-02-26 14:15:30,790 INFO status has been updated to successful
+2025-02-26 14:15:31,380 INFO [2024-09-26T00:00:00] Watch our [Forum](https://forum.ecmwf.int/) for Announcements, news and other discussed topics.
+2025-02-26 14:15:31,380 WARNING [2024-06-16T00:00:00] CDS API syntax is changed and some keys or parameter names may have also changed. To avoid requests failing, please use the &quot;Show API request code&quot; tool on the dataset Download Form to check you are using the correct syntax for your API request.
+2025-02-26 14:15:31,590 INFO Request ID is 28ba72f8-0564-4fb4-93f1-ef446711cb06
+2025-02-26 14:15:31,640 INFO status has been updated to accepted
+2025-02-26 14:15:40,022 INFO status has been updated to running
+2025-02-26 14:15:45,155 WARNING Structural differences in grib fields detected when opening in xarray. Opening the grib file safely, however this may result in files with non-intuitive filenames.
+2025-02-26 14:15:52,799 INFO status has been updated to successful
+2025-02-26 14:15:53,407 INFO [2024-09-26T00:00:00] Watch our [Forum](https://forum.ecmwf.int/) for Announcements, news and other discussed topics.
+2025-02-26 14:15:53,407 WARNING [2024-06-16T00:00:00] CDS API syntax is changed and some keys or parameter names may have also changed. To avoid requests failing, please use the &quot;Show API request code&quot; tool on the dataset Download Form to check you are using the correct syntax for your API request.
+2025-02-26 14:15:53,567 INFO Request ID is a472ba61-63b6-47e6-9115-2b68df9bbca9
+2025-02-26 14:15:53,618 INFO status has been updated to accepted
+2025-02-26 14:15:58,570 INFO status has been updated to running
+2025-02-26 14:16:01,986 INFO status has been updated to accepted
+2025-02-26 14:16:07,089 WARNING Structural differences in grib fields detected when opening in xarray. Opening the grib file safely, however this may result in files with non-intuitive filenames.
+2025-02-26 14:16:07,090 INFO status has been updated to running
+2025-02-26 14:16:14,720 INFO status has been updated to successful
+2025-02-26 14:16:15,316 INFO [2024-09-26T00:00:00] Watch our [Forum](https://forum.ecmwf.int/) for Announcements, news and other discussed topics.
+2025-02-26 14:16:15,316 WARNING [2024-06-16T00:00:00] CDS API syntax is changed and some keys or parameter names may have also changed. To avoid requests failing, please use the &quot;Show API request code&quot; tool on the dataset Download Form to check you are using the correct syntax for your API request.
+2025-02-26 14:16:15,509 INFO Request ID is a657330f-b850-4210-b832-249d3862ced7
+2025-02-26 14:16:15,569 INFO status has been updated to accepted
+2025-02-26 14:16:20,487 INFO status has been updated to running
+2025-02-26 14:16:23,905 INFO status has been updated to accepted
+2025-02-26 14:16:29,021 WARNING Structural differences in grib fields detected when opening in xarray. Opening the grib file safely, however this may result in files with non-intuitive filenames.
+2025-02-26 14:16:29,021 INFO status has been updated to successful
+2025-02-26 14:16:29,652 INFO [2024-09-26T00:00:00] Watch our [Forum](https://forum.ecmwf.int/) for Announcements, news and other discussed topics.
+2025-02-26 14:16:29,652 WARNING [2024-06-16T00:00:00] CDS API syntax is changed and some keys or parameter names may have also changed. To avoid requests failing, please use the &quot;Show API request code&quot; tool on the dataset Download Form to check you are using the correct syntax for your API request.
+2025-02-26 14:16:29,837 INFO Request ID is 14b94b5e-8317-444a-87f9-b3c22f145aca
+2025-02-26 14:16:29,980 INFO status has been updated to accepted
+2025-02-26 14:16:34,972 INFO status has been updated to running
+2025-02-26 14:16:38,425 WARNING Structural differences in grib fields detected when opening in xarray. Opening the grib file safely, however this may result in files with non-intuitive filenames.
+2025-02-26 14:16:38,425 INFO status has been updated to successful
+2025-02-26 14:16:39,020 INFO [2024-09-26T00:00:00] Watch our [Forum](https://forum.ecmwf.int/) for Announcements, news and other discussed topics.
+2025-02-26 14:16:39,020 WARNING [2024-06-16T00:00:00] CDS API syntax is changed and some keys or parameter names may have also changed. To avoid requests failing, please use the &quot;Show API request code&quot; tool on the dataset Download Form to check you are using the correct syntax for your API request.
+2025-02-26 14:16:39,194 INFO Request ID is e5ce742b-b3cd-453e-bcef-b9032f328834
+2025-02-26 14:16:39,252 INFO status has been updated to accepted
+2025-02-26 14:16:52,771 WARNING Structural differences in grib fields detected when opening in xarray. Opening the grib file safely, however this may result in files with non-intuitive filenames.
+2025-02-26 14:16:52,771 INFO status has been updated to running
+2025-02-26 14:17:00,434 INFO status has been updated to successful
+2025-02-26 14:17:01,016 INFO [2024-09-26T00:00:00] Watch our [Forum](https://forum.ecmwf.int/) for Announcements, news and other discussed topics.
+2025-02-26 14:17:01,017 WARNING [2024-06-16T00:00:00] CDS API syntax is changed and some keys or parameter names may have also changed. To avoid requests failing, please use the &quot;Show API request code&quot; tool on the dataset Download Form to check you are using the correct syntax for your API request.
+2025-02-26 14:17:01,198 INFO Request ID is c8d310f1-dbdd-4d56-9936-c175d7d75e87
+2025-02-26 14:17:01,242 INFO status has been updated to accepted
+2025-02-26 14:17:14,701 WARNING Structural differences in grib fields detected when opening in xarray. Opening the grib file safely, however this may result in files with non-intuitive filenames.
+2025-02-26 14:17:14,702 INFO status has been updated to running
+2025-02-26 14:17:33,775 INFO status has been updated to successful
+2025-02-26 14:17:34,394 INFO [2024-09-26T00:00:00] Watch our [Forum](https://forum.ecmwf.int/) for Announcements, news and other discussed topics.
+2025-02-26 14:17:34,394 WARNING [2024-06-16T00:00:00] CDS API syntax is changed and some keys or parameter names may have also changed. To avoid requests failing, please use the &quot;Show API request code&quot; tool on the dataset Download Form to check you are using the correct syntax for your API request.
+2025-02-26 14:17:34,682 INFO Request ID is 3c338e71-9bad-4c80-bfb4-3919e7edb9b9
+2025-02-26 14:17:34,754 INFO status has been updated to accepted
+2025-02-26 14:17:55,927 WARNING Structural differences in grib fields detected when opening in xarray. Opening the grib file safely, however this may result in files with non-intuitive filenames.
+2025-02-26 14:17:55,928 INFO status has been updated to successful
+2025-02-26 14:17:57,574 INFO [2024-09-26T00:00:00] Watch our [Forum](https://forum.ecmwf.int/) for Announcements, news and other discussed topics.
+2025-02-26 14:17:57,575 WARNING [2024-06-16T00:00:00] CDS API syntax is changed and some keys or parameter names may have also changed. To avoid requests failing, please use the &quot;Show API request code&quot; tool on the dataset Download Form to check you are using the correct syntax for your API request.
+2025-02-26 14:17:57,802 INFO Request ID is 52e85118-a937-4988-a99a-024b4d66dc17
+2025-02-26 14:17:57,839 INFO status has been updated to accepted
+2025-02-26 14:18:06,163 INFO status has been updated to running
+2025-02-26 14:18:11,283 INFO status has been updated to accepted
+2025-02-26 14:18:18,919 WARNING Structural differences in grib fields detected when opening in xarray. Opening the grib file safely, however this may result in files with non-intuitive filenames.
+2025-02-26 14:18:18,920 INFO status has been updated to successful
+2025-02-26 14:18:19,579 INFO [2024-09-26T00:00:00] Watch our [Forum](https://forum.ecmwf.int/) for Announcements, news and other discussed topics.
+2025-02-26 14:18:19,579 WARNING [2024-06-16T00:00:00] CDS API syntax is changed and some keys or parameter names may have also changed. To avoid requests failing, please use the &quot;Show API request code&quot; tool on the dataset Download Form to check you are using the correct syntax for your API request.
+2025-02-26 14:18:19,806 INFO Request ID is 5252ceb5-5dbb-4a7c-ab6a-2cfecc552265
+2025-02-26 14:18:19,860 INFO status has been updated to accepted
+2025-02-26 14:18:28,226 INFO status has been updated to running
+2025-02-26 14:18:33,336 WARNING Structural differences in grib fields detected when opening in xarray. Opening the grib file safely, however this may result in files with non-intuitive filenames.
+2025-02-26 14:18:40,993 INFO status has been updated to successful
+2025-02-26 14:18:41,628 INFO [2024-09-26T00:00:00] Watch our [Forum](https://forum.ecmwf.int/) for Announcements, news and other discussed topics.
+2025-02-26 14:18:41,629 WARNING [2024-06-16T00:00:00] CDS API syntax is changed and some keys or parameter names may have also changed. To avoid requests failing, please use the &quot;Show API request code&quot; tool on the dataset Download Form to check you are using the correct syntax for your API request.
+2025-02-26 14:18:41,814 INFO Request ID is 8af781d3-b233-480f-8cb0-c476007ff0aa
+2025-02-26 14:18:41,866 INFO status has been updated to accepted
+2025-02-26 14:18:55,335 WARNING Structural differences in grib fields detected when opening in xarray. Opening the grib file safely, however this may result in files with non-intuitive filenames.
+2025-02-26 14:18:55,336 INFO status has been updated to running
+2025-02-26 14:19:03,014 INFO status has been updated to successful
+2025-02-26 14:19:03,664 INFO [2024-09-26T00:00:00] Watch our [Forum](https://forum.ecmwf.int/) for Announcements, news and other discussed topics.
+2025-02-26 14:19:03,664 WARNING [2024-06-16T00:00:00] CDS API syntax is changed and some keys or parameter names may have also changed. To avoid requests failing, please use the &quot;Show API request code&quot; tool on the dataset Download Form to check you are using the correct syntax for your API request.
+2025-02-26 14:19:03,881 INFO Request ID is 54d6e5d1-1679-450e-a490-d9f6e529812f
+2025-02-26 14:19:03,925 INFO status has been updated to accepted
+2025-02-26 14:19:08,827 INFO status has been updated to running
+2025-02-26 14:19:25,017 WARNING Structural differences in grib fields detected when opening in xarray. Opening the grib file safely, however this may result in files with non-intuitive filenames.
+2025-02-26 14:19:25,018 INFO status has been updated to successful
+2025-02-26 14:19:25,603 INFO [2024-09-26T00:00:00] Watch our [Forum](https://forum.ecmwf.int/) for Announcements, news and other discussed topics.
+2025-02-26 14:19:25,604 WARNING [2024-06-16T00:00:00] CDS API syntax is changed and some keys or parameter names may have also changed. To avoid requests failing, please use the &quot;Show API request code&quot; tool on the dataset Download Form to check you are using the correct syntax for your API request.
+2025-02-26 14:19:25,797 INFO Request ID is 866e6524-f50f-4f21-897f-322553ee6ee8
+2025-02-26 14:19:25,877 INFO status has been updated to accepted
+2025-02-26 14:19:34,220 INFO status has been updated to running
+2025-02-26 14:19:39,351 WARNING Structural differences in grib fields detected when opening in xarray. Opening the grib file safely, however this may result in files with non-intuitive filenames.
+2025-02-26 14:19:39,352 INFO status has been updated to successful
+2025-02-26 14:19:39,913 INFO [2024-09-26T00:00:00] Watch our [Forum](https://forum.ecmwf.int/) for Announcements, news and other discussed topics.
+2025-02-26 14:19:39,913 WARNING [2024-06-16T00:00:00] CDS API syntax is changed and some keys or parameter names may have also changed. To avoid requests failing, please use the &quot;Show API request code&quot; tool on the dataset Download Form to check you are using the correct syntax for your API request.
+2025-02-26 14:19:40,114 INFO Request ID is 333a754d-d511-446c-9ac8-b90e784fb1b8
+2025-02-26 14:19:40,162 INFO status has been updated to accepted
+2025-02-26 14:19:45,067 INFO status has been updated to running
+2025-02-26 14:19:53,632 WARNING Structural differences in grib fields detected when opening in xarray. Opening the grib file safely, however this may result in files with non-intuitive filenames.
+2025-02-26 14:20:01,277 INFO status has been updated to successful
+2025-02-26 14:20:01,933 INFO [2024-09-26T00:00:00] Watch our [Forum](https://forum.ecmwf.int/) for Announcements, news and other discussed topics.
+2025-02-26 14:20:01,933 WARNING [2024-06-16T00:00:00] CDS API syntax is changed and some keys or parameter names may have also changed. To avoid requests failing, please use the &quot;Show API request code&quot; tool on the dataset Download Form to check you are using the correct syntax for your API request.
+2025-02-26 14:20:02,113 INFO Request ID is 437c11c4-d051-4980-bc86-c8ec7ede3e78
+2025-02-26 14:20:02,179 INFO status has been updated to accepted
+2025-02-26 14:20:34,787 WARNING Structural differences in grib fields detected when opening in xarray. Opening the grib file safely, however this may result in files with non-intuitive filenames.
+2025-02-26 14:20:34,788 INFO status has been updated to successful
+2025-02-26 14:20:35,472 INFO [2024-09-26T00:00:00] Watch our [Forum](https://forum.ecmwf.int/) for Announcements, news and other discussed topics.
+2025-02-26 14:20:35,473 WARNING [2024-06-16T00:00:00] CDS API syntax is changed and some keys or parameter names may have also changed. To avoid requests failing, please use the &quot;Show API request code&quot; tool on the dataset Download Form to check you are using the correct syntax for your API request.
+2025-02-26 14:20:35,686 INFO Request ID is 0bcccad9-9565-4839-b77a-76294c666996
+2025-02-26 14:20:35,728 INFO status has been updated to accepted
+2025-02-26 14:20:49,209 WARNING Structural differences in grib fields detected when opening in xarray. Opening the grib file safely, however this may result in files with non-intuitive filenames.
+2025-02-26 14:20:49,210 INFO status has been updated to running
+2025-02-26 14:20:56,859 INFO status has been updated to successful
+2025-02-26 14:20:57,433 INFO [2024-09-26T00:00:00] Watch our [Forum](https://forum.ecmwf.int/) for Announcements, news and other discussed topics.
+2025-02-26 14:20:57,434 WARNING [2024-06-16T00:00:00] CDS API syntax is changed and some keys or parameter names may have also changed. To avoid requests failing, please use the &quot;Show API request code&quot; tool on the dataset Download Form to check you are using the correct syntax for your API request.
+2025-02-26 14:20:57,615 INFO Request ID is 75a44719-3442-455e-a05a-09bad050bd39
+2025-02-26 14:20:57,701 INFO status has been updated to accepted
+2025-02-26 14:21:18,832 INFO status has been updated to running
+2025-02-26 14:21:30,260 WARNING Structural differences in grib fields detected when opening in xarray. Opening the grib file safely, however this may result in files with non-intuitive filenames.
+2025-02-26 14:21:30,260 INFO status has been updated to successful
+2025-02-26 14:21:30,859 INFO [2024-09-26T00:00:00] Watch our [Forum](https://forum.ecmwf.int/) for Announcements, news and other discussed topics.
+2025-02-26 14:21:30,859 WARNING [2024-06-16T00:00:00] CDS API syntax is changed and some keys or parameter names may have also changed. To avoid requests failing, please use the &quot;Show API request code&quot; tool on the dataset Download Form to check you are using the correct syntax for your API request.
+2025-02-26 14:21:31,069 INFO Request ID is 8561e05e-aab6-4257-86f2-97633c8159c0
+2025-02-26 14:21:31,111 INFO status has been updated to accepted
+2025-02-26 14:21:36,019 INFO status has been updated to running
+2025-02-26 14:21:44,563 WARNING Structural differences in grib fields detected when opening in xarray. Opening the grib file safely, however this may result in files with non-intuitive filenames.
+2025-02-26 14:21:44,564 INFO status has been updated to successful
+2025-02-26 14:21:45,229 INFO [2024-09-26T00:00:00] Watch our [Forum](https://forum.ecmwf.int/) for Announcements, news and other discussed topics.
+2025-02-26 14:21:45,229 WARNING [2024-06-16T00:00:00] CDS API syntax is changed and some keys or parameter names may have also changed. To avoid requests failing, please use the &quot;Show API request code&quot; tool on the dataset Download Form to check you are using the correct syntax for your API request.
+2025-02-26 14:21:45,393 INFO Request ID is b0c57f8f-eb97-4f9c-919e-cd6abe1eeec7
+2025-02-26 14:21:45,436 INFO status has been updated to accepted
+2025-02-26 14:21:53,768 INFO status has been updated to running
+2025-02-26 14:21:58,894 WARNING Structural differences in grib fields detected when opening in xarray. Opening the grib file safely, however this may result in files with non-intuitive filenames.
+2025-02-26 14:22:06,536 INFO status has been updated to successful
+2025-02-26 14:22:07,071 INFO [2024-09-26T00:00:00] Watch our [Forum](https://forum.ecmwf.int/) for Announcements, news and other discussed topics.
+2025-02-26 14:22:07,072 WARNING [2024-06-16T00:00:00] CDS API syntax is changed and some keys or parameter names may have also changed. To avoid requests failing, please use the &quot;Show API request code&quot; tool on the dataset Download Form to check you are using the correct syntax for your API request.
+2025-02-26 14:22:07,288 INFO Request ID is 0e4f74f8-4ba7-492d-a1f7-02a7f8f7c36f
+2025-02-26 14:22:07,332 INFO status has been updated to accepted
+2025-02-26 14:22:15,638 INFO status has been updated to running
+2025-02-26 14:22:20,743 INFO status has been updated to accepted
+2025-02-26 14:22:39,848 WARNING Structural differences in grib fields detected when opening in xarray. Opening the grib file safely, however this may result in files with non-intuitive filenames.
+2025-02-26 14:22:39,849 INFO status has been updated to successful
+2025-02-26 14:22:40,510 INFO [2024-09-26T00:00:00] Watch our [Forum](https://forum.ecmwf.int/) for Announcements, news and other discussed topics.
+2025-02-26 14:22:40,510 WARNING [2024-06-16T00:00:00] CDS API syntax is changed and some keys or parameter names may have also changed. To avoid requests failing, please use the &quot;Show API request code&quot; tool on the dataset Download Form to check you are using the correct syntax for your API request.
+2025-02-26 14:22:40,697 INFO Request ID is 6dd32317-e322-4bf6-b131-dca8583c2326
+2025-02-26 14:22:40,773 INFO status has been updated to accepted
+2025-02-26 14:22:49,120 INFO status has been updated to running
+2025-02-26 14:22:54,250 WARNING Structural differences in grib fields detected when opening in xarray. Opening the grib file safely, however this may result in files with non-intuitive filenames.
+2025-02-26 14:22:54,251 INFO status has been updated to successful
+2025-02-26 14:22:54,821 INFO [2024-09-26T00:00:00] Watch our [Forum](https://forum.ecmwf.int/) for Announcements, news and other discussed topics.
+2025-02-26 14:22:54,821 WARNING [2024-06-16T00:00:00] CDS API syntax is changed and some keys or parameter names may have also changed. To avoid requests failing, please use the &quot;Show API request code&quot; tool on the dataset Download Form to check you are using the correct syntax for your API request.
+2025-02-26 14:22:55,026 INFO Request ID is e7b226ae-d732-44ef-822c-65728dec12f9
+2025-02-26 14:22:55,124 INFO status has been updated to accepted
+2025-02-26 14:23:03,463 INFO status has been updated to running
+2025-02-26 14:23:08,592 WARNING Structural differences in grib fields detected when opening in xarray. Opening the grib file safely, however this may result in files with non-intuitive filenames.
+2025-02-26 14:23:16,242 INFO status has been updated to successful
+                                                                                
+</pre></div>
+</div>
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "eval-book"
+        },
+        kernelOptions: {
+            name: "eval-book",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'eval-book'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="simple visible nav section-nav flex-column">
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By EURO-CORDEX
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
