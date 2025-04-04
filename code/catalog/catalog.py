@@ -17,8 +17,13 @@ import pandas as pd
 from os import path as op
 
 root_dic = {
-    "cmip5-cordex": "/mnt/CORDEX_CMIP6_tmp/aux_data/cordex-cmip5",
-    "cmip6-cordex": "/mnt/CORDEX_CMIP6_tmp/sim_data/CORDEX/CMIP6",
+    "CORDEX-CMIP5": "/mnt/CORDEX_CMIP6_tmp/aux_data/cordex-cmip5",
+    "CORDEX-CMIP6": "/mnt/CORDEX_CMIP6_tmp/sim_data/CORDEX-CMIP6",
+}
+
+pattern_dict = {
+    "CORDEX-CMIP6": r"(?P<project_id>[^/]+)/(?P<activity_id>[^/]+)/(?P<domain_id>[^/]+)/(?P<institution_id>[^/]+)/(?P<driving_source_id>[^/]+)/(?P<driving_experiment_id>[^/]+)/(?P<driving_variant_label>[^/]+)/(?P<source_id>[^/]+)/(?P<version_realization>[^/]+)/(?P<frequency>[^/]+)/(?P<variable_id>[^/]+)/(?P<version>[^/]+)/(?P<filename>(?P<variable_id_2>[^_]+)_(?P<domain_id_2>[^_]+)_(?P<driving_source_id_2>[^_]+)_(?P<driving_experiment_id_2>[^_]+)_(?P<driving_variant_label_2>[^_]+)_(?P<institution_id_2>[^_]+)_(?P<source_id_2>[^_]+)_(?P<version_realization_2>[^_]+)_(?P<frequency_2>[^_]+)(?:_(?P<time_range>[^.]+))?\.nc)",
+    "CORDEX-CMIP5": r"(?P<project_id>[^/]+)/(?P<product>[^/]+)/(?P<CORDEX_domain>[^/]+)/(?P<institute>[^/]+)/(?P<driving_institute>[^_]+)-(?P<driving_model>[^/]+)/(?P<experiment>[^/]+)/(?P<ensemble>[^/]+)/(?P<rcm_name>[^/]+)/(?P<rcm_version>[^/]+)/(?P<frequency>[^/]+)/(?P<variable>[^/]+)/(?P<version>[^/]+)/(?P<filename>(?P<variable_2>[^_]+)_(?P<CORDEX_domain_2>[^_]+)_(?P<driving_institute_2>[^_]+)-(?P<driving_model_2>[^_]+)_(?P<experiment_2>[^_]+)_(?P<ensemble_2>[^_]+)_(?P<institute_2>[^_]+)-(?P<rcm_name_2>[^_]+)_(?P<rcm_version_2>[^_]+)_(?P<frequency_2>[^_]+)(?:_(?P<time_range>[^.]+))?\.nc)",
 }
 
 CATALOG = "catalog.csv"
@@ -40,8 +45,21 @@ COLS = [
     "variable_id",
 ]
 
+attrs_mapping = {
+    "CORDEX_domain": "domain_id",
+    "rcm_name": "source_id",
+    "rcm_version": "version_realization",
+    "institute": "institution_id",
+    "driving_institute": "driving_institution_id",
+    "driving_model": "driving_source_id",
+    "experiment": "driving_experiment_id",
+    "ensemble": "driving_variant_label",
+    "variable": "variable_id",
+    "product": "activity_id",
+}
 
-def check_consistency(attrs):
+
+def check_for_inconsistency(attrs):
     inconsistent = []
     check_keys = [k for k in attrs.keys() if k.endswith("_2")]
     for k in check_keys:
@@ -51,49 +69,44 @@ def check_consistency(attrs):
     return inconsistent
 
 
-def insert_at_position(string, constant, position, string_="/"):
-    parts = string.split(string_)
-    if position <= len(parts):
-        parts.insert(position, constant)
-    else:
-        parts.append(constant)
-    return string_.join(parts)
-
-
-def create_path_pattern(drs, sep="/"):
-    attrs = drs.split(sep)
-    drs = sep.join([f"(?P{attr}[^/]+)" for attr in attrs])
-    # Allow for an optional root directory
-    drs = r"^/?(?:[^/]+/)*" + drs
-    return re.compile(drs)
+def translate_attrs_to_CMIP6(attrs):
+    translated_attrs = {}
+    for key, value in attrs.items():
+        if key in attrs_mapping:
+            translated_key = attrs_mapping[key]
+            translated_attrs[translated_key] = value
+        else:
+            translated_attrs[key] = value
+    return translated_attrs
 
 
 def parse_filepath(filename, project):
     # pattern = create_pattern(drs)
-    if project == "cmip6-cordex":
-        regex = r"(?P<project_id>[^/]+)/(?P<mip_era>[^/]+)/(?P<activity_id>[^/]+)/(?P<domain_id>[^/]+)/(?P<institution_id>[^/]+)/(?P<driving_source_id>[^/]+)/(?P<driving_experiment_id>[^/]+)/(?P<driving_variant_label>[^/]+)/(?P<source_id>[^/]+)/(?P<version_realization>[^/]+)/(?P<frequency>[^/]+)/(?P<variable_id>[^/]+)/(?P<version>[^/]+)/(?P<filename>(?P<variable_id_2>[^_]+)_(?P<domain_id_2>[^_]+)_(?P<driving_source_id_2>[^_]+)_(?P<driving_experiment_id_2>[^_]+)_(?P<driving_variant_label_2>[^_]+)_(?P<institution_id_2>[^_]+)_(?P<source_id_2>[^_]+)_(?P<version_realization_2>[^_]+)_(?P<frequency_2>[^_]+)(?:_(?P<time_range>[^.]+))?\.nc)"
-        regex = r"^/?(?:[^/]+/)*" + regex
-    if project == "cmip5-cordex":
-        regex = r"/(?P<project_id>[^/]+)/(?P<mip_era>[^/]+)/(?P<activity_id>[^/]+)/(?P<domain_id>[^/]+)/(?P<institution_id>[^/]+)/(?P<driving_source_id>[^/]+)/(?P<driving_experiment_id>[^/]+)/(?P<driving_variant_label>[^/]+)/(?P<source_id>[^/]+)/(?P<version_realization>[^/]+)/(?P<frequency>[^/]+)/(?P<variable_id>[^/]+)/(?P<version>[^/]+)/(?P<filename>(?P<variable_id_2>[^_]+)_(?P<domain_id_2>[^_]+)_(?P<driving_source_id_2>[^_]+)_(?P<driving_experiment_id_2>[^_]+)_(?P<driving_variant_label_2>[^_]+)_(?P<institution_id_2>[^_]+)_(?P<source_id_2>[^_]+)_(?P<version_realization_2>[^_]+)_(?P<frequency_2>[^_]+)(?:_(?P<time_range>[^.]+))?\.nc)"
-        mip_era = "CMIP5"
-        institution_id_2 = filename.split("/")[8]
-        filename = re.sub(root_dic[project], "", filename)
-        filename = insert_at_position(filename, mip_era, 2, string_="/")
-        filename = filename.replace(f"{institution_id_2}-", f"{institution_id_2}_")
+    regex = pattern_dict[project]
+    mip_era = project.split("-")[1]
+    regex = r"^/?(?:[^/]+/)*" + regex
     pattern = re.compile(regex)
     match = pattern.match(filename)
+    if not match:
+        print(f"Error: Parsing failed for: {filename}")
+        return {}
+    attrs = match.groupdict() | {"mip_era": mip_era}
     if match:
-        check = check_consistency(match.groupdict())
-        if check:
-            print(f"Warning: parsing returns inconsistent attributes: {check}")
+        inconsistencies = check_for_inconsistency(attrs)
+        if inconsistencies:
+            print(
+                f"Warning: parsing returns inconsistent attributes: {inconsistencies}"
+            )
             print(f"Ignoring: {filename}")
             return {}
-        return match.groupdict()
     else:
         print(
             f"The filepath does not match the expected pattern (will be ignored): {filename}"
         )
         return {}
+    if mip_era == "CMIP5":
+        attrs = translate_attrs_to_CMIP6(attrs)
+    return attrs
 
 
 def create_catalog(root, project):
@@ -206,8 +219,8 @@ def update_catalog(catalog, root, project):
 if __name__ == "__main__":
     # df = update_catalog(CATALOG, root_dic[project])
     # create_excel(CATALOG)
-    df_CMIP5 = update_catalog(CATALOG, root_dic["cmip5-cordex"], "cmip5-cordex")
-    df_CMIP6 = update_catalog(CATALOG, root_dic["cmip6-cordex"], "cmip6-cordex")
+    df_CMIP5 = update_catalog(CATALOG, root_dic["CORDEX-CMIP5"], "CORDEX-CMIP5")
+    df_CMIP6 = update_catalog(CATALOG, root_dic["CORDEX-CMIP6"], "CORDEX-CMIP6")
     df = pd.concat([df_CMIP5, df_CMIP6])
     folder_path = "./"  # os.path.abspath(os.path.join(os.getcwd(), "..", ".."))
     df.to_csv(os.path.join(folder_path, f"{CATALOG}"), index=False)
