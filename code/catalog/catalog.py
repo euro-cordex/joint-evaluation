@@ -69,27 +69,6 @@ def check_for_inconsistency(attrs):
     return inconsistent
 
 
-def insert_at_position(string, constant, position, string_="/"):
-    parts = string.split(string_)
-    if position <= len(parts):
-        parts.insert(position, constant)
-    else:
-        parts.append(constant)
-    return string_.join(parts)
-
-
-def translate_attributes(attrs):
-    pass
-
-
-def create_path_pattern(drs, sep="/"):
-    attrs = drs.split(sep)
-    drs = sep.join([f"(?P{attr}[^/]+)" for attr in attrs])
-    # Allow for an optional root directory
-    drs = r"^/?(?:[^/]+/)*" + drs
-    return re.compile(drs)
-
-
 def translate_attrs_to_CMIP6(attrs):
     translated_attrs = {}
     for key, value in attrs.items():
