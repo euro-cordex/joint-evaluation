@@ -23,24 +23,24 @@ for (i in 1:length(models)) {
     model.dir <- paste0("data_tmp/", model)
     if (dir.exists(model.dir)) {
         message(model, " model already processed. Skipping...")
-    } 
+    }
     else {
         message("[", Sys.time(),"] Processing model ", model)
         dir.create(model.dir)
-        
+
         ## list files
         lf <- list.files(data.dir,
                          recursive = TRUE,
                          pattern = paste0("evaluation.*", model, "_.*1hr"),
-                         full.names = TRUE) %>% grep("/pr_.*nc$", ., value = TRUE) 
-        
+                         full.names = TRUE) %>% grep("/pr_.*nc$", ., value = TRUE)
+
         ## read file by file and perform accumulation
         for (j in 1:length(lf)) {
             ds <- lf[j]
             pattern <- ".*/([^/]+)$"
             file_name <- sub(pattern, "\\1", ds)
             file_name <- sub("1hr", "day", file_name)
-            
+
             message("[", Sys.time(), "] Reading data file ", j, " out of ", length(lf))
             suppressMessages(
                 tp <- loadGridData(ds, var = "pr",
@@ -51,7 +51,7 @@ for (i in 1:length(models)) {
             tpa <- accum_pr(tp)
             tp <- NULL
             gc()
-            
+
             ## Write intermediate netCDF
             grid2nc(tpa, NetCDFOutFile = paste(model.dir, file_name, sep = "/"))
             message("SUCCESS!\nNetcCDF file written to ", file_name)
@@ -62,5 +62,5 @@ for (i in 1:length(models)) {
 }
 
 ## Exit process
-q(save = "no")    
-  
+q(save = "no")
+

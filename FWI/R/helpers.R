@@ -13,7 +13,7 @@ suppressPackageStartupMessages({
 #' @description Yields a vector of model names with complete hourly inputs
 #' @param plot Logical: should a matrix-like plot be displayed with the results? (default to FALSE)
 #' @return A character vector with model IDs containing all required variables (see Details)
-#' @details 
+#' @details
 #' Complete hourly inputs are models that already have uploaded 1-hourly evaluation simulations of 'hurs', 'tas', 'sfcWind' and 'pr'.
 #' The function remotely reads from GitHub's repo joint-evaluation catalog.csv (devel branch) and yields an overview of available hourly variables for FWI calculation.
 #' @imporFrom magrittr %>%
@@ -30,7 +30,7 @@ availableModels <- function(do.plot = FALSE) {
     hourly.fwi <- subset(data,
                      subset = frequency %in% "1hr" & variable_id %in% c("hurs", "tas", "sfcWind", "pr"))
     # Grouped summary
-    hf <- hourly.fwi %>% group_by(institution_id, driving_source_id, driving_experiment_id, source_id) 
+    hf <- hourly.fwi %>% group_by(institution_id, driving_source_id, driving_experiment_id, source_id)
     ids <- c("project_id", "mip_era", "activity_id", "domain_id", "institution_id",
          "driving_source_id", "driving_experiment_id", "driving_variant_label",
          "source_id", "version_realization", "frequency", "variable_id")
@@ -110,4 +110,4 @@ accum_pr <- function(grid) {
 
 ##@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 
-                
+
