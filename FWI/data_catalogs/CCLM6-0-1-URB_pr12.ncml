@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<netcdf xmlns="http://www.unidata.ucar.edu/namespaces/netcdf/ncml-2.2">
+	<aggregation type="union">
+		<netcdf>
+		<aggregation dimName="time" type="joinExisting" timeUnitsChange="true">
+		<variableAgg name="pr"/>
+			<netcdf location="/mnt/CORDEX_CMIP6_tmp/user_tmp/jbediajimenez/data_tmp/CCLM6-0-1-URB/pr_EUR-12_ERA5_evaluation_r1i1p1f1_CLMcom-CMCC_CCLM6-0-1-URB_v1-r1_day_198001010030-198012312330.nc" ncoords="183"/>
+			<netcdf location="/mnt/CORDEX_CMIP6_tmp/user_tmp/jbediajimenez/data_tmp/CCLM6-0-1-URB/pr_EUR-12_ERA5_evaluation_r1i1p1f1_CLMcom-CMCC_CCLM6-0-1-URB_v1-r1_day_198101010030-198112312330.nc" ncoords="183"/>
+			<netcdf location="/mnt/CORDEX_CMIP6_tmp/user_tmp/jbediajimenez/data_tmp/CCLM6-0-1-URB/pr_EUR-12_ERA5_evaluation_r1i1p1f1_CLMcom-CMCC_CCLM6-0-1-URB_v1-r1_day_198201010030-198212312330.nc" ncoords="183"/>
+			<netcdf location="/mnt/CORDEX_CMIP6_tmp/user_tmp/jbediajimenez/data_tmp/CCLM6-0-1-URB/pr_EUR-12_ERA5_evaluation_r1i1p1f1_CLMcom-CMCC_CCLM6-0-1-URB_v1-r1_day_198301010030-198312312330.nc" ncoords="183"/>
+			<netcdf location="/mnt/CORDEX_CMIP6_tmp/user_tmp/jbediajimenez/data_tmp/CCLM6-0-1-URB/pr_EUR-12_ERA5_evaluation_r1i1p1f1_CLMcom-CMCC_CCLM6-0-1-URB_v1-r1_day_198401010030-198412312330.nc" ncoords="183"/>
+			<netcdf location="/mnt/CORDEX_CMIP6_tmp/user_tmp/jbediajimenez/data_tmp/CCLM6-0-1-URB/pr_EUR-12_ERA5_evaluation_r1i1p1f1_CLMcom-CMCC_CCLM6-0-1-URB_v1-r1_day_198501010030-198512312330.nc" ncoords="183"/>
+			<netcdf location="/mnt/CORDEX_CMIP6_tmp/user_tmp/jbediajimenez/data_tmp/CCLM6-0-1-URB/pr_EUR-12_ERA5_evaluation_r1i1p1f1_CLMcom-CMCC_CCLM6-0-1-URB_v1-r1_day_198601010030-198612312330.nc" ncoords="183"/>
+			<netcdf location="/mnt/CORDEX_CMIP6_tmp/user_tmp/jbediajimenez/data_tmp/CCLM6-0-1-URB/pr_EUR-12_ERA5_evaluation_r1i1p1f1_CLMcom-CMCC_CCLM6-0-1-URB_v1-r1_day_198701010030-198712312330.nc" ncoords="183"/>
+			<netcdf location="/mnt/CORDEX_CMIP6_tmp/user_tmp/jbediajimenez/data_tmp/CCLM6-0-1-URB/pr_EUR-12_ERA5_evaluation_r1i1p1f1_CLMcom-CMCC_CCLM6-0-1-URB_v1-r1_day_198801010030-198812312330.nc" ncoords="183"/>
+			<netcdf location="/mnt/CORDEX_CMIP6_tmp/user_tmp/jbediajimenez/data_tmp/CCLM6-0-1-URB/pr_EUR-12_ERA5_evaluation_r1i1p1f1_CLMcom-CMCC_CCLM6-0-1-URB_v1-r1_day_198901010030-198912312330.nc" ncoords="183"/>
+			<netcdf location="/mnt/CORDEX_CMIP6_tmp/user_tmp/jbediajimenez/data_tmp/CCLM6-0-1-URB/pr_EUR-12_ERA5_evaluation_r1i1p1f1_CLMcom-CMCC_CCLM6-0-1-URB_v1-r1_day_199001010030-199012312330.nc" ncoords="183"/>
+			<netcdf location="/mnt/CORDEX_CMIP6_tmp/user_tmp/jbediajimenez/data_tmp/CCLM6-0-1-URB/pr_EUR-12_ERA5_evaluation_r1i1p1f1_CLMcom-CMCC_CCLM6-0-1-URB_v1-r1_day_199101010030-199112312330.nc" ncoords="183"/>
+			<netcdf location="/mnt/CORDEX_CMIP6_tmp/user_tmp/jbediajimenez/data_tmp/CCLM6-0-1-URB/pr_EUR-12_ERA5_evaluation_r1i1p1f1_CLMcom-CMCC_CCLM6-0-1-URB_v1-r1_day_199201010030-199212312330.nc" ncoords="183"/>
+			<netcdf location="/mnt/CORDEX_CMIP6_tmp/user_tmp/jbediajimenez/data_tmp/CCLM6-0-1-URB/pr_EUR-12_ERA5_evaluation_r1i1p1f1_CLMcom-CMCC_CCLM6-0-1-URB_v1-r1_day_199301010030-199312312330.nc" ncoords="183"/>
+			<netcdf location="/mnt/CORDEX_CMIP6_tmp/user_tmp/jbediajimenez/data_tmp/CCLM6-0-1-URB/pr_EUR-12_ERA5_evaluation_r1i1p1f1_CLMcom-CMCC_CCLM6-0-1-URB_v1-r1_day_199401010030-199412312330.nc" ncoords="183"/>
+			<netcdf location="/mnt/CORDEX_CMIP6_tmp/user_tmp/jbediajimenez/data_tmp/CCLM6-0-1-URB/pr_EUR-12_ERA5_evaluation_r1i1p1f1_CLMcom-CMCC_CCLM6-0-1-URB_v1-r1_day_199501010030-199512312330.nc" ncoords="183"/>
+			<netcdf location="/mnt/CORDEX_CMIP6_tmp/user_tmp/jbediajimenez/data_tmp/CCLM6-0-1-URB/pr_EUR-12_ERA5_evaluation_r1i1p1f1_CLMcom-CMCC_CCLM6-0-1-URB_v1-r1_day_199601010030-199612312330.nc" ncoords="183"/>
+			<netcdf location="/mnt/CORDEX_CMIP6_tmp/user_tmp/jbediajimenez/data_tmp/CCLM6-0-1-URB/pr_EUR-12_ERA5_evaluation_r1i1p1f1_CLMcom-CMCC_CCLM6-0-1-URB_v1-r1_day_199701010030-199712312330.nc" ncoords="183"/>
+			<netcdf location="/mnt/CORDEX_CMIP6_tmp/user_tmp/jbediajimenez/data_tmp/CCLM6-0-1-URB/pr_EUR-12_ERA5_evaluation_r1i1p1f1_CLMcom-CMCC_CCLM6-0-1-URB_v1-r1_day_199801010030-199812312330.nc" ncoords="183"/>
+			<netcdf location="/mnt/CORDEX_CMIP6_tmp/user_tmp/jbediajimenez/data_tmp/CCLM6-0-1-URB/pr_EUR-12_ERA5_evaluation_r1i1p1f1_CLMcom-CMCC_CCLM6-0-1-URB_v1-r1_day_199901010030-199912312330.nc" ncoords="183"/>
+			<netcdf location="/mnt/CORDEX_CMIP6_tmp/user_tmp/jbediajimenez/data_tmp/CCLM6-0-1-URB/pr_EUR-12_ERA5_evaluation_r1i1p1f1_CLMcom-CMCC_CCLM6-0-1-URB_v1-r1_day_200001010030-200012312330.nc" ncoords="183"/>
+			<netcdf location="/mnt/CORDEX_CMIP6_tmp/user_tmp/jbediajimenez/data_tmp/CCLM6-0-1-URB/pr_EUR-12_ERA5_evaluation_r1i1p1f1_CLMcom-CMCC_CCLM6-0-1-URB_v1-r1_day_200101010030-200112312330.nc" ncoords="183"/>
+			<netcdf location="/mnt/CORDEX_CMIP6_tmp/user_tmp/jbediajimenez/data_tmp/CCLM6-0-1-URB/pr_EUR-12_ERA5_evaluation_r1i1p1f1_CLMcom-CMCC_CCLM6-0-1-URB_v1-r1_day_200201010030-200212312330.nc" ncoords="183"/>
+			<netcdf location="/mnt/CORDEX_CMIP6_tmp/user_tmp/jbediajimenez/data_tmp/CCLM6-0-1-URB/pr_EUR-12_ERA5_evaluation_r1i1p1f1_CLMcom-CMCC_CCLM6-0-1-URB_v1-r1_day_200301010030-200312312330.nc" ncoords="183"/>
+			<netcdf location="/mnt/CORDEX_CMIP6_tmp/user_tmp/jbediajimenez/data_tmp/CCLM6-0-1-URB/pr_EUR-12_ERA5_evaluation_r1i1p1f1_CLMcom-CMCC_CCLM6-0-1-URB_v1-r1_day_200401010030-200412312330.nc" ncoords="183"/>
+			<netcdf location="/mnt/CORDEX_CMIP6_tmp/user_tmp/jbediajimenez/data_tmp/CCLM6-0-1-URB/pr_EUR-12_ERA5_evaluation_r1i1p1f1_CLMcom-CMCC_CCLM6-0-1-URB_v1-r1_day_200501010030-200512312330.nc" ncoords="183"/>
+			<netcdf location="/mnt/CORDEX_CMIP6_tmp/user_tmp/jbediajimenez/data_tmp/CCLM6-0-1-URB/pr_EUR-12_ERA5_evaluation_r1i1p1f1_CLMcom-CMCC_CCLM6-0-1-URB_v1-r1_day_200601010030-200612312330.nc" ncoords="183"/>
+			<netcdf location="/mnt/CORDEX_CMIP6_tmp/user_tmp/jbediajimenez/data_tmp/CCLM6-0-1-URB/pr_EUR-12_ERA5_evaluation_r1i1p1f1_CLMcom-CMCC_CCLM6-0-1-URB_v1-r1_day_200701010030-200712312330.nc" ncoords="183"/>
+			<netcdf location="/mnt/CORDEX_CMIP6_tmp/user_tmp/jbediajimenez/data_tmp/CCLM6-0-1-URB/pr_EUR-12_ERA5_evaluation_r1i1p1f1_CLMcom-CMCC_CCLM6-0-1-URB_v1-r1_day_200801010030-200812312330.nc" ncoords="183"/>
+			<netcdf location="/mnt/CORDEX_CMIP6_tmp/user_tmp/jbediajimenez/data_tmp/CCLM6-0-1-URB/pr_EUR-12_ERA5_evaluation_r1i1p1f1_CLMcom-CMCC_CCLM6-0-1-URB_v1-r1_day_200901010030-200912312330.nc" ncoords="183"/>
+			<netcdf location="/mnt/CORDEX_CMIP6_tmp/user_tmp/jbediajimenez/data_tmp/CCLM6-0-1-URB/pr_EUR-12_ERA5_evaluation_r1i1p1f1_CLMcom-CMCC_CCLM6-0-1-URB_v1-r1_day_201001010030-201012312330.nc" ncoords="183"/>
+			<netcdf location="/mnt/CORDEX_CMIP6_tmp/user_tmp/jbediajimenez/data_tmp/CCLM6-0-1-URB/pr_EUR-12_ERA5_evaluation_r1i1p1f1_CLMcom-CMCC_CCLM6-0-1-URB_v1-r1_day_201101010030-201112312330.nc" ncoords="183"/>
+			<netcdf location="/mnt/CORDEX_CMIP6_tmp/user_tmp/jbediajimenez/data_tmp/CCLM6-0-1-URB/pr_EUR-12_ERA5_evaluation_r1i1p1f1_CLMcom-CMCC_CCLM6-0-1-URB_v1-r1_day_201201010030-201212312330.nc" ncoords="183"/>
+			<netcdf location="/mnt/CORDEX_CMIP6_tmp/user_tmp/jbediajimenez/data_tmp/CCLM6-0-1-URB/pr_EUR-12_ERA5_evaluation_r1i1p1f1_CLMcom-CMCC_CCLM6-0-1-URB_v1-r1_day_201301010030-201312312330.nc" ncoords="183"/>
+			<netcdf location="/mnt/CORDEX_CMIP6_tmp/user_tmp/jbediajimenez/data_tmp/CCLM6-0-1-URB/pr_EUR-12_ERA5_evaluation_r1i1p1f1_CLMcom-CMCC_CCLM6-0-1-URB_v1-r1_day_201401010030-201412312330.nc" ncoords="183"/>
+			<netcdf location="/mnt/CORDEX_CMIP6_tmp/user_tmp/jbediajimenez/data_tmp/CCLM6-0-1-URB/pr_EUR-12_ERA5_evaluation_r1i1p1f1_CLMcom-CMCC_CCLM6-0-1-URB_v1-r1_day_201501010030-201512312330.nc" ncoords="183"/>
+			<netcdf location="/mnt/CORDEX_CMIP6_tmp/user_tmp/jbediajimenez/data_tmp/CCLM6-0-1-URB/pr_EUR-12_ERA5_evaluation_r1i1p1f1_CLMcom-CMCC_CCLM6-0-1-URB_v1-r1_day_201601010030-201612312330.nc" ncoords="183"/>
+			<netcdf location="/mnt/CORDEX_CMIP6_tmp/user_tmp/jbediajimenez/data_tmp/CCLM6-0-1-URB/pr_EUR-12_ERA5_evaluation_r1i1p1f1_CLMcom-CMCC_CCLM6-0-1-URB_v1-r1_day_201701010030-201712312330.nc" ncoords="183"/>
+			<netcdf location="/mnt/CORDEX_CMIP6_tmp/user_tmp/jbediajimenez/data_tmp/CCLM6-0-1-URB/pr_EUR-12_ERA5_evaluation_r1i1p1f1_CLMcom-CMCC_CCLM6-0-1-URB_v1-r1_day_201801010030-201812312330.nc" ncoords="183"/>
+			<netcdf location="/mnt/CORDEX_CMIP6_tmp/user_tmp/jbediajimenez/data_tmp/CCLM6-0-1-URB/pr_EUR-12_ERA5_evaluation_r1i1p1f1_CLMcom-CMCC_CCLM6-0-1-URB_v1-r1_day_201901010030-201912312330.nc" ncoords="183"/>
+			<netcdf location="/mnt/CORDEX_CMIP6_tmp/user_tmp/jbediajimenez/data_tmp/CCLM6-0-1-URB/pr_EUR-12_ERA5_evaluation_r1i1p1f1_CLMcom-CMCC_CCLM6-0-1-URB_v1-r1_day_202001010030-202012312330.nc" ncoords="183"/>
+			<netcdf location="/mnt/CORDEX_CMIP6_tmp/user_tmp/jbediajimenez/data_tmp/CCLM6-0-1-URB/pr_EUR-12_ERA5_evaluation_r1i1p1f1_CLMcom-CMCC_CCLM6-0-1-URB_v1-r1_day_202101010030-202112312330.nc" ncoords="183"/>
+		</aggregation>
+		</netcdf>
+	</aggregation>
+</netcdf>
