@@ -1,12 +1,12 @@
 out_name,frequency,units,long_name,standard_name,cell_methods,priority,comment
-clt,day,%,Total Cloud Cover Percentage,cloud_area_fraction,area: time: mean,ClimateServices Consistency,
+clt,day,%,Total Cloud Cover Percentage,cloud_area_fraction,area: time: mean,ClimateServicesPrio2,
 clt,mon,%,Total Cloud Cover Percentage,cloud_area_fraction,area: time: mean,Trends,
-evspsbl,day,kg m-2 s-1,Evaporation Including Sublimation and Transpiration,water_evapotranspiration_flux,area: time: mean,ClimateServices,
+evspsbl,day,kg m-2 s-1,Evaporation Including Sublimation and Transpiration,water_evapotranspiration_flux,area: time: mean,ClimateServicesPrio2,
 evspsbl,mon,kg m-2 s-1,Evaporation Including Sublimation and Transpiration,water_evapotranspiration_flux,area: time: mean,WaterBudget,
 hfls,mon,W m-2,Surface Upward Latent Heat Flux,surface_upward_latent_heat_flux,area: time: mean, WaterBudget,
 hurs,1hr,%,Near-Surface Relative Humidity,relative_humidity,area: mean time: point,FWI,Only 12:00 UTC output will be used
 hurs,day,%,Near-Surface Relative Humidity,relative_humidity,area: time: mean,FWI,
-huss,day,1,Near-Surface Specific Humidity,specific_humidity,area: time: mean,ClimateServices HeatStress,
+huss,day,1,Near-Surface Specific Humidity,specific_humidity,area: time: mean,ClimateServicesPrio2 HeatStress,
 hus1000,6hr,1,Specific Humidity,specific_humidity,area: mean time: point,AtmRivers Multifeature,
 hus200,6hr,1,Specific Humidity,specific_humidity,area: mean time: point,AtmRivers Multifeature,
 hus250,6hr,1,Specific Humidity,specific_humidity,area: mean time: point,AtmRivers Multifeature,
@@ -23,20 +23,20 @@ mrso,mon,kg m-2,Total Soil Moisture Content,mass_content_of_water_in_soil,area: 
 od550aer,mon,1,Ambient Aerosol Optical Thickness at 550nm,atmosphere_optical_thickness_due_to_ambient_aerosol_particles,area: time: mean,Trends,"long_name fixed, 2022.09.22  https://github.com/WCRP-CORDEX/cordex-cmip6-data-request/issues/6"
 orog,fx,m,Surface Altitude,surface_altitude,area: mean,Overview WaterBudget,
 pr,1hr,kg m-2 s-1,Precipitation,precipitation_flux,area: time: mean,AtmRivers PrecipExtremes Multifeature,
-pr,day,kg m-2 s-1,Precipitation,precipitation_flux,area: time: mean,PrecipExtremes FWI ClimateServices,
+pr,day,kg m-2 s-1,Precipitation,precipitation_flux,area: time: mean,PrecipExtremes FWI ClimateServicesPrio1,
 pr,mon,kg m-2 s-1,Precipitation,precipitation_flux,area: time: mean,Overview Trends Snow WaterBudget Elevation ClimateClassification,
 prsn,mon,kg m-2 s-1,Snowfall Flux,snowfall_flux,area: time: mean,Elevation,
 prw,1hr,kg m-2,Water Vapor Path,atmosphere_mass_content_of_water_vapor,area: mean time: point,AtmRivers,
 psl,1hr,Pa,Sea Level Pressure,air_pressure_at_mean_sea_level,area: mean time: point,Multifeature,
-psl,day,Pa,Sea Level Pressure,air_pressure_at_mean_sea_level,area: time: mean,ClimateServices,
+psl,day,Pa,Sea Level Pressure,air_pressure_at_mean_sea_level,area: time: mean,ClimateServicesPrio2,
 psl,mon,Pa,Sea Level Pressure,air_pressure_at_mean_sea_level,area: time: mean,Overview Trends,
-rlds,day,W m-2,Surface Downwelling Longwave Radiation,surface_downwelling_longwave_flux_in_air,area: time: mean,ClimateServices,
+rlds,day,W m-2,Surface Downwelling Longwave Radiation,surface_downwelling_longwave_flux_in_air,area: time: mean,ClimateServicesPrio2,
 rlds,mon,W m-2,Surface Downwelling Longwave Radiation,surface_downwelling_longwave_flux_in_air,area: time: mean,Trends,
 rldscs,mon,W m-2,Surface Downwelling Clear-Sky Longwave Radiation,surface_downwelling_longwave_flux_in_air_assuming_clear_sky,area: time: mean,Trends,
 rlut,1hr,W m-2,TOA Outgoing Longwave Radiation,toa_outgoing_longwave_flux,area: time: mean,Multifeature,
 rlut,mon,W m-2,TOA Outgoing Longwave Radiation,toa_outgoing_longwave_flux,area: time: mean,Trends,
 rlutcs,mon,W m-2,TOA Outgoing Clear-Sky Longwave Radiation,toa_outgoing_longwave_flux_assuming_clear_sky,area: time: mean,Trends,
-rsds,day,W m-2,Surface Downwelling Shortwave Radiation,surface_downwelling_shortwave_flux_in_air,area: time: mean,ClimateServices HeatStress,
+rsds,day,W m-2,Surface Downwelling Shortwave Radiation,surface_downwelling_shortwave_flux_in_air,area: time: mean,ClimateServicesPrio1 HeatStress,
 rsds,mon,W m-2,Surface Downwelling Shortwave Radiation,surface_downwelling_shortwave_flux_in_air,area: time: mean,Trends,
 rsdscs,mon,W m-2,Surface Downwelling Clear-Sky Shortwave Radiation,surface_downwelling_shortwave_flux_in_air_assuming_clear_sky,area: time: mean,Trends,
 rsut,mon,W m-2,TOA Outgoing Shortwave Radiation,toa_outgoing_shortwave_flux,area: time: mean,Trends,
@@ -56,11 +56,11 @@ snw,day,kg m-2,Surface Snow Amount,surface_snow_amount,area: mean where land tim
 snw,mon,kg m-2,Surface Snow Amount,surface_snow_amount,area: mean where land time: mean,Snow WaterBudget,
 ta850,6hr,K,Air Temperature,air_temperature,area: mean time: point,Multifeature,
 tas,1hr,K,Near-Surface Air Temperature,air_temperature,area: mean time: point,FWI,Only 12:00 UTC output will be used
-tas,day,K,Near-Surface Air Temperature,air_temperature,area: time: mean,ClimateServices HeatStress,
+tas,day,K,Near-Surface Air Temperature,air_temperature,area: time: mean,ClimateServicesPrio1 HeatStress,
 tas,mon,K,Near-Surface Air Temperature,air_temperature,area: time: mean,Overview Trends Snow ClimateClassification,
-tasmax,day,K,Daily Maximum Near-Surface Air Temperature,air_temperature,area: mean time: maximum,FWI ClimateServices Droughts HeatStress,maximum from all integrated time steps per day
+tasmax,day,K,Daily Maximum Near-Surface Air Temperature,air_temperature,area: mean time: maximum,FWI ClimateServicesPrio1 Droughts HeatStress,maximum from all integrated time steps per day
 tasmax,mon,K,Daily Maximum Near-Surface Air Temperature,air_temperature,area: mean time: maximum within days time: mean over days,Overview Trends Elevation,maximum from all integrated time steps per day
-tasmin,day,K,Daily Minimum Near-Surface Air Temperature,air_temperature,area: mean time: minimum,ClimateServices Droughts HeatStress,minimum from all integrated time steps per day
+tasmin,day,K,Daily Minimum Near-Surface Air Temperature,air_temperature,area: mean time: minimum,ClimateServicesPrio1 Droughts HeatStress,minimum from all integrated time steps per day
 tasmin,mon,K,Daily Minimum Near-Surface Air Temperature,air_temperature,area: mean time: minimum within days time: mean over days,Overview Trends Elevation,minimum from all integrated time steps per day
 ua1000,6hr,m s-1,Eastward Wind,eastward_wind,area: mean time: point,AtmRivers Multifeature,
 ua200,6hr,m s-1,Eastward Wind,eastward_wind,area: mean time: point,AtmRivers Multifeature,
@@ -72,7 +72,7 @@ ua600,6hr,m s-1,Eastward Wind,eastward_wind,area: mean time: point,AtmRivers Mul
 ua700,6hr,m s-1,Eastward Wind,eastward_wind,area: mean time: point,AtmRivers Multifeature,
 ua850,6hr,m s-1,Eastward Wind,eastward_wind,area: mean time: point,AtmRivers Multifeature,
 ua925,6hr,m s-1,Eastward Wind,eastward_wind,area: mean time: point,AtmRivers Multifeature,
-uas,day,m s-1,Eastward Near-Surface Wind,eastward_wind,area: time: mean,ClimateServices,
+uas,day,m s-1,Eastward Near-Surface Wind,eastward_wind,area: time: mean,ClimateServicesPrio2,
 uas,mon,m s-1,Eastward Near-Surface Wind,eastward_wind,area: time: mean,Trends,
 va1000,6hr,m s-1,Northward Wind,northward_wind,area: mean time: point,AtmRivers Multifeature,
 va200,6hr,m s-1,Northward Wind,northward_wind,area: mean time: point,AtmRivers Multifeature,
@@ -84,7 +84,7 @@ va600,6hr,m s-1,Northward Wind,northward_wind,area: mean time: point,AtmRivers M
 va700,6hr,m s-1,Northward Wind,northward_wind,area: mean time: point,AtmRivers Multifeature,
 va850,6hr,m s-1,Northward Wind,northward_wind,area: mean time: point,AtmRivers Multifeature,
 va925,6hr,m s-1,Northward Wind,northward_wind,area: mean time: point,AtmRivers Multifeature,
-vas,day,m s-1,Northward Near-Surface Wind,northward_wind,area: time: mean,ClimateServices,
+vas,day,m s-1,Northward Near-Surface Wind,northward_wind,area: time: mean,ClimateServicesPrio2,
 vas,mon,m s-1,Northward Near-Surface Wind,northward_wind,area: time: mean,Trends,
 zg500,6hr,m,Geopotential Height,geopotential_height,area: mean time: point,Multifeature,
 zg500,day,m,Geopotential Height,geopotential_height,area: time: mean,Circulation,
