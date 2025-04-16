@@ -63,4 +63,3 @@ for (i in 1:length(models)) {
 
 ## Exit process
 q(save = "no")
-
