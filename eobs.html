@@ -448,7 +448,6 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">add_fx</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;orog&quot;</span><span class="p">,</span> <span class="s2">&quot;areacella&quot;</span><span class="p">,</span> <span class="s2">&quot;sftlf&quot;</span><span class="p">]</span>
-<span class="n">variable</span> <span class="o">=</span> <span class="s2">&quot;tas&quot;</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">add_bounds</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
@@ -561,7 +560,7 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dsets</span> <span class="o">=</span> <span class="n">open_datasets</span><span class="p">(</span>
-    <span class="n">variable</span><span class="p">,</span>
+    <span class="p">[</span><span class="s2">&quot;tas&quot;</span><span class="p">,</span> <span class="s2">&quot;pr&quot;</span><span class="p">],</span>
     <span class="n">frequency</span><span class="o">=</span><span class="s2">&quot;mon&quot;</span><span class="p">,</span>
     <span class="n">mip_era</span><span class="o">=</span><span class="s2">&quot;CMIP6&quot;</span><span class="p">,</span>
     <span class="n">add_missing_bounds</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -582,8 +581,11 @@ document.write(`
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">period</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="s2">&quot;1980&quot;</span><span class="p">,</span> <span class="s2">&quot;2020&quot;</span><span class="p">)</span>
 
-<span class="n">eobs</span> <span class="o">=</span> <span class="n">obs</span><span class="o">.</span><span class="n">eobs</span><span class="p">(</span><span class="n">variables</span><span class="o">=</span><span class="s2">&quot;tg&quot;</span><span class="p">,</span> <span class="n">add_mask</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">period</span><span class="p">)</span>
-<span class="n">eobs</span> <span class="o">=</span> <span class="n">mask_invalid</span><span class="p">(</span><span class="n">eobs</span><span class="p">,</span> <span class="nb">vars</span><span class="o">=</span><span class="s2">&quot;tg&quot;</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="n">eobs_tg</span> <span class="o">=</span> <span class="n">obs</span><span class="o">.</span><span class="n">eobs</span><span class="p">(</span><span class="n">variables</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;tg&quot;</span><span class="p">],</span> <span class="n">add_mask</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">period</span><span class="p">)</span>
+<span class="n">eobs_tg</span> <span class="o">=</span> <span class="n">mask_invalid</span><span class="p">(</span><span class="n">eobs_tg</span><span class="p">,</span> <span class="nb">vars</span><span class="o">=</span><span class="s2">&quot;tg&quot;</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="n">eobs_rr</span> <span class="o">=</span> <span class="n">obs</span><span class="o">.</span><span class="n">eobs</span><span class="p">(</span><span class="n">variables</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;rr&quot;</span><span class="p">],</span> <span class="n">add_mask</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">period</span><span class="p">)</span>
+<span class="n">eobs_rr</span> <span class="o">=</span> <span class="n">mask_invalid</span><span class="p">(</span><span class="n">eobs_rr</span><span class="p">,</span> <span class="nb">vars</span><span class="o">=</span><span class="s2">&quot;rr&quot;</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="n">eobs</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">merge</span><span class="p">([</span><span class="n">eobs_tg</span><span class="p">,</span> <span class="n">eobs_rr</span><span class="p">],</span> <span class="n">join</span><span class="o">=</span><span class="s2">&quot;override&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -591,8 +593,22 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># unmapped_to_nan, see https://github.com/pangeo-data/xESMF/issues/56</span>
-<span class="n">regridder</span> <span class="o">=</span> <span class="n">xe</span><span class="o">.</span><span class="n">Regridder</span><span class="p">(</span><span class="n">eobs</span><span class="p">,</span> <span class="n">rotated_grid</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;bilinear&quot;</span><span class="p">,</span> <span class="n">unmapped_to_nan</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">eobs_on_rotated</span> <span class="o">=</span> <span class="n">regridder</span><span class="p">(</span><span class="n">eobs</span><span class="p">)</span>
+<span class="n">regridder_bil</span> <span class="o">=</span> <span class="n">xe</span><span class="o">.</span><span class="n">Regridder</span><span class="p">(</span>
+    <span class="n">eobs</span><span class="p">,</span> <span class="n">rotated_grid</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;bilinear&quot;</span><span class="p">,</span> <span class="n">unmapped_to_nan</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+<span class="n">regridder_cons</span> <span class="o">=</span> <span class="n">xe</span><span class="o">.</span><span class="n">Regridder</span><span class="p">(</span>
+    <span class="n">eobs</span><span class="p">,</span> <span class="n">rotated_grid</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;conservative_normed&quot;</span><span class="p">,</span> <span class="n">unmapped_to_nan</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eobs_on_rotated</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
+    <span class="p">[</span><span class="n">regridder_bil</span><span class="p">(</span><span class="n">eobs</span><span class="p">[[</span><span class="s2">&quot;tg&quot;</span><span class="p">,</span> <span class="s2">&quot;elevation&quot;</span><span class="p">]]),</span> <span class="n">regridder_cons</span><span class="p">(</span><span class="n">eobs</span><span class="p">[[</span><span class="s2">&quot;rr&quot;</span><span class="p">]])],</span>
+    <span class="n">join</span><span class="o">=</span><span class="s2">&quot;override&quot;</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -626,7 +642,7 @@ document.write(`
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
 
-<span class="n">eobs_seasmean</span> <span class="o">=</span> <span class="n">seasonal_mean</span><span class="p">(</span><span class="n">eobs_on_rotated</span><span class="o">.</span><span class="n">tg</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">period</span><span class="p">))</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+<span class="n">eobs_seasmean</span> <span class="o">=</span> <span class="n">seasonal_mean</span><span class="p">(</span><span class="n">eobs_on_rotated</span><span class="p">[[</span><span class="s2">&quot;tg&quot;</span><span class="p">,</span> <span class="s2">&quot;rr&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">period</span><span class="p">))</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -635,14 +651,12 @@ document.write(`
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
 
-<span class="n">variable</span> <span class="o">=</span> <span class="s2">&quot;tas&quot;</span>
-
-<span class="n">bias</span> <span class="o">=</span> <span class="p">{</span>
+<span class="n">bias_tas</span> <span class="o">=</span> <span class="p">{</span>
     <span class="n">dset_id</span><span class="p">:</span> <span class="p">(</span>
-        <span class="n">seasonal_mean</span><span class="p">(</span><span class="n">ds</span><span class="p">[[</span><span class="n">variable</span><span class="p">]]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">period</span><span class="p">))</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+        <span class="n">seasonal_mean</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;tas&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">period</span><span class="p">))</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
         <span class="o">+</span> <span class="n">height_temperature_correction</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">orog</span><span class="p">,</span> <span class="n">eobs_on_rotated</span><span class="o">.</span><span class="n">elevation</span><span class="p">)</span>
-        <span class="o">-</span> <span class="p">(</span><span class="n">eobs_seasmean</span> <span class="o">+</span> <span class="mf">273.15</span><span class="p">)</span>
-    <span class="p">)</span>
+        <span class="o">-</span> <span class="p">(</span><span class="n">eobs_seasmean</span><span class="o">.</span><span class="n">tg</span> <span class="o">+</span> <span class="mf">273.15</span><span class="p">)</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;tas&quot;</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">dset_id</span><span class="p">,</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">dsets</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
 <span class="p">}</span>
 </pre></div>
@@ -651,19 +665,58 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">seasonal_bias</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
-    <span class="nb">list</span><span class="p">(</span><span class="n">bias</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+
+<span class="n">bias_pr</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">dset_id</span><span class="p">:</span> <span class="p">(</span>
+        <span class="mi">100</span>
+        <span class="o">*</span> <span class="p">(</span>
+            <span class="n">seasonal_mean</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;pr&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">period</span><span class="p">))</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span> <span class="o">*</span> <span class="mi">86400</span>
+            <span class="o">-</span> <span class="n">eobs_seasmean</span><span class="o">.</span><span class="n">rr</span>
+        <span class="p">)</span>
+        <span class="o">/</span> <span class="n">eobs_seasmean</span><span class="o">.</span><span class="n">rr</span>
+        <span class="c1"># Assign NaN where observed precipitation is zero</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;pr&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">dset_id</span><span class="p">,</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">dsets</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">seasonal_bias_tas</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
+    <span class="nb">list</span><span class="p">(</span><span class="n">bias_tas</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span>
     <span class="n">dim</span><span class="o">=</span><span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
         <span class="nb">list</span><span class="p">(</span>
             <span class="nb">map</span><span class="p">(</span>
                 <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">short_iid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;institution_id&quot;</span><span class="p">,</span> <span class="s2">&quot;source_id&quot;</span><span class="p">],</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">),</span>
-                <span class="n">bias</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span>
+                <span class="n">bias_tas</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span>
             <span class="p">)</span>
         <span class="p">),</span>
         <span class="n">dims</span><span class="o">=</span><span class="s2">&quot;dset_id&quot;</span><span class="p">,</span>
     <span class="p">),</span>
     <span class="n">compat</span><span class="o">=</span><span class="s2">&quot;override&quot;</span><span class="p">,</span>
     <span class="n">coords</span><span class="o">=</span><span class="s2">&quot;minimal&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">seasonal_bias_pr</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
+    <span class="nb">list</span><span class="p">(</span><span class="n">bias_pr</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span>
+    <span class="n">dim</span><span class="o">=</span><span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+        <span class="nb">list</span><span class="p">(</span>
+            <span class="nb">map</span><span class="p">(</span>
+                <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">short_iid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;institution_id&quot;</span><span class="p">,</span> <span class="s2">&quot;source_id&quot;</span><span class="p">],</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">),</span>
+                <span class="n">bias_pr</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span>
+            <span class="p">)</span>
+        <span class="p">),</span>
+        <span class="n">dims</span><span class="o">=</span><span class="s2">&quot;dset_id&quot;</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="n">compat</span><span class="o">=</span><span class="s2">&quot;override&quot;</span><span class="p">,</span>
+    <span class="n">coords</span><span class="o">=</span><span class="s2">&quot;minimal&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">seasonal_bias</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
+    <span class="p">[</span><span class="n">seasonal_bias_tas</span><span class="p">,</span> <span class="n">seasonal_bias_pr</span><span class="p">],</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -684,7 +737,17 @@ document.write(`
 <span class="kn">from</span><span class="w"> </span><span class="nn">cartopy</span><span class="w"> </span><span class="kn">import</span> <span class="n">crs</span> <span class="k">as</span> <span class="n">ccrs</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">cartopy.mpl.ticker</span><span class="w"> </span><span class="kn">import</span> <span class="n">LatitudeFormatter</span><span class="p">,</span> <span class="n">LongitudeFormatter</span>
 
-<span class="n">ds</span> <span class="o">=</span> <span class="n">seasonal_bias_</span>
+<span class="n">plot_var</span> <span class="o">=</span> <span class="s2">&quot;pr&quot;</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">seasonal_bias_</span><span class="p">[[</span><span class="n">plot_var</span><span class="p">]]</span>
+
+<span class="n">vmin</span> <span class="o">=</span> <span class="o">-</span><span class="mi">8</span>
+<span class="n">vmax</span> <span class="o">=</span> <span class="mi">8</span>
+
+<span class="n">levels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">110</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>  <span class="c1">#</span>
+<span class="n">cmap</span> <span class="o">=</span> <span class="s2">&quot;BrBG&quot;</span>
+<span class="c1"># levels = np.arange(-8, 9, 1)</span>
+<span class="c1"># cmap=&quot;RdBu_r&quot;</span>
+
 
 <span class="n">nrows</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">dset_id</span><span class="o">.</span><span class="n">size</span>
 <span class="n">ncols</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">season</span><span class="o">.</span><span class="n">size</span>
@@ -692,13 +755,11 @@ document.write(`
 <span class="n">aspect</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">cf</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="s2">&quot;Y&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">ds</span><span class="o">.</span><span class="n">cf</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">]</span>
 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;aspect: </span><span class="si">{</span><span class="n">aspect</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 <span class="c1"># ds = diffs.where(~diffs.isnull(), drop=True)</span>
-<span class="n">tas</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">tas</span>
-<span class="c1"># pole = ds.cf[&quot;grid_mapping&quot;]</span>
-<span class="c1"># transform = ccrs.RotatedPole(</span>
-<span class="c1">#    pole_latitude=pole.grid_north_pole_latitude,</span>
-<span class="c1">#    pole_longitude=pole.grid_north_pole_longitude,</span>
-<span class="c1"># )</span>
-<span class="n">transform</span> <span class="o">=</span> <span class="n">ccrs</span><span class="o">.</span><span class="n">RotatedPole</span><span class="p">(</span><span class="n">pole_latitude</span><span class="o">=</span><span class="mf">39.25</span><span class="p">,</span> <span class="n">pole_longitude</span><span class="o">=-</span><span class="mf">162.0</span><span class="p">)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">plot_var</span><span class="p">]</span>
+
+<span class="n">pole_latitude</span> <span class="o">=</span> <span class="n">rotated_grid</span><span class="o">.</span><span class="n">cf</span><span class="p">[</span><span class="s2">&quot;grid_mapping&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">grid_north_pole_latitude</span>
+<span class="n">pole_longitude</span> <span class="o">=</span> <span class="n">rotated_grid</span><span class="o">.</span><span class="n">cf</span><span class="p">[</span><span class="s2">&quot;grid_mapping&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">grid_north_pole_longitude</span>
+<span class="n">transform</span> <span class="o">=</span> <span class="n">ccrs</span><span class="o">.</span><span class="n">RotatedPole</span><span class="p">(</span><span class="n">pole_latitude</span><span class="o">=</span><span class="n">pole_latitude</span><span class="p">,</span> <span class="n">pole_longitude</span><span class="o">=</span><span class="n">pole_longitude</span><span class="p">)</span>
 <span class="n">projection</span> <span class="o">=</span> <span class="n">transform</span>
 
 <span class="c1"># Define the figure and each axis for the 3 rows and 3 columns</span>
@@ -724,7 +785,7 @@ document.write(`
         <span class="n">pos</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="n">j</span> <span class="o">*</span> <span class="n">ncols</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">season</span><span class="p">,</span> <span class="n">dset_id</span><span class="p">)</span>
         <span class="c1"># Select the week 1 forecast from the specified model</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">tas</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">season</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">dset_id</span><span class="o">=</span><span class="n">j</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">plot_var</span><span class="p">]</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">season</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">dset_id</span><span class="o">=</span><span class="n">j</span><span class="p">)</span>
 
         <span class="c1"># Add the cyclic point</span>
         <span class="c1"># data,lons=add_cyclic_point(data,coord=ds[&#39;lon&#39;])</span>
@@ -736,11 +797,11 @@ document.write(`
             <span class="n">data</span><span class="p">,</span>
             <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">,</span>
             <span class="c1"># Define the levels for contourf</span>
-            <span class="n">levels</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
+            <span class="n">levels</span><span class="o">=</span><span class="n">levels</span><span class="p">,</span>
             <span class="c1"># cmap=&quot;coolwarm&quot;,</span>
             <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span>
             <span class="c1"># vmin=-8, vmax=8,</span>
-            <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;RdBu_r&quot;</span><span class="p">,</span>
+            <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">,</span>
         <span class="p">)</span>
 
         <span class="c1"># if i == 3:</span>
