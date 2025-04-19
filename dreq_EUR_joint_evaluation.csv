@@ -46,7 +46,7 @@ sfcWind,day,m s-1,Near-Surface Wind Speed,wind_speed,area: time: mean,HeatStress
 sfcWind,mon,m s-1,Near-Surface Wind Speed,wind_speed,area: time: mean,Trends,
 sfcWindmax,day,m s-1,Daily Maximum Near-Surface Wind Speed,wind_speed,area: mean time: maximum,FWI,Maximum from all integrated time steps per day
 sftlaf,fx,%,Percentage of the Grid Cell Occupied by Lake,area_fraction,area: mean where fresh_free_water,Overview,not in CMIP or in CF
-sftlf,fx,%,Percentage of the Grid Cell Occupied by Land,land_area_fraction,area: mean,Overview WaterBudget,
+sftlf,fx,%,Percentage of the Grid Cell Occupied by Land,land_area_fraction,area: mean,Overview WaterBudget FWI,
 sfturf,fx,%,Percentage of the Grid Cell Occupied by Urban Area,area_fraction,area: mean where urban,Overview,not in CMIP or in CF
 snc,day,%,Snow Area Percentage,surface_snow_area_fraction,area: time: mean,Snow,
 snc,mon,%,Snow Area Percentage,surface_snow_area_fraction,area: time: mean,Snow WaterBudget,

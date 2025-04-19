@@ -4,19 +4,22 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 import seaborn as sns
-import sys
 from icecream import ic
+
 
 def get_studies(dreq):
     studies = set()
     for priorities in dreq["priority"].dropna():
         for priority in priorities.split():
             studies.add(priority.strip())
-    return(sorted(list(studies)))
+    return sorted(list(studies))
+
 
 def plot_availability(study, dreq, catalog, outname="availability.png"):
     dreq_study = dreq.query("priority.str.contains(@study)")
-    dreq_study = dreq_study[["out_name", "frequency"]].rename(columns={"out_name": "variable_id"})
+    dreq_study = dreq_study[["out_name", "frequency"]].rename(
+        columns={"out_name": "variable_id"}
+    )
     #
     #  Plot variable availability as heatmap
     #
@@ -61,6 +64,7 @@ def plot_availability(study, dreq, catalog, outname="availability.png"):
     plt.savefig(outname, bbox_inches="tight")
     plt.close()
 
+
 if __name__ == "__main__":
     url = "dreq_EUR_joint_evaluation.csv"
     dreq = pd.read_csv(url)
@@ -71,10 +75,9 @@ if __name__ == "__main__":
     for study in get_studies(dreq):
         plot_availability(study, dreq, catalog)
         plot_path = f"plots/variable_availability__{study}.png"
-        plot_availability(study, dreq, catalog, outname = plot_path)
+        plot_availability(study, dreq, catalog, outname=plot_path)
         md_lines.append(f"## {study}")
         md_lines.append(f"![{study}]({plot_path})\n")
 
     with open("variable_availability.md", "w") as md_file:
         md_file.write("\n".join(md_lines))
-
