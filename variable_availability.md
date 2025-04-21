@@ -44,3 +44,6 @@
 
 ## WaterBudget
 ![WaterBudget](plots/variable_availability__WaterBudget.png)
+
+## WindEnergy
+![WindEnergy](plots/variable_availability__WindEnergy.png)
