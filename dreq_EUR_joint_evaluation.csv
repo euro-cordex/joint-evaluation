@@ -41,8 +41,8 @@ rsds,mon,W m-2,Surface Downwelling Shortwave Radiation,surface_downwelling_short
 rsdscs,mon,W m-2,Surface Downwelling Clear-Sky Shortwave Radiation,surface_downwelling_shortwave_flux_in_air_assuming_clear_sky,area: time: mean,Trends,
 rsut,mon,W m-2,TOA Outgoing Shortwave Radiation,toa_outgoing_shortwave_flux,area: time: mean,Trends,
 rsutcs,mon,W m-2,TOA Outgoing Clear-Sky Shortwave Radiation,toa_outgoing_shortwave_flux_assuming_clear_sky,area: time: mean,Trends,
-sfcWind,1hr,m s-1,Near-Surface Wind Speed,wind_speed,area: mean time: point,FWI,Only 12:00 UTC output will be used
-sfcWind,day,m s-1,Near-Surface Wind Speed,wind_speed,area: time: mean,HeatStress,
+sfcWind,1hr,m s-1,Near-Surface Wind Speed,wind_speed,area: mean time: point,FWI WindEnergy,FWI will only use 12:00 UTC output
+sfcWind,day,m s-1,Near-Surface Wind Speed,wind_speed,area: time: mean,HeatStress WindEnergy,
 sfcWind,mon,m s-1,Near-Surface Wind Speed,wind_speed,area: time: mean,Trends,
 sfcWindmax,day,m s-1,Daily Maximum Near-Surface Wind Speed,wind_speed,area: mean time: maximum,FWI,Maximum from all integrated time steps per day
 sftlaf,fx,%,Percentage of the Grid Cell Occupied by Lake,area_fraction,area: mean where fresh_free_water,Overview,not in CMIP or in CF
@@ -72,7 +72,8 @@ ua600,6hr,m s-1,Eastward Wind,eastward_wind,area: mean time: point,AtmRivers Mul
 ua700,6hr,m s-1,Eastward Wind,eastward_wind,area: mean time: point,AtmRivers Multifeature,
 ua850,6hr,m s-1,Eastward Wind,eastward_wind,area: mean time: point,AtmRivers Multifeature,
 ua925,6hr,m s-1,Eastward Wind,eastward_wind,area: mean time: point,AtmRivers Multifeature,
-uas,day,m s-1,Eastward Near-Surface Wind,eastward_wind,area: time: mean,ClimateServicesPrio2,
+uas,1hr,m s-1,Eastward Near-Surface Wind,eastward_wind,area: mean time: point,WindEnergy,
+uas,day,m s-1,Eastward Near-Surface Wind,eastward_wind,area: time: mean,ClimateServicesPrio2 WindEnergy,
 uas,mon,m s-1,Eastward Near-Surface Wind,eastward_wind,area: time: mean,Trends,
 va1000,6hr,m s-1,Northward Wind,northward_wind,area: mean time: point,AtmRivers Multifeature,
 va200,6hr,m s-1,Northward Wind,northward_wind,area: mean time: point,AtmRivers Multifeature,
@@ -84,7 +85,8 @@ va600,6hr,m s-1,Northward Wind,northward_wind,area: mean time: point,AtmRivers M
 va700,6hr,m s-1,Northward Wind,northward_wind,area: mean time: point,AtmRivers Multifeature,
 va850,6hr,m s-1,Northward Wind,northward_wind,area: mean time: point,AtmRivers Multifeature,
 va925,6hr,m s-1,Northward Wind,northward_wind,area: mean time: point,AtmRivers Multifeature,
-vas,day,m s-1,Northward Near-Surface Wind,northward_wind,area: time: mean,ClimateServicesPrio2,
+vas,1hr,m s-1,Northward Near-Surface Wind,northward_wind,area: mean time: point,WindEnergy,
+vas,day,m s-1,Northward Near-Surface Wind,northward_wind,area: time: mean,ClimateServicesPrio2 WindEnergy,
 vas,mon,m s-1,Northward Near-Surface Wind,northward_wind,area: time: mean,Trends,
 zg500,6hr,m,Geopotential Height,geopotential_height,area: mean time: point,Multifeature,
 zg500,day,m,Geopotential Height,geopotential_height,area: time: mean,Circulation,
