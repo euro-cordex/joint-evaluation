@@ -48,7 +48,8 @@ def plot_availability(study, dreq, catalog, plans, outname="availability.png"):
     plt.title(f"Variable availability for {study} study")
     ax = sns.heatmap(
         matrix,
-        cmap="RdBu",
+        cmap="Blues",
+        vmin=0, vmax=1,
         annot=False,
         cbar=False,
         linewidths=1,
