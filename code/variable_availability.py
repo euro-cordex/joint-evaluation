@@ -15,7 +15,7 @@ def get_studies(dreq):
     return sorted(list(studies))
 
 
-def plot_availability(study, dreq, catalog, outname="availability.png"):
+def plot_availability(study, dreq, catalog, plans, outname="availability.png"):
     dreq_study = dreq.query("priority.str.contains(@study)")
     dreq_study = dreq_study[["out_name", "frequency"]].rename(
         columns={"out_name": "variable_id"}
@@ -35,13 +35,20 @@ def plot_availability(study, dreq, catalog, outname="availability.png"):
         fill_value=0,
     )
     matrix = matrix.replace(0, np.nan)
+    plans_empty = pd.DataFrame(columns=matrix.columns, index=plans.index)
+    plans_empty[:] = np.nan 
+    matrix = matrix.combine_first(plans_empty).astype(float)
+    cmip5_mask = matrix.index.get_level_values(0) == "CMIP5"
+    matrix.loc[cmip5_mask, :] *= 0.5 # change value (i.e color) for CMIP5-driven sims.
     ic(matrix)
+    #
     # Plot as heatmap (make sure to show all ticks and labels)
+    #
     plt.figure(figsize=(14, 12))
     plt.title(f"Variable availability for {study} study")
     ax = sns.heatmap(
         matrix,
-        cmap="YlGnBu_r",
+        cmap="RdBu",
         annot=False,
         cbar=False,
         linewidths=1,
@@ -57,7 +64,7 @@ def plot_availability(study, dreq, catalog, outname="availability.png"):
     ax.set_xticklabels(xticklabels)
     ax.set_xlabel("variable (freq.)")
     ax.set_yticks(0.5 + np.arange(len(matrix.index)))
-    yticklabels = [f"{s}" for e, s in matrix.index]
+    yticklabels = [f"{s}" if e=="CMIP6" else f"{s} ({e})" for e, s in matrix.index]
     ax.set_yticklabels(yticklabels, rotation=0)
     ax.set_ylabel("source_id")
     ax.set_aspect("equal")
@@ -66,16 +73,23 @@ def plot_availability(study, dreq, catalog, outname="availability.png"):
 
 
 if __name__ == "__main__":
-    url = "dreq_EUR_joint_evaluation.csv"
-    dreq = pd.read_csv(url)
+    url_dreq = "dreq_EUR_joint_evaluation.csv"
+    url_plans = "https://raw.githubusercontent.com/WCRP-CORDEX/simulation-status/refs/heads/main/CMIP6_downscaling_plans.csv"
+    dreq = pd.read_csv(url_dreq)
+    plans = (pd.read_csv(url_plans)
+      .query("domain == 'EUR-12' & experiment == 'evaluation' & status in ['completed',]")
+      .assign(mip_era="CMIP6")
+      .rename(columns={"rcm_name": "source_id"})
+      .loc[:,["mip_era", "source_id"]]
+      .set_index(["mip_era", "source_id"])
+    )
     catalog = pd.read_csv(
         "catalog.csv", usecols=["variable_id", "frequency", "source_id", "mip_era"]
     )
     md_lines = ["# Variable Availability Plots\n"]
     for study in get_studies(dreq):
-        plot_availability(study, dreq, catalog)
         plot_path = f"plots/variable_availability__{study}.png"
-        plot_availability(study, dreq, catalog, outname=plot_path)
+        plot_availability(study, dreq, catalog, plans, outname=plot_path)
         md_lines.append(f"## {study}")
         md_lines.append(f"![{study}]({plot_path})\n")
 
