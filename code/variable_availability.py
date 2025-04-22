@@ -36,10 +36,10 @@ def plot_availability(study, dreq, catalog, plans, outname="availability.png"):
     )
     matrix = matrix.replace(0, np.nan)
     plans_empty = pd.DataFrame(columns=matrix.columns, index=plans.index)
-    plans_empty[:] = np.nan 
+    plans_empty[:] = np.nan
     matrix = matrix.combine_first(plans_empty).astype(float)
     cmip5_mask = matrix.index.get_level_values(0) == "CMIP5"
-    matrix.loc[cmip5_mask, :] *= 0.5 # change value (i.e color) for CMIP5-driven sims.
+    matrix.loc[cmip5_mask, :] *= 0.5  # change value (i.e color) for CMIP5-driven sims.
     ic(matrix)
     #
     # Plot as heatmap (make sure to show all ticks and labels)
@@ -49,7 +49,8 @@ def plot_availability(study, dreq, catalog, plans, outname="availability.png"):
     ax = sns.heatmap(
         matrix,
         cmap="Blues",
-        vmin=0, vmax=1,
+        vmin=0,
+        vmax=1,
         annot=False,
         cbar=False,
         linewidths=1,
@@ -65,7 +66,7 @@ def plot_availability(study, dreq, catalog, plans, outname="availability.png"):
     ax.set_xticklabels(xticklabels)
     ax.set_xlabel("variable (freq.)")
     ax.set_yticks(0.5 + np.arange(len(matrix.index)))
-    yticklabels = [f"{s}" if e=="CMIP6" else f"{s} ({e})" for e, s in matrix.index]
+    yticklabels = [f"{s}" if e == "CMIP6" else f"{s} ({e})" for e, s in matrix.index]
     ax.set_yticklabels(yticklabels, rotation=0)
     ax.set_ylabel("source_id")
     ax.set_aspect("equal")
@@ -77,12 +78,15 @@ if __name__ == "__main__":
     url_dreq = "dreq_EUR_joint_evaluation.csv"
     url_plans = "https://raw.githubusercontent.com/WCRP-CORDEX/simulation-status/refs/heads/main/CMIP6_downscaling_plans.csv"
     dreq = pd.read_csv(url_dreq)
-    plans = (pd.read_csv(url_plans)
-      .query("domain == 'EUR-12' & experiment == 'evaluation' & status in ['completed',]")
-      .assign(mip_era="CMIP6")
-      .rename(columns={"rcm_name": "source_id"})
-      .loc[:,["mip_era", "source_id"]]
-      .set_index(["mip_era", "source_id"])
+    plans = (
+        pd.read_csv(url_plans)
+        .query(
+            "domain == 'EUR-12' & experiment == 'evaluation' & status in ['completed',]"
+        )
+        .assign(mip_era="CMIP6")
+        .rename(columns={"rcm_name": "source_id"})
+        .loc[:, ["mip_era", "source_id"]]
+        .set_index(["mip_era", "source_id"])
     )
     catalog = pd.read_csv(
         "catalog.csv", usecols=["variable_id", "frequency", "source_id", "mip_era"]
