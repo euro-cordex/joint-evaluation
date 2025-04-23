@@ -437,7 +437,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;dask.config.set at 0x70bae60c1950&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;dask.config.set at 0x7afd9ea25950&gt;
 </pre></div>
 </div>
 </div>
@@ -448,11 +448,18 @@ document.write(`
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/evalbook-remote/lib/python3.13/site-packages/distributed/node.py:187: UserWarning: Port 8787 is already in use.
+Perhaps you already have a cluster running?
+Hosting the HTTP server on port 37541 instead
+  warnings.warn(
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">add_fx</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;orog&quot;</span><span class="p">,</span> <span class="s2">&quot;areacella&quot;</span><span class="p">,</span> <span class="s2">&quot;sftlf&quot;</span><span class="p">]</span>
-<span class="n">variable</span> <span class="o">=</span> <span class="s2">&quot;tas&quot;</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">add_bounds</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
@@ -486,10 +493,18 @@ document.write(`
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">open_datasets</span><span class="p">(</span>
-    <span class="n">variables</span><span class="p">,</span> <span class="n">frequency</span><span class="o">=</span><span class="s2">&quot;mon&quot;</span><span class="p">,</span> <span class="n">mask</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">add_missing_bounds</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+    <span class="n">variables</span><span class="p">,</span>
+    <span class="n">frequency</span><span class="o">=</span><span class="s2">&quot;mon&quot;</span><span class="p">,</span>
+    <span class="n">mask</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">add_missing_bounds</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">rewrite_grid</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
 <span class="p">):</span>
     <span class="n">cat</span> <span class="o">=</span> <span class="n">get_source_collection</span><span class="p">(</span><span class="n">variables</span><span class="p">,</span> <span class="n">frequency</span><span class="p">,</span> <span class="n">add_fx</span><span class="o">=</span><span class="n">add_fx</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
     <span class="n">dsets</span> <span class="o">=</span> <span class="n">open_and_sort</span><span class="p">(</span><span class="n">cat</span><span class="p">,</span> <span class="n">merge_fx</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">apply_fixes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">rewrite_grid</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">dset_id</span><span class="p">,</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">dsets</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">dsets</span><span class="p">[</span><span class="n">dset_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">rewrite_coords</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">mask</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">dsets</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
             <span class="n">mask_with_sftlf</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
@@ -528,11 +543,8 @@ document.write(`
 
 <span class="k">def</span><span class="w"> </span><span class="nf">regrid_dsets</span><span class="p">(</span><span class="n">dsets</span><span class="p">,</span> <span class="n">target_grid</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;bilinear&quot;</span><span class="p">):</span>
     <span class="k">for</span> <span class="n">dset_id</span><span class="p">,</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">dsets</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">dset_id</span><span class="p">)</span>
         <span class="n">mapping</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">cf</span><span class="p">[</span><span class="s2">&quot;grid_mapping&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">grid_mapping_name</span>
-        <span class="k">if</span> <span class="n">mapping</span> <span class="o">==</span> <span class="s2">&quot;rotated_latitude_longitude&quot;</span><span class="p">:</span>
-            <span class="n">dsets</span><span class="p">[</span><span class="n">dset_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">cx</span><span class="o">.</span><span class="n">rewrite_coords</span><span class="p">(</span><span class="n">coords</span><span class="o">=</span><span class="s2">&quot;all&quot;</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">mapping</span> <span class="o">!=</span> <span class="s2">&quot;rotated_latitude_longitude&quot;</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;regridding </span><span class="si">{</span><span class="n">dset_id</span><span class="si">}</span><span class="s2"> with grid_mapping: </span><span class="si">{</span><span class="n">mapping</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="n">regridder</span> <span class="o">=</span> <span class="n">create_regridder</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">target_grid</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">)</span>
             <span class="nb">print</span><span class="p">(</span><span class="n">regridder</span><span class="p">)</span>
@@ -551,6 +563,12 @@ document.write(`
     <span class="k">return</span> <span class="n">ds</span>
 
 
+<span class="k">def</span><span class="w"> </span><span class="nf">rewrite_coords</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">coords</span><span class="o">=</span><span class="s2">&quot;all&quot;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">ds</span><span class="o">.</span><span class="n">cf</span><span class="p">[</span><span class="s2">&quot;grid_mapping&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">grid_mapping_name</span> <span class="o">==</span> <span class="s2">&quot;rotated_latitude_longitude&quot;</span><span class="p">:</span>
+        <span class="n">ds</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">cx</span><span class="o">.</span><span class="n">rewrite_coords</span><span class="p">(</span><span class="n">coords</span><span class="o">=</span><span class="n">coords</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">ds</span>
+
+
 <span class="k">def</span><span class="w"> </span><span class="nf">height_temperature_correction</span><span class="p">(</span><span class="n">model_elev</span><span class="p">,</span> <span class="n">obs_elev</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Height correction for temperature</span>
@@ -565,7 +583,7 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dsets</span> <span class="o">=</span> <span class="n">open_datasets</span><span class="p">(</span>
-    <span class="n">variable</span><span class="p">,</span>
+    <span class="p">[</span><span class="s2">&quot;tas&quot;</span><span class="p">,</span> <span class="s2">&quot;pr&quot;</span><span class="p">],</span>
     <span class="n">frequency</span><span class="o">=</span><span class="s2">&quot;mon&quot;</span><span class="p">,</span>
     <span class="n">mip_era</span><span class="o">=</span><span class="s2">&quot;CMIP6&quot;</span><span class="p">,</span>
     <span class="n">add_missing_bounds</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -574,7 +592,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Found: [&#39;ALARO1-SFX&#39;, &#39;CCLM6-0-1-URB&#39;, &#39;CCLM6-0-1-URB-ESG&#39;, &#39;CNRM-ALADIN64E1&#39;, &#39;HCLIM43-ALADIN&#39;, &#39;ICON-CLM-202407-1-1&#39;, &#39;RACMO23E&#39;, &#39;REMO2020&#39;] for variables: tas
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Found: [&#39;ALARO1-SFX&#39;, &#39;CCLM6-0-1-URB&#39;, &#39;CNRM-ALADIN64E1&#39;, &#39;HCLIM43-ALADIN&#39;, &#39;ICON-CLM-202407-1-1&#39;, &#39;RACMO23E&#39;, &#39;REMO2020-2-2&#39;, &#39;REMO2020-2-2-MR2&#39;, &#39;RegCM5-0&#39;] for variables: [&#39;tas&#39;, &#39;pr&#39;]
 
 --&gt; The keys in the returned dictionary of datasets are constructed as follows:
 	&#39;project_id.domain_id.institution_id.driving_source_id.driving_experiment_id.driving_variant_label.source_id.version_realization.frequency.version&#39;
@@ -598,87 +616,117 @@ document.write(`
 </style>
 </div><div class="output text_html">
     <div>
-      <progress value='16' class='' max='16' style='width:300px; height:20px; vertical-align: middle;'></progress>
-      100.00% [16/16 00:01&lt;00:00]
+      <progress value='25' class='' max='25' style='width:300px; height:20px; vertical-align: middle;'></progress>
+      100.00% [25/25 00:01&lt;00:00]
     </div>
-    </div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>decoding dataset CORDEX-CMIP6.EUR-12.KNMI.ERA5.evaluation.r1i1p1f1.RACMO23E.v1-r1.fx.v20241216
-Found 16 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020.v1-r1.fx.v20241120
-Found 16 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.RMIB-UGent.ERA5.evaluation.r1i1p1f1.ALARO1-SFX.v1-r1.fx.v20241009
-Found 16 datasets
+    </div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>decoding dataset CORDEX-CMIP6.EUR-12.RMIB-UGent.ERA5.evaluation.r1i1p1f1.ALARO1-SFX.v1-r1.fx.v20241009
+Found 25 datasets
 decoding dataset CORDEX-CMIP6.EUR-12.CLMcom-CMCC.ERA5.evaluation.r1i1p1f1.CCLM6-0-1-URB.v1-r1.fx.v20250201
-Found 16 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.ERA5.evaluation.r1i1p1f1.HCLIM43-ALADIN.v1-r1.mon.v20241205
-Found 16 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020.v1-r1.mon.v20241120
-Warning for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020.v1-r1.mon.v20241120: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
-Found 16 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.CLMcom-KUL.ERA5.evaluation.r1i1p1f1.CCLM6-0-1-URB-ESG.v1-r1.fx.v20250328
-Warning for CORDEX-CMIP6.EUR-12.CLMcom-KUL.ERA5.evaluation.r1i1p1f1.CCLM6-0-1-URB-ESG.v1-r1.fx.v20250328: Variable(s) referenced in bounds not in variables: [&#39;lat_bnds&#39;]
-Warning for CORDEX-CMIP6.EUR-12.CLMcom-KUL.ERA5.evaluation.r1i1p1f1.CCLM6-0-1-URB-ESG.v1-r1.fx.v20250328: Variable(s) referenced in bounds not in variables: [&#39;lon_bnds&#39;]
-Warning for CORDEX-CMIP6.EUR-12.CLMcom-KUL.ERA5.evaluation.r1i1p1f1.CCLM6-0-1-URB-ESG.v1-r1.fx.v20250328: Variable(s) referenced in cell_measures not in variables: [&#39;area&#39;]
-Warning for CORDEX-CMIP6.EUR-12.CLMcom-KUL.ERA5.evaluation.r1i1p1f1.CCLM6-0-1-URB-ESG.v1-r1.fx.v20250328: Variable(s) referenced in cell_measures not in variables: [&#39;area&#39;]
-Found 16 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.KNMI.ERA5.evaluation.r1i1p1f1.RACMO23E.v1-r1.mon.v20241216
-Found 16 datasets
+Found 25 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.EC-Earth3-Veg.historical.r3i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
+Found 25 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-MR2.v1-r1.fx.v20241120
+Warning for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-MR2.v1-r1.fx.v20241120: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+Warning for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-MR2.v1-r1.fx.v20241120: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+Found 25 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-METNo.NorESM2-MM.historical.r1i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
+Found 25 datasets
 decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.ERA5.evaluation.r1i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
-Found 16 datasets
+Found 25 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.CNRM-ESM2-1.historical.r1i1p1f2.HCLIM43-ALADIN.v1-r1.fx.v20241205
+Found 25 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.ICTP.ERA5.evaluation.r1i1p1f1.RegCM5-0.v1-r1.fx.v20250415
+Found 25 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.CNRM-MF.ERA5.evaluation.r1i1p1f1.CNRM-ALADIN64E1.v1-r1.fx.v20250116
+Found 25 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.MPI-ESM1-2-HR.historical.r1i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
+Found 25 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2.v1-r1.fx.v20241120
+Warning for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2.v1-r1.fx.v20241120: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+Warning for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2.v1-r1.fx.v20241120: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+Found 25 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.EC-Earth3-Veg.historical.r2i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
+Found 25 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-MR2.v1-r1.mon.v20241120
+Warning for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-MR2.v1-r1.mon.v20241120: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+Warning for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-MR2.v1-r1.mon.v20241120: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+Found 25 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.ICTP.ERA5.evaluation.r1i1p1f1.RegCM5-0.v1-r1.mon.v20250415
+Found 25 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2.v1-r1.mon.v20241120
+Warning for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2.v1-r1.mon.v20241120: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+Warning for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2.v1-r1.mon.v20241120: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+Found 25 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.CLMcom-CMCC.ERA5.evaluation.r1i1p1f1.CCLM6-0-1-URB.v1-r1.mon.v20250201
+Found 25 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.ERA5.evaluation.r1i1p1f1.HCLIM43-ALADIN.v1-r1.mon.v20241205
+Found 25 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.CNRM-MF.ERA5.evaluation.r1i1p1f1.CNRM-ALADIN64E1.v1-r1.mon.v20250116
+Warning for CORDEX-CMIP6.EUR-12.CNRM-MF.ERA5.evaluation.r1i1p1f1.CNRM-ALADIN64E1.v1-r1.mon.v20250116: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+Warning for CORDEX-CMIP6.EUR-12.CNRM-MF.ERA5.evaluation.r1i1p1f1.CNRM-ALADIN64E1.v1-r1.mon.v20250116: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+Found 25 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.RMIB-UGent.ERA5.evaluation.r1i1p1f1.ALARO1-SFX.v1-r1.mon.v20241009
+Found 25 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.KNMI.ERA5.evaluation.r1i1p1f1.RACMO23E.v1-r1.fx.v20241216
+Found 25 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.MIROC6.historical.r1i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
+Found 25 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.KNMI.ERA5.evaluation.r1i1p1f1.RACMO23E.v1-r1.mon.v20241216
+Found 25 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.CLMcom-Hereon.ERA5.evaluation.r1i1p1f1.ICON-CLM-202407-1-1.v1-r1.mon.v20240920
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning for CORDEX-CMIP6.EUR-12.CLMcom-Hereon.ERA5.evaluation.r1i1p1f1.ICON-CLM-202407-1-1.v1-r1.mon.v20240920: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+Warning for CORDEX-CMIP6.EUR-12.CLMcom-Hereon.ERA5.evaluation.r1i1p1f1.ICON-CLM-202407-1-1.v1-r1.mon.v20240920: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+Found 25 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.EC-Earth3-Veg.historical.r1i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
+Found 25 datasets
 decoding dataset CORDEX-CMIP6.EUR-12.CLMcom-Hereon.ERA5.evaluation.r1i1p1f1.ICON-CLM-202407-1-1.v1-r1.fx.v20240920
 Warning for CORDEX-CMIP6.EUR-12.CLMcom-Hereon.ERA5.evaluation.r1i1p1f1.ICON-CLM-202407-1-1.v1-r1.fx.v20240920: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
 Warning for CORDEX-CMIP6.EUR-12.CLMcom-Hereon.ERA5.evaluation.r1i1p1f1.ICON-CLM-202407-1-1.v1-r1.fx.v20240920: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
-Found 16 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.CLMcom-KUL.ERA5.evaluation.r1i1p1f1.CCLM6-0-1-URB-ESG.v1-r1.mon.v20250328
-Warning for CORDEX-CMIP6.EUR-12.CLMcom-KUL.ERA5.evaluation.r1i1p1f1.CCLM6-0-1-URB-ESG.v1-r1.mon.v20250328: Variable(s) referenced in cell_measures not in variables: [&#39;area&#39;]
-Warning for CORDEX-CMIP6.EUR-12.CLMcom-KUL.ERA5.evaluation.r1i1p1f1.CCLM6-0-1-URB-ESG.v1-r1.mon.v20250328: Variable(s) referenced in bounds not in variables: [&#39;lat_bnds&#39;]
-Warning for CORDEX-CMIP6.EUR-12.CLMcom-KUL.ERA5.evaluation.r1i1p1f1.CCLM6-0-1-URB-ESG.v1-r1.mon.v20250328: Variable(s) referenced in bounds not in variables: [&#39;lon_bnds&#39;]
-Found 16 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.CLMcom-CMCC.ERA5.evaluation.r1i1p1f1.CCLM6-0-1-URB.v1-r1.mon.v20250201
-Found 16 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.CNRM-MF.ERA5.evaluation.r1i1p1f1.CNRM-ALADIN64E1.v1-r1.fx.v20250116
-Found 16 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.RMIB-UGent.ERA5.evaluation.r1i1p1f1.ALARO1-SFX.v1-r1.mon.v20241009
-Found 16 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.CNRM-MF.ERA5.evaluation.r1i1p1f1.CNRM-ALADIN64E1.v1-r1.mon.v20250116
-Warning for CORDEX-CMIP6.EUR-12.CNRM-MF.ERA5.evaluation.r1i1p1f1.CNRM-ALADIN64E1.v1-r1.mon.v20250116: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
-Found 16 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.CLMcom-Hereon.ERA5.evaluation.r1i1p1f1.ICON-CLM-202407-1-1.v1-r1.mon.v20240920
-Warning for CORDEX-CMIP6.EUR-12.CLMcom-Hereon.ERA5.evaluation.r1i1p1f1.ICON-CLM-202407-1-1.v1-r1.mon.v20240920: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
-Found 16 datasets
+Found 25 datasets
+Renaming grid mapping variable rotated_pole to &#39;crs&#39; for CORDEX-CMIP6.EUR-12.CLMcom-CMCC.ERA5.evaluation.r1i1p1f1.CCLM6-0-1-URB.v1-r1.fx.v20250201
+Renaming grid mapping variable rotated_latitude_longitude to &#39;crs&#39; for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-MR2.v1-r1.fx.v20241120
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Renaming grid mapping variable rotated_latitude_longitude to &#39;crs&#39;
-Renaming grid mapping variable rotated_pole to &#39;crs&#39;
-Renaming grid mapping variable rotated_latitude_longitude to &#39;crs&#39;
-Fix failed for CORDEX-CMIP6.EUR-12.CLMcom-KUL.ERA5.evaluation.r1i1p1f1.CCLM6-0-1-URB-ESG.v1-r1.fx.v20250328: Grid mapping name crs is not supported
-Dataset CORDEX-CMIP6.EUR-12.CLMcom-KUL.ERA5.evaluation.r1i1p1f1.CCLM6-0-1-URB-ESG.v1-r1.fx.v20250328 will be ignored...
-Warning for CORDEX-CMIP6.EUR-12.CLMcom-KUL.ERA5.evaluation.r1i1p1f1.CCLM6-0-1-URB-ESG.v1-r1.mon.v20250328: Variables {&#39;height&#39;} not found in object but are referred to in the CF attributes.
-Fix failed for CORDEX-CMIP6.EUR-12.CLMcom-KUL.ERA5.evaluation.r1i1p1f1.CCLM6-0-1-URB-ESG.v1-r1.mon.v20250328: Grid mapping name crs is not supported
-Dataset CORDEX-CMIP6.EUR-12.CLMcom-KUL.ERA5.evaluation.r1i1p1f1.CCLM6-0-1-URB-ESG.v1-r1.mon.v20250328 will be ignored...
-Renaming grid mapping variable rotated_pole to &#39;crs&#39;
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/evalbook-remote/lib/python3.13/site-packages/evaltools/fix.py:64: UserWarning: Grid mapping has (198.0, 39.25) which is inconsistent with (-162.0, 39.25) for EUR-12 and CORDEX-CMIP6.EUR-12.ICTP.ERA5.evaluation.r1i1p1f1.RegCM5-0.v1-r1.fx.v20250415.
+  warnings.warn(message)
+/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/evalbook-remote/lib/python3.13/site-packages/evaltools/fix.py:45: UserWarning: Grid mapping name latitude_longitude is not supported for CORDEX-CMIP6.EUR-12.CNRM-MF.ERA5.evaluation.r1i1p1f1.CNRM-ALADIN64E1.v1-r1.fx.v20250116
+  warnings.warn(
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/evalbook-remote/lib/python3.13/site-packages/evaltools/fix.py:44: UserWarning: Grid mapping name crs is not supported
-  warnings.warn(f&quot;Grid mapping name {grid_mapping_name} is not supported&quot;)
-/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/evalbook-remote/lib/python3.13/site-packages/evaltools/fix.py:39: UserWarning: Variables {&#39;height&#39;} not found in object but are referred to in the CF attributes.
-  grid_mapping_varname = ds.cf[&quot;grid_mapping&quot;].name
-/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/evalbook-remote/lib/python3.13/site-packages/evaltools/fix.py:44: UserWarning: Grid mapping name crs is not supported
-  warnings.warn(f&quot;Grid mapping name {grid_mapping_name} is not supported&quot;)
-/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/evalbook-remote/lib/python3.13/site-packages/evaltools/fix.py:44: UserWarning: Grid mapping name latitude_longitude is not supported
-  warnings.warn(f&quot;Grid mapping name {grid_mapping_name} is not supported&quot;)
-/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/evalbook-remote/lib/python3.13/site-packages/evaltools/fix.py:44: UserWarning: Grid mapping name latitude_longitude is not supported
-  warnings.warn(f&quot;Grid mapping name {grid_mapping_name} is not supported&quot;)
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Fix failed for CORDEX-CMIP6.EUR-12.CNRM-MF.ERA5.evaluation.r1i1p1f1.CNRM-ALADIN64E1.v1-r1.fx.v20250116: Grid mapping name latitude_longitude is not supported
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Fix failed for CORDEX-CMIP6.EUR-12.ICTP.ERA5.evaluation.r1i1p1f1.RegCM5-0.v1-r1.fx.v20250415: Grid mapping has (198.0, 39.25) which is inconsistent with (-162.0, 39.25) for EUR-12 and CORDEX-CMIP6.EUR-12.ICTP.ERA5.evaluation.r1i1p1f1.RegCM5-0.v1-r1.fx.v20250415.
+Dataset CORDEX-CMIP6.EUR-12.ICTP.ERA5.evaluation.r1i1p1f1.RegCM5-0.v1-r1.fx.v20250415 will be ignored...
+Fix failed for CORDEX-CMIP6.EUR-12.CNRM-MF.ERA5.evaluation.r1i1p1f1.CNRM-ALADIN64E1.v1-r1.fx.v20250116: Grid mapping name latitude_longitude is not supported for CORDEX-CMIP6.EUR-12.CNRM-MF.ERA5.evaluation.r1i1p1f1.CNRM-ALADIN64E1.v1-r1.fx.v20250116
 Dataset CORDEX-CMIP6.EUR-12.CNRM-MF.ERA5.evaluation.r1i1p1f1.CNRM-ALADIN64E1.v1-r1.fx.v20250116 will be ignored...
-Fix failed for CORDEX-CMIP6.EUR-12.CNRM-MF.ERA5.evaluation.r1i1p1f1.CNRM-ALADIN64E1.v1-r1.mon.v20250116: Grid mapping name latitude_longitude is not supported
+Renaming grid mapping variable rotated_latitude_longitude to &#39;crs&#39; for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2.v1-r1.fx.v20241120
+Renaming grid mapping variable rotated_latitude_longitude to &#39;crs&#39; for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-MR2.v1-r1.mon.v20241120
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/evalbook-remote/lib/python3.13/site-packages/evaltools/fix.py:64: UserWarning: Grid mapping has (198.0, 39.25) which is inconsistent with (-162.0, 39.25) for EUR-12 and CORDEX-CMIP6.EUR-12.ICTP.ERA5.evaluation.r1i1p1f1.RegCM5-0.v1-r1.mon.v20250415.
+  warnings.warn(message)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Fix failed for CORDEX-CMIP6.EUR-12.ICTP.ERA5.evaluation.r1i1p1f1.RegCM5-0.v1-r1.mon.v20250415: Grid mapping has (198.0, 39.25) which is inconsistent with (-162.0, 39.25) for EUR-12 and CORDEX-CMIP6.EUR-12.ICTP.ERA5.evaluation.r1i1p1f1.RegCM5-0.v1-r1.mon.v20250415.
+Dataset CORDEX-CMIP6.EUR-12.ICTP.ERA5.evaluation.r1i1p1f1.RegCM5-0.v1-r1.mon.v20250415 will be ignored...
+Renaming grid mapping variable rotated_latitude_longitude to &#39;crs&#39; for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2.v1-r1.mon.v20241120
+Renaming grid mapping variable rotated_pole to &#39;crs&#39; for CORDEX-CMIP6.EUR-12.CLMcom-CMCC.ERA5.evaluation.r1i1p1f1.CCLM6-0-1-URB.v1-r1.mon.v20250201
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/evalbook-remote/lib/python3.13/site-packages/evaltools/fix.py:45: UserWarning: Grid mapping name latitude_longitude is not supported for CORDEX-CMIP6.EUR-12.CNRM-MF.ERA5.evaluation.r1i1p1f1.CNRM-ALADIN64E1.v1-r1.mon.v20250116
+  warnings.warn(
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Fix failed for CORDEX-CMIP6.EUR-12.CNRM-MF.ERA5.evaluation.r1i1p1f1.CNRM-ALADIN64E1.v1-r1.mon.v20250116: Grid mapping name latitude_longitude is not supported for CORDEX-CMIP6.EUR-12.CNRM-MF.ERA5.evaluation.r1i1p1f1.CNRM-ALADIN64E1.v1-r1.mon.v20250116
 Dataset CORDEX-CMIP6.EUR-12.CNRM-MF.ERA5.evaluation.r1i1p1f1.CNRM-ALADIN64E1.v1-r1.mon.v20250116 will be ignored...
-merging CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.ERA5.evaluation.r1i1p1f1.HCLIM43-ALADIN.v1-r1.mon.v20241205 with CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.ERA5.evaluation.r1i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
-merging CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020.v1-r1.mon.v20241120 with CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020.v1-r1.fx.v20241120
-merging CORDEX-CMIP6.EUR-12.KNMI.ERA5.evaluation.r1i1p1f1.RACMO23E.v1-r1.mon.v20241216 with CORDEX-CMIP6.EUR-12.KNMI.ERA5.evaluation.r1i1p1f1.RACMO23E.v1-r1.fx.v20241216
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>merging CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-MR2.v1-r1.mon.v20241120 with CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-MR2.v1-r1.fx.v20241120
+merging CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2.v1-r1.mon.v20241120 with CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2.v1-r1.fx.v20241120
 merging CORDEX-CMIP6.EUR-12.CLMcom-CMCC.ERA5.evaluation.r1i1p1f1.CCLM6-0-1-URB.v1-r1.mon.v20250201 with CORDEX-CMIP6.EUR-12.CLMcom-CMCC.ERA5.evaluation.r1i1p1f1.CCLM6-0-1-URB.v1-r1.fx.v20250201
+merging CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.ERA5.evaluation.r1i1p1f1.HCLIM43-ALADIN.v1-r1.mon.v20241205 with CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.ERA5.evaluation.r1i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
 merging CORDEX-CMIP6.EUR-12.RMIB-UGent.ERA5.evaluation.r1i1p1f1.ALARO1-SFX.v1-r1.mon.v20241009 with CORDEX-CMIP6.EUR-12.RMIB-UGent.ERA5.evaluation.r1i1p1f1.ALARO1-SFX.v1-r1.fx.v20241009
+merging CORDEX-CMIP6.EUR-12.KNMI.ERA5.evaluation.r1i1p1f1.RACMO23E.v1-r1.mon.v20241216 with CORDEX-CMIP6.EUR-12.KNMI.ERA5.evaluation.r1i1p1f1.RACMO23E.v1-r1.fx.v20241216
 merging CORDEX-CMIP6.EUR-12.CLMcom-Hereon.ERA5.evaluation.r1i1p1f1.ICON-CLM-202407-1-1.v1-r1.mon.v20240920 with CORDEX-CMIP6.EUR-12.CLMcom-Hereon.ERA5.evaluation.r1i1p1f1.ICON-CLM-202407-1-1.v1-r1.fx.v20240920
 </pre></div>
 </div>
@@ -692,8 +740,7 @@ merging CORDEX-CMIP6.EUR-12.CLMcom-Hereon.ERA5.evaluation.r1i1p1f1.ICON-CLM-2024
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.ERA5.evaluation.r1i1p1f1.HCLIM43-ALADIN.v1-r1.mon.v20241205
-regridding CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.ERA5.evaluation.r1i1p1f1.HCLIM43-ALADIN.v1-r1.mon.v20241205 with grid_mapping: lambert_conformal_conic
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>regridding CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.ERA5.evaluation.r1i1p1f1.HCLIM43-ALADIN.v1-r1.mon.v20241205 with grid_mapping: lambert_conformal_conic
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>xESMF Regridder 
@@ -705,13 +752,7 @@ Output grid shape:          (412, 424)
 Periodic in longitude?      False
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020.v1-r1.mon.v20241120
-CORDEX-CMIP6.EUR-12.KNMI.ERA5.evaluation.r1i1p1f1.RACMO23E.v1-r1.mon.v20241216
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CORDEX-CMIP6.EUR-12.CLMcom-CMCC.ERA5.evaluation.r1i1p1f1.CCLM6-0-1-URB.v1-r1.mon.v20250201
-CORDEX-CMIP6.EUR-12.RMIB-UGent.ERA5.evaluation.r1i1p1f1.ALARO1-SFX.v1-r1.mon.v20241009
-regridding CORDEX-CMIP6.EUR-12.RMIB-UGent.ERA5.evaluation.r1i1p1f1.ALARO1-SFX.v1-r1.mon.v20241009 with grid_mapping: lambert_conformal_conic
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>regridding CORDEX-CMIP6.EUR-12.RMIB-UGent.ERA5.evaluation.r1i1p1f1.ALARO1-SFX.v1-r1.mon.v20241009 with grid_mapping: lambert_conformal_conic
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>xESMF Regridder 
@@ -721,7 +762,6 @@ Reuse pre-computed weights? False
 Input grid shape:           (483, 483) 
 Output grid shape:          (412, 424) 
 Periodic in longitude?      False
-CORDEX-CMIP6.EUR-12.CLMcom-Hereon.ERA5.evaluation.r1i1p1f1.ICON-CLM-202407-1-1.v1-r1.mon.v20240920
 </pre></div>
 </div>
 </div>
@@ -730,8 +770,11 @@ CORDEX-CMIP6.EUR-12.CLMcom-Hereon.ERA5.evaluation.r1i1p1f1.ICON-CLM-202407-1-1.v
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">period</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="s2">&quot;1980&quot;</span><span class="p">,</span> <span class="s2">&quot;2020&quot;</span><span class="p">)</span>
 
-<span class="n">eobs</span> <span class="o">=</span> <span class="n">obs</span><span class="o">.</span><span class="n">eobs</span><span class="p">(</span><span class="n">variables</span><span class="o">=</span><span class="s2">&quot;tg&quot;</span><span class="p">,</span> <span class="n">add_mask</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">period</span><span class="p">)</span>
-<span class="n">eobs</span> <span class="o">=</span> <span class="n">mask_invalid</span><span class="p">(</span><span class="n">eobs</span><span class="p">,</span> <span class="nb">vars</span><span class="o">=</span><span class="s2">&quot;tg&quot;</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="n">eobs_tg</span> <span class="o">=</span> <span class="n">obs</span><span class="o">.</span><span class="n">eobs</span><span class="p">(</span><span class="n">variables</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;tg&quot;</span><span class="p">],</span> <span class="n">add_mask</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">period</span><span class="p">)</span>
+<span class="n">eobs_tg</span> <span class="o">=</span> <span class="n">mask_invalid</span><span class="p">(</span><span class="n">eobs_tg</span><span class="p">,</span> <span class="nb">vars</span><span class="o">=</span><span class="s2">&quot;tg&quot;</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="n">eobs_rr</span> <span class="o">=</span> <span class="n">obs</span><span class="o">.</span><span class="n">eobs</span><span class="p">(</span><span class="n">variables</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;rr&quot;</span><span class="p">],</span> <span class="n">add_mask</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">period</span><span class="p">)</span>
+<span class="n">eobs_rr</span> <span class="o">=</span> <span class="n">mask_invalid</span><span class="p">(</span><span class="n">eobs_rr</span><span class="p">,</span> <span class="nb">vars</span><span class="o">=</span><span class="s2">&quot;rr&quot;</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+<span class="n">eobs</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">merge</span><span class="p">([</span><span class="n">eobs_tg</span><span class="p">,</span> <span class="n">eobs_rr</span><span class="p">],</span> <span class="n">join</span><span class="o">=</span><span class="s2">&quot;override&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -739,8 +782,22 @@ CORDEX-CMIP6.EUR-12.CLMcom-Hereon.ERA5.evaluation.r1i1p1f1.ICON-CLM-202407-1-1.v
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># unmapped_to_nan, see https://github.com/pangeo-data/xESMF/issues/56</span>
-<span class="n">regridder</span> <span class="o">=</span> <span class="n">xe</span><span class="o">.</span><span class="n">Regridder</span><span class="p">(</span><span class="n">eobs</span><span class="p">,</span> <span class="n">rotated_grid</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;bilinear&quot;</span><span class="p">,</span> <span class="n">unmapped_to_nan</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">eobs_on_rotated</span> <span class="o">=</span> <span class="n">regridder</span><span class="p">(</span><span class="n">eobs</span><span class="p">)</span>
+<span class="n">regridder_bil</span> <span class="o">=</span> <span class="n">xe</span><span class="o">.</span><span class="n">Regridder</span><span class="p">(</span>
+    <span class="n">eobs</span><span class="p">,</span> <span class="n">rotated_grid</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;bilinear&quot;</span><span class="p">,</span> <span class="n">unmapped_to_nan</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+<span class="n">regridder_cons</span> <span class="o">=</span> <span class="n">xe</span><span class="o">.</span><span class="n">Regridder</span><span class="p">(</span>
+    <span class="n">eobs</span><span class="p">,</span> <span class="n">rotated_grid</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;conservative_normed&quot;</span><span class="p">,</span> <span class="n">unmapped_to_nan</span><span class="o">=</span><span class="kc">True</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">eobs_on_rotated</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
+    <span class="p">[</span><span class="n">regridder_bil</span><span class="p">(</span><span class="n">eobs</span><span class="p">[[</span><span class="s2">&quot;tg&quot;</span><span class="p">,</span> <span class="s2">&quot;elevation&quot;</span><span class="p">]]),</span> <span class="n">regridder_cons</span><span class="p">(</span><span class="n">eobs</span><span class="p">[[</span><span class="s2">&quot;rr&quot;</span><span class="p">]])],</span>
+    <span class="n">join</span><span class="o">=</span><span class="s2">&quot;override&quot;</span><span class="p">,</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -774,12 +831,12 @@ CORDEX-CMIP6.EUR-12.CLMcom-Hereon.ERA5.evaluation.r1i1p1f1.ICON-CLM-202407-1-1.v
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
 
-<span class="n">eobs_seasmean</span> <span class="o">=</span> <span class="n">seasonal_mean</span><span class="p">(</span><span class="n">eobs_on_rotated</span><span class="o">.</span><span class="n">tg</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">period</span><span class="p">))</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+<span class="n">eobs_seasmean</span> <span class="o">=</span> <span class="n">seasonal_mean</span><span class="p">(</span><span class="n">eobs_on_rotated</span><span class="p">[[</span><span class="s2">&quot;tg&quot;</span><span class="p">,</span> <span class="s2">&quot;rr&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">period</span><span class="p">))</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/evalbook-remote/lib/python3.13/site-packages/distributed/client.py:3383: UserWarning: Sending large graph of size 15.11 MiB.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/evalbook-remote/lib/python3.13/site-packages/distributed/client.py:3357: UserWarning: Sending large graph of size 37.57 MiB.
 This may cause some slowdown.
 Consider loading the data with Dask directly
  or using futures or delayed objects to embed the data into the graph without repetition.
@@ -787,8 +844,8 @@ See also https://docs.dask.org/en/stable/best-practices.html#load-data-with-dask
   warnings.warn(
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 5.29 s, sys: 1.87 s, total: 7.16 s
-Wall time: 1min 18s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 4.35 s, sys: 1.04 s, total: 5.4 s
+Wall time: 33.5 s
 </pre></div>
 </div>
 </div>
@@ -797,57 +854,84 @@ Wall time: 1min 18s
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
 
-<span class="n">variable</span> <span class="o">=</span> <span class="s2">&quot;tas&quot;</span>
-
-<span class="n">bias</span> <span class="o">=</span> <span class="p">{</span>
+<span class="n">bias_tas</span> <span class="o">=</span> <span class="p">{</span>
     <span class="n">dset_id</span><span class="p">:</span> <span class="p">(</span>
-        <span class="n">seasonal_mean</span><span class="p">(</span><span class="n">ds</span><span class="p">[[</span><span class="n">variable</span><span class="p">]]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">period</span><span class="p">))</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+        <span class="n">seasonal_mean</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;tas&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">period</span><span class="p">))</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
         <span class="o">+</span> <span class="n">height_temperature_correction</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">orog</span><span class="p">,</span> <span class="n">eobs_on_rotated</span><span class="o">.</span><span class="n">elevation</span><span class="p">)</span>
-        <span class="o">-</span> <span class="p">(</span><span class="n">eobs_seasmean</span> <span class="o">+</span> <span class="mf">273.15</span><span class="p">)</span>
-    <span class="p">)</span>
+        <span class="o">-</span> <span class="p">(</span><span class="n">eobs_seasmean</span><span class="o">.</span><span class="n">tg</span> <span class="o">+</span> <span class="mf">273.15</span><span class="p">)</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;tas&quot;</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">dset_id</span><span class="p">,</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">dsets</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
 <span class="p">}</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/evalbook-remote/lib/python3.13/site-packages/distributed/client.py:3383: UserWarning: Sending large graph of size 9.64 MiB.
-This may cause some slowdown.
-Consider loading the data with Dask directly
- or using futures or delayed objects to embed the data into the graph without repetition.
-See also https://docs.dask.org/en/stable/best-practices.html#load-data-with-dask for more information.
-  warnings.warn(
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/evalbook-remote/lib/python3.13/site-packages/distributed/client.py:3383: UserWarning: Sending large graph of size 9.54 MiB.
-This may cause some slowdown.
-Consider loading the data with Dask directly
- or using futures or delayed objects to embed the data into the graph without repetition.
-See also https://docs.dask.org/en/stable/best-practices.html#load-data-with-dask for more information.
-  warnings.warn(
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 16.9 s, sys: 1.96 s, total: 18.9 s
-Wall time: 26 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 17.5 s, sys: 2.22 s, total: 19.7 s
+Wall time: 27.6 s
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">seasonal_bias</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
-    <span class="nb">list</span><span class="p">(</span><span class="n">bias</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+
+<span class="n">bias_pr</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="n">dset_id</span><span class="p">:</span> <span class="p">(</span>
+        <span class="mi">100</span>
+        <span class="o">*</span> <span class="p">(</span>
+            <span class="n">seasonal_mean</span><span class="p">(</span><span class="n">ds</span><span class="p">[</span><span class="s2">&quot;pr&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">period</span><span class="p">))</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span> <span class="o">*</span> <span class="mi">86400</span>
+            <span class="o">-</span> <span class="n">eobs_seasmean</span><span class="o">.</span><span class="n">rr</span>
+        <span class="p">)</span>
+        <span class="o">/</span> <span class="n">eobs_seasmean</span><span class="o">.</span><span class="n">rr</span>
+        <span class="c1"># Assign NaN where observed precipitation is zero</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s2">&quot;pr&quot;</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">dset_id</span><span class="p">,</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">dsets</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 18.5 s, sys: 2.06 s, total: 20.5 s
+Wall time: 27.9 s
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">seasonal_bias_tas</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
+    <span class="nb">list</span><span class="p">(</span><span class="n">bias_tas</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span>
     <span class="n">dim</span><span class="o">=</span><span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
         <span class="nb">list</span><span class="p">(</span>
             <span class="nb">map</span><span class="p">(</span>
                 <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">short_iid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;institution_id&quot;</span><span class="p">,</span> <span class="s2">&quot;source_id&quot;</span><span class="p">],</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">),</span>
-                <span class="n">bias</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span>
+                <span class="n">bias_tas</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span>
             <span class="p">)</span>
         <span class="p">),</span>
         <span class="n">dims</span><span class="o">=</span><span class="s2">&quot;dset_id&quot;</span><span class="p">,</span>
     <span class="p">),</span>
     <span class="n">compat</span><span class="o">=</span><span class="s2">&quot;override&quot;</span><span class="p">,</span>
     <span class="n">coords</span><span class="o">=</span><span class="s2">&quot;minimal&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">seasonal_bias_pr</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
+    <span class="nb">list</span><span class="p">(</span><span class="n">bias_pr</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span>
+    <span class="n">dim</span><span class="o">=</span><span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
+        <span class="nb">list</span><span class="p">(</span>
+            <span class="nb">map</span><span class="p">(</span>
+                <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">short_iid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;institution_id&quot;</span><span class="p">,</span> <span class="s2">&quot;source_id&quot;</span><span class="p">],</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">),</span>
+                <span class="n">bias_pr</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span>
+            <span class="p">)</span>
+        <span class="p">),</span>
+        <span class="n">dims</span><span class="o">=</span><span class="s2">&quot;dset_id&quot;</span><span class="p">,</span>
+    <span class="p">),</span>
+    <span class="n">compat</span><span class="o">=</span><span class="s2">&quot;override&quot;</span><span class="p">,</span>
+    <span class="n">coords</span><span class="o">=</span><span class="s2">&quot;minimal&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">seasonal_bias</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
+    <span class="p">[</span><span class="n">seasonal_bias_tas</span><span class="p">,</span> <span class="n">seasonal_bias_pr</span><span class="p">],</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -861,7 +945,7 @@ Wall time: 26 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/evalbook-remote/lib/python3.13/site-packages/distributed/client.py:3383: UserWarning: Sending large graph of size 55.49 MiB.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/evalbook-remote/lib/python3.13/site-packages/distributed/client.py:3357: UserWarning: Sending large graph of size 60.84 MiB.
 This may cause some slowdown.
 Consider loading the data with Dask directly
  or using futures or delayed objects to embed the data into the graph without repetition.
@@ -869,153 +953,131 @@ See also https://docs.dask.org/en/stable/best-practices.html#load-data-with-dask
   warnings.warn(
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 118 ms, sys: 201 ms, total: 319 ms
-Wall time: 414 ms
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 123 ms, sys: 93.9 ms, total: 217 ms
+Wall time: 328 ms
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
-<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">cartopy</span><span class="w"> </span><span class="kn">import</span> <span class="n">crs</span> <span class="k">as</span> <span class="n">ccrs</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">cartopy.mpl.ticker</span><span class="w"> </span><span class="kn">import</span> <span class="n">LatitudeFormatter</span><span class="p">,</span> <span class="n">LongitudeFormatter</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 
-<span class="n">ds</span> <span class="o">=</span> <span class="n">seasonal_bias_</span>
 
-<span class="n">nrows</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">dset_id</span><span class="o">.</span><span class="n">size</span>
-<span class="n">ncols</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">season</span><span class="o">.</span><span class="n">size</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">plot_all</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">plot_var</span><span class="p">,</span> <span class="n">levels</span><span class="p">,</span> <span class="n">cmap</span><span class="p">):</span>
+    <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">cartopy</span><span class="w"> </span><span class="kn">import</span> <span class="n">crs</span> <span class="k">as</span> <span class="n">ccrs</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">cartopy.mpl.ticker</span><span class="w"> </span><span class="kn">import</span> <span class="n">LatitudeFormatter</span><span class="p">,</span> <span class="n">LongitudeFormatter</span>
 
-<span class="n">aspect</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">cf</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="s2">&quot;Y&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">ds</span><span class="o">.</span><span class="n">cf</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">]</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;aspect: </span><span class="si">{</span><span class="n">aspect</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="c1"># ds = diffs.where(~diffs.isnull(), drop=True)</span>
-<span class="n">tas</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">tas</span>
-<span class="c1"># pole = ds.cf[&quot;grid_mapping&quot;]</span>
-<span class="c1"># transform = ccrs.RotatedPole(</span>
-<span class="c1">#    pole_latitude=pole.grid_north_pole_latitude,</span>
-<span class="c1">#    pole_longitude=pole.grid_north_pole_longitude,</span>
-<span class="c1"># )</span>
-<span class="n">transform</span> <span class="o">=</span> <span class="n">ccrs</span><span class="o">.</span><span class="n">RotatedPole</span><span class="p">(</span><span class="n">pole_latitude</span><span class="o">=</span><span class="mf">39.25</span><span class="p">,</span> <span class="n">pole_longitude</span><span class="o">=-</span><span class="mf">162.0</span><span class="p">)</span>
-<span class="n">projection</span> <span class="o">=</span> <span class="n">transform</span>
+    <span class="n">nrows</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">dset_id</span><span class="o">.</span><span class="n">size</span>
+    <span class="n">ncols</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">season</span><span class="o">.</span><span class="n">size</span>
 
-<span class="c1"># Define the figure and each axis for the 3 rows and 3 columns</span>
-<span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span>
-    <span class="n">nrows</span><span class="o">=</span><span class="n">nrows</span><span class="p">,</span>
-    <span class="n">ncols</span><span class="o">=</span><span class="n">ncols</span><span class="p">,</span>
-    <span class="n">subplot_kw</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;projection&quot;</span><span class="p">:</span> <span class="n">projection</span><span class="p">},</span>
-    <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">18</span> <span class="o">*</span> <span class="mf">1.05</span> <span class="o">*</span> <span class="n">nrows</span> <span class="o">/</span> <span class="n">ncols</span><span class="p">),</span>
-    <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-    <span class="n">gridspec_kw</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;wspace&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;hspace&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span>
-    <span class="c1">#  aspect_ratio=0.97,</span>
-<span class="p">)</span>
+    <span class="n">aspect</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">cf</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="s2">&quot;Y&quot;</span><span class="p">]</span> <span class="o">/</span> <span class="n">ds</span><span class="o">.</span><span class="n">cf</span><span class="o">.</span><span class="n">dims</span><span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;aspect: </span><span class="si">{</span><span class="n">aspect</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">data</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">plot_var</span><span class="p">]</span>
 
-<span class="c1"># plt.subplots_adjust(wspace=0, hspace=0)</span>
+    <span class="n">pole_latitude</span> <span class="o">=</span> <span class="n">rotated_grid</span><span class="o">.</span><span class="n">cf</span><span class="p">[</span><span class="s2">&quot;grid_mapping&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">grid_north_pole_latitude</span>
+    <span class="n">pole_longitude</span> <span class="o">=</span> <span class="n">rotated_grid</span><span class="o">.</span><span class="n">cf</span><span class="p">[</span><span class="s2">&quot;grid_mapping&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">grid_north_pole_longitude</span>
+    <span class="n">transform</span> <span class="o">=</span> <span class="n">ccrs</span><span class="o">.</span><span class="n">RotatedPole</span><span class="p">(</span>
+        <span class="n">pole_latitude</span><span class="o">=</span><span class="n">pole_latitude</span><span class="p">,</span> <span class="n">pole_longitude</span><span class="o">=</span><span class="n">pole_longitude</span>
+    <span class="p">)</span>
+    <span class="n">projection</span> <span class="o">=</span> <span class="n">transform</span>
 
-<span class="c1"># axs is a 2 dimensional array of `GeoAxes`.  We will flatten it into a 1-D array</span>
-<span class="n">axs</span> <span class="o">=</span> <span class="n">axs</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+    <span class="c1"># Define the figure and each axis for the 3 rows and 3 columns</span>
+    <span class="n">fig</span><span class="p">,</span> <span class="n">axs</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span>
+        <span class="n">nrows</span><span class="o">=</span><span class="n">nrows</span><span class="p">,</span>
+        <span class="n">ncols</span><span class="o">=</span><span class="n">ncols</span><span class="p">,</span>
+        <span class="n">subplot_kw</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;projection&quot;</span><span class="p">:</span> <span class="n">projection</span><span class="p">},</span>
+        <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">18</span><span class="p">,</span> <span class="mi">18</span> <span class="o">*</span> <span class="mf">1.05</span> <span class="o">*</span> <span class="n">nrows</span> <span class="o">/</span> <span class="n">ncols</span><span class="p">),</span>
+        <span class="n">sharex</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">sharey</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">gridspec_kw</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;wspace&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;hspace&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">},</span>
+        <span class="c1">#  aspect_ratio=0.97,</span>
+    <span class="p">)</span>
 
-<span class="c1"># Loop over all of the models</span>
-<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">season</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">season</span><span class="o">.</span><span class="n">values</span><span class="p">):</span>
-    <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">dset_id</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">dset_id</span><span class="o">.</span><span class="n">values</span><span class="p">):</span>
-        <span class="n">pos</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="n">j</span> <span class="o">*</span> <span class="n">ncols</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">season</span><span class="p">,</span> <span class="n">dset_id</span><span class="p">)</span>
-        <span class="c1"># Select the week 1 forecast from the specified model</span>
-        <span class="n">data</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">tas</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">season</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">dset_id</span><span class="o">=</span><span class="n">j</span><span class="p">)</span>
+    <span class="c1"># axs is a 2 dimensional array of `GeoAxes`.  We will flatten it into a 1-D array</span>
+    <span class="n">axs</span> <span class="o">=</span> <span class="n">axs</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
 
-        <span class="c1"># Add the cyclic point</span>
-        <span class="c1"># data,lons=add_cyclic_point(data,coord=ds[&#39;lon&#39;])</span>
+    <span class="c1"># Loop over all of the models</span>
+    <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">season</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">season</span><span class="o">.</span><span class="n">values</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">j</span><span class="p">,</span> <span class="n">dset_id</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">dset_id</span><span class="o">.</span><span class="n">values</span><span class="p">):</span>
+            <span class="n">pos</span> <span class="o">=</span> <span class="n">i</span> <span class="o">+</span> <span class="n">j</span> <span class="o">*</span> <span class="n">ncols</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">j</span><span class="p">,</span> <span class="n">pos</span><span class="p">,</span> <span class="n">season</span><span class="p">,</span> <span class="n">dset_id</span><span class="p">)</span>
+            <span class="c1"># Select the week 1 forecast from the specified model</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[</span><span class="n">plot_var</span><span class="p">]</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">season</span><span class="o">=</span><span class="n">i</span><span class="p">,</span> <span class="n">dset_id</span><span class="o">=</span><span class="n">j</span><span class="p">)</span>
 
-        <span class="c1"># Contour plot</span>
-        <span class="n">cs</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span>
-            <span class="n">ds</span><span class="o">.</span><span class="n">cf</span><span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">],</span>
-            <span class="n">ds</span><span class="o">.</span><span class="n">cf</span><span class="p">[</span><span class="s2">&quot;Y&quot;</span><span class="p">],</span>
-            <span class="n">data</span><span class="p">,</span>
-            <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">,</span>
-            <span class="c1"># Define the levels for contourf</span>
-            <span class="n">levels</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span>
-            <span class="c1"># cmap=&quot;coolwarm&quot;,</span>
-            <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span>
-            <span class="c1"># vmin=-8, vmax=8,</span>
-            <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;RdBu_r&quot;</span><span class="p">,</span>
-        <span class="p">)</span>
-
-        <span class="c1"># if i == 3:</span>
-        <span class="c1">#    axs[pos].set_ylabel(dset_id)</span>
-
-        <span class="n">axs</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">aspect</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
-
-        <span class="c1"># Title each subplot with the name of the model</span>
-        <span class="c1"># axs[pos].set_title(pos)</span>
-
-        <span class="c1"># Draw the coastines for each subplot</span>
-        <span class="n">axs</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span><span class="o">.</span><span class="n">coastlines</span><span class="p">(</span><span class="n">resolution</span><span class="o">=</span><span class="s2">&quot;50m&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
-
-        <span class="n">gl</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span><span class="o">.</span><span class="n">gridlines</span><span class="p">(</span>
-            <span class="n">draw_labels</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-            <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>
-            <span class="n">color</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">,</span>
-            <span class="n">xlocs</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span>
-            <span class="n">ylocs</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span>
-        <span class="p">)</span>
-
-        <span class="c1"># axs[pos].xaxis.set_tick_position(&#39;bottom&#39;)</span>
-        <span class="c1"># axs[pos].yaxis.set_tick_position(&#39;left&#39;)</span>
-
-        <span class="c1"># Longitude labels</span>
-        <span class="c1"># https://stackoverflow.com/questions/35479508/cartopy-set-xlabel-set-ylabel-not-ticklabels</span>
-        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
-            <span class="n">axs</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
-                <span class="mf">1.1</span><span class="p">,</span>
-                <span class="mf">0.55</span><span class="p">,</span>
-                <span class="n">dset_id</span><span class="p">,</span>
-                <span class="n">va</span><span class="o">=</span><span class="s2">&quot;bottom&quot;</span><span class="p">,</span>
-                <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
-                <span class="n">rotation</span><span class="o">=</span><span class="s2">&quot;vertical&quot;</span><span class="p">,</span>
-                <span class="n">rotation_mode</span><span class="o">=</span><span class="s2">&quot;anchor&quot;</span><span class="p">,</span>
-                <span class="n">transform</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span><span class="o">.</span><span class="n">transAxes</span><span class="p">,</span>
+            <span class="c1"># Contour plot</span>
+            <span class="n">cs</span> <span class="o">=</span> <span class="n">axs</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span>
+                <span class="n">ds</span><span class="o">.</span><span class="n">cf</span><span class="p">[</span><span class="s2">&quot;X&quot;</span><span class="p">],</span>
+                <span class="n">ds</span><span class="o">.</span><span class="n">cf</span><span class="p">[</span><span class="s2">&quot;Y&quot;</span><span class="p">],</span>
+                <span class="n">data</span><span class="p">,</span>
+                <span class="n">transform</span><span class="o">=</span><span class="n">transform</span><span class="p">,</span>
+                <span class="c1"># Define the levels for contourf</span>
+                <span class="n">levels</span><span class="o">=</span><span class="n">levels</span><span class="p">,</span>
+                <span class="c1"># cmap=&quot;coolwarm&quot;,</span>
+                <span class="n">extend</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span>
+                <span class="n">cmap</span><span class="o">=</span><span class="n">cmap</span><span class="p">,</span>
             <span class="p">)</span>
-        <span class="k">if</span> <span class="n">j</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">axs</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
-                <span class="mf">0.55</span><span class="p">,</span>
-                <span class="mf">1.05</span><span class="p">,</span>
-                <span class="n">season</span><span class="p">,</span>
-                <span class="n">va</span><span class="o">=</span><span class="s2">&quot;bottom&quot;</span><span class="p">,</span>
-                <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
-                <span class="n">rotation</span><span class="o">=</span><span class="s2">&quot;horizontal&quot;</span><span class="p">,</span>
-                <span class="n">rotation_mode</span><span class="o">=</span><span class="s2">&quot;anchor&quot;</span><span class="p">,</span>
-                <span class="n">transform</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span><span class="o">.</span><span class="n">transAxes</span><span class="p">,</span>
+
+            <span class="n">axs</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span><span class="o">.</span><span class="n">set_aspect</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">aspect</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+
+            <span class="c1"># Draw the coastines for each subplot</span>
+            <span class="n">axs</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span><span class="o">.</span><span class="n">coastlines</span><span class="p">(</span><span class="n">resolution</span><span class="o">=</span><span class="s2">&quot;50m&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
+
+            <span class="n">axs</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span><span class="o">.</span><span class="n">gridlines</span><span class="p">(</span>
+                <span class="n">draw_labels</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                <span class="n">linewidth</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span>
+                <span class="n">color</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">,</span>
+                <span class="n">xlocs</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">180</span><span class="p">,</span> <span class="mi">180</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span>
+                <span class="n">ylocs</span><span class="o">=</span><span class="nb">range</span><span class="p">(</span><span class="o">-</span><span class="mi">90</span><span class="p">,</span> <span class="mi">90</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span>
             <span class="p">)</span>
-        <span class="c1"># if i == 0:</span>
-        <span class="c1"># axs[pos].set_title(season)</span>
-        <span class="c1">#    axs[pos].set_xlabel(dset_id)</span>
-        <span class="c1">#    axs[pos].set_xticks(range(-180, 180, 10), crs=ccrs.PlateCarree())</span>
-        <span class="c1"># lon_formatter = cticker.LongitudeFormatter()</span>
-        <span class="c1"># axs[i].xaxis.set_major_formatter(lon_formatter)</span>
-        <span class="n">lon_formatter</span> <span class="o">=</span> <span class="n">LongitudeFormatter</span><span class="p">(</span><span class="n">zero_direction_label</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">lat_formatter</span> <span class="o">=</span> <span class="n">LatitudeFormatter</span><span class="p">()</span>
-        <span class="n">axs</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">lon_formatter</span><span class="p">)</span>
-        <span class="n">axs</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">lat_formatter</span><span class="p">)</span>
 
-        <span class="c1"># # Latitude labels</span>
-        <span class="c1"># axs[pos].set_yticks(range(-90, 90, 10), crs=ccrs.PlateCarree())</span>
-        <span class="c1"># lat_formatter = cticker.LatitudeFormatter()</span>
-        <span class="c1"># axs[i].yaxis.set_major_formatter(lat_formatter)</span>
+            <span class="c1"># Longitude labels</span>
+            <span class="c1"># https://stackoverflow.com/questions/35479508/cartopy-set-xlabel-set-ylabel-not-ticklabels</span>
+            <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+                <span class="n">axs</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
+                    <span class="mf">1.1</span><span class="p">,</span>
+                    <span class="mf">0.55</span><span class="p">,</span>
+                    <span class="n">dset_id</span><span class="p">,</span>
+                    <span class="n">va</span><span class="o">=</span><span class="s2">&quot;bottom&quot;</span><span class="p">,</span>
+                    <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
+                    <span class="n">rotation</span><span class="o">=</span><span class="s2">&quot;vertical&quot;</span><span class="p">,</span>
+                    <span class="n">rotation_mode</span><span class="o">=</span><span class="s2">&quot;anchor&quot;</span><span class="p">,</span>
+                    <span class="n">transform</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span><span class="o">.</span><span class="n">transAxes</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="n">j</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">axs</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span><span class="o">.</span><span class="n">text</span><span class="p">(</span>
+                    <span class="mf">0.55</span><span class="p">,</span>
+                    <span class="mf">1.05</span><span class="p">,</span>
+                    <span class="n">season</span><span class="p">,</span>
+                    <span class="n">va</span><span class="o">=</span><span class="s2">&quot;bottom&quot;</span><span class="p">,</span>
+                    <span class="n">ha</span><span class="o">=</span><span class="s2">&quot;center&quot;</span><span class="p">,</span>
+                    <span class="n">rotation</span><span class="o">=</span><span class="s2">&quot;horizontal&quot;</span><span class="p">,</span>
+                    <span class="n">rotation_mode</span><span class="o">=</span><span class="s2">&quot;anchor&quot;</span><span class="p">,</span>
+                    <span class="n">transform</span><span class="o">=</span><span class="n">axs</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span><span class="o">.</span><span class="n">transAxes</span><span class="p">,</span>
+                <span class="p">)</span>
 
-<span class="c1"># plt.subplots_adjust(wspace=0, hspace=0)</span>
+            <span class="n">lon_formatter</span> <span class="o">=</span> <span class="n">LongitudeFormatter</span><span class="p">(</span><span class="n">zero_direction_label</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">lat_formatter</span> <span class="o">=</span> <span class="n">LatitudeFormatter</span><span class="p">()</span>
+            <span class="n">axs</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">lon_formatter</span><span class="p">)</span>
+            <span class="n">axs</span><span class="p">[</span><span class="n">pos</span><span class="p">]</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">lat_formatter</span><span class="p">)</span>
 
-<span class="c1"># Adjust the location of the subplots on the page to make room for the colorbar</span>
-<span class="c1"># fig.subplots_adjust(bottom=0.1, top=0.9, left=0.1, right=0.9, wspace=0.08, hspace=0.08)</span>
+    <span class="c1"># Add a colorbar axis at the bottom of the graph</span>
+    <span class="n">cbar_ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_axes</span><span class="p">([</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">])</span>
 
-<span class="c1"># Add a colorbar axis at the bottom of the graph</span>
-<span class="n">cbar_ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_axes</span><span class="p">([</span><span class="mf">0.2</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">,</span> <span class="mf">0.02</span><span class="p">])</span>
+    <span class="c1"># Draw the colorbar</span>
+    <span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">cs</span><span class="p">,</span> <span class="n">cax</span><span class="o">=</span><span class="n">cbar_ax</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="s2">&quot;horizontal&quot;</span><span class="p">)</span>
 
-<span class="c1"># Draw the colorbar</span>
-<span class="n">cbar</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">cs</span><span class="p">,</span> <span class="n">cax</span><span class="o">=</span><span class="n">cbar_ax</span><span class="p">,</span> <span class="n">orientation</span><span class="o">=</span><span class="s2">&quot;horizontal&quot;</span><span class="p">)</span>
 
-<span class="c1"># Add a big title at the top</span>
-<span class="c1"># plt.suptitle(&#39;SubX Week 1 2m Temperature Anomalies ($^\circ$C): Apr 16, 2020 Initialized Forecasts&#39;)</span>
+<span class="n">plot_var</span> <span class="o">=</span> <span class="s2">&quot;pr&quot;</span>
+<span class="n">levels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="mi">110</span><span class="p">,</span> <span class="mi">10</span><span class="p">)</span>  <span class="c1">#</span>
+<span class="n">cmap</span> <span class="o">=</span> <span class="s2">&quot;BrBG&quot;</span>
+<span class="n">plot_all</span><span class="p">(</span><span class="n">seasonal_bias_</span><span class="p">[[</span><span class="n">plot_var</span><span class="p">]],</span> <span class="n">plot_var</span><span class="p">,</span> <span class="n">levels</span><span class="p">,</span> <span class="n">cmap</span><span class="p">)</span>
+
+<span class="n">plot_var</span> <span class="o">=</span> <span class="s2">&quot;tas&quot;</span>
+<span class="n">levels</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">cmap</span> <span class="o">=</span> <span class="s2">&quot;RdBu_r&quot;</span>
+<span class="n">plot_all</span><span class="p">(</span><span class="n">seasonal_bias_</span><span class="p">[[</span><span class="n">plot_var</span><span class="p">]],</span> <span class="n">plot_var</span><span class="p">,</span> <span class="n">levels</span><span class="p">,</span> <span class="n">cmap</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1030,49 +1092,112 @@ Wall time: 414 ms
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>aspect: 0.9716981132075472
-0 0 0 DJF HCLIMcom-SMHI-HCLIM43-ALADIN
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0 1 4 DJF GERICS-REMO2020
-0 2 8 DJF KNMI-RACMO23E
-0 3 12 DJF CLMcom-CMCC-CCLM6-0-1-URB
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0 0 0 DJF GERICS-REMO2020-2-2-MR2
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0 1 4 DJF GERICS-REMO2020-2-2
+0 2 8 DJF CLMcom-CMCC-CCLM6-0-1-URB
+0 3 12 DJF HCLIMcom-SMHI-HCLIM43-ALADIN
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0 4 16 DJF RMIB-UGent-ALARO1-SFX
-0 5 20 DJF CLMcom-Hereon-ICON-CLM-202407-1-1
-1 0 1 JJA HCLIMcom-SMHI-HCLIM43-ALADIN
+0 5 20 DJF KNMI-RACMO23E
+0 6 24 DJF CLMcom-Hereon-ICON-CLM-202407-1-1
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1 1 5 JJA GERICS-REMO2020
-1 2 9 JJA KNMI-RACMO23E
-1 3 13 JJA CLMcom-CMCC-CCLM6-0-1-URB
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1 0 1 JJA GERICS-REMO2020-2-2-MR2
+1 1 5 JJA GERICS-REMO2020-2-2
+1 2 9 JJA CLMcom-CMCC-CCLM6-0-1-URB
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1 3 13 JJA HCLIMcom-SMHI-HCLIM43-ALADIN
+1 4 17 JJA RMIB-UGent-ALARO1-SFX
+1 5 21 JJA KNMI-RACMO23E
+1 6 25 JJA CLMcom-Hereon-ICON-CLM-202407-1-1
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2 0 2 MAM GERICS-REMO2020-2-2-MR2
+2 1 6 MAM GERICS-REMO2020-2-2
+2 2 10 MAM CLMcom-CMCC-CCLM6-0-1-URB
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2 3 14 MAM HCLIMcom-SMHI-HCLIM43-ALADIN
+2 4 18 MAM RMIB-UGent-ALARO1-SFX
+2 5 22 MAM KNMI-RACMO23E
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2 6 26 MAM CLMcom-Hereon-ICON-CLM-202407-1-1
+3 0 3 SON GERICS-REMO2020-2-2-MR2
+3 1 7 SON GERICS-REMO2020-2-2
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3 2 11 SON CLMcom-CMCC-CCLM6-0-1-URB
+3 3 15 SON HCLIMcom-SMHI-HCLIM43-ALADIN
+3 4 19 SON RMIB-UGent-ALARO1-SFX
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3 5 23 SON KNMI-RACMO23E
+3 6 27 SON CLMcom-Hereon-ICON-CLM-202407-1-1
+aspect: 0.9716981132075472
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/evalbook-remote/lib/python3.13/site-packages/cf_xarray/accessor.py:718: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  unused_keys = set(attribute.keys()) - set(inverted)
+/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/evalbook-remote/lib/python3.13/site-packages/cf_xarray/accessor.py:719: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  for key, value in attribute.items():
+&lt;frozen _collections_abc&gt;:899: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/evalbook-remote/lib/python3.13/site-packages/cf_xarray/accessor.py:727: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  newmap.update({key: attribute[key] for key in unused_keys})
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0 0 0 DJF GERICS-REMO2020-2-2-MR2
+0 1 4 DJF GERICS-REMO2020-2-2
+0 2 8 DJF CLMcom-CMCC-CCLM6-0-1-URB
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0 3 12 DJF HCLIMcom-SMHI-HCLIM43-ALADIN
+0 4 16 DJF RMIB-UGent-ALARO1-SFX
+0 5 20 DJF KNMI-RACMO23E
+0 6 24 DJF CLMcom-Hereon-ICON-CLM-202407-1-1
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1 0 1 JJA GERICS-REMO2020-2-2-MR2
+1 1 5 JJA GERICS-REMO2020-2-2
+1 2 9 JJA CLMcom-CMCC-CCLM6-0-1-URB
+1 3 13 JJA HCLIMcom-SMHI-HCLIM43-ALADIN
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1 4 17 JJA RMIB-UGent-ALARO1-SFX
-1 5 21 JJA CLMcom-Hereon-ICON-CLM-202407-1-1
-2 0 2 MAM HCLIMcom-SMHI-HCLIM43-ALADIN
+1 5 21 JJA KNMI-RACMO23E
+1 6 25 JJA CLMcom-Hereon-ICON-CLM-202407-1-1
+2 0 2 MAM GERICS-REMO2020-2-2-MR2
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2 1 6 MAM GERICS-REMO2020
-2 2 10 MAM KNMI-RACMO23E
-2 3 14 MAM CLMcom-CMCC-CCLM6-0-1-URB
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2 1 6 MAM GERICS-REMO2020-2-2
+2 2 10 MAM CLMcom-CMCC-CCLM6-0-1-URB
+2 3 14 MAM HCLIMcom-SMHI-HCLIM43-ALADIN
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2 4 18 MAM RMIB-UGent-ALARO1-SFX
-2 5 22 MAM CLMcom-Hereon-ICON-CLM-202407-1-1
-3 0 3 SON HCLIMcom-SMHI-HCLIM43-ALADIN
+2 5 22 MAM KNMI-RACMO23E
+2 6 26 MAM CLMcom-Hereon-ICON-CLM-202407-1-1
+3 0 3 SON GERICS-REMO2020-2-2-MR2
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3 1 7 SON GERICS-REMO2020
-3 2 11 SON KNMI-RACMO23E
-3 3 15 SON CLMcom-CMCC-CCLM6-0-1-URB
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3 1 7 SON GERICS-REMO2020-2-2
+3 2 11 SON CLMcom-CMCC-CCLM6-0-1-URB
+3 3 15 SON HCLIMcom-SMHI-HCLIM43-ALADIN
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3 4 19 SON RMIB-UGent-ALARO1-SFX
-3 5 23 SON CLMcom-Hereon-ICON-CLM-202407-1-1
+3 5 23 SON KNMI-RACMO23E
+3 6 27 SON CLMcom-Hereon-ICON-CLM-202407-1-1
 </pre></div>
 </div>
-<img alt="_images/9b140cd348807e5068a01cc915987ed65360264bfb208e254f174b7c97276001.png" src="_images/9b140cd348807e5068a01cc915987ed65360264bfb208e254f174b7c97276001.png" />
+<img alt="_images/96590942350e00bc206cbab577a9f5ec1a9786d73e01055d2bddeccba729e7d5.png" src="_images/96590942350e00bc206cbab577a9f5ec1a9786d73e01055d2bddeccba729e7d5.png" />
+<img alt="_images/306212315ce540de4b63d9b49229b10fb2ce47759143975339c5a2d11c33875a.png" src="_images/306212315ce540de4b63d9b49229b10fb2ce47759143975339c5a2d11c33875a.png" />
 </div>
 </div>
 </section>
