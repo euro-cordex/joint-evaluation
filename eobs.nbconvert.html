@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>EOBS seasonal means &#8212; Joint evaluation</title>
+    <title>Evaluating Seasonal Climate Biases: A Comparison of Model Outputs with EOBS Observations &#8212; Joint evaluation</title>
   
   
   
@@ -179,7 +179,7 @@
             </li>
         </ul>
         <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">EOBS seasonal means</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Evaluating Seasonal Climate Biases: A Comparison of Model Outputs with EOBS Observations</a></li>
 </ul>
 
     </div>
@@ -394,7 +394,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>EOBS seasonal means</h1>
+    <h1>Evaluating Seasonal Climate Biases: A Comparison of Model Outputs with EOBS Observations</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -408,8 +408,18 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="eobs-seasonal-means">
-<h1>EOBS seasonal means<a class="headerlink" href="#eobs-seasonal-means" title="Link to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="evaluating-seasonal-climate-biases-a-comparison-of-model-outputs-with-eobs-observations">
+<h1>Evaluating Seasonal Climate Biases: A Comparison of Model Outputs with EOBS Observations<a class="headerlink" href="#evaluating-seasonal-climate-biases-a-comparison-of-model-outputs-with-eobs-observations" title="Link to this heading">#</a></h1>
+<p>This notebook analyzes seasonal means and biases for temperature (<code class="docutils literal notranslate"><span class="pre">tas</span></code>) and precipitation (<code class="docutils literal notranslate"><span class="pre">pr</span></code>) using EOBS observational data and model outputs.</p>
+<p>The workflow includes:</p>
+<ul class="simple">
+<li><p>Loading and preprocessing datasets.</p></li>
+<li><p>Regridding datasets to a common grid for comparison.</p></li>
+<li><p>Computing seasonal means for both observations and model outputs.</p></li>
+<li><p>Calculating biases for temperature and precipitation.</p></li>
+<li><p>Visualizing the results using contour plots.</p></li>
+</ul>
+<p>This analysis helps evaluate the performance of climate models in simulating seasonal temperature and precipitation patterns.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> autoreload
@@ -437,7 +447,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;dask.config.set at 0x70a4e5f21950&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;dask.config.set at 0x7802130f5a90&gt;
 </pre></div>
 </div>
 </div>
@@ -445,6 +455,14 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">dashboard_address</span><span class="o">=</span><span class="s2">&quot;localhost:8787&quot;</span><span class="p">,</span> <span class="n">threads_per_worker</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/evalbook-remote/lib/python3.13/site-packages/distributed/node.py:187: UserWarning: Port 8787 is already in use.
+Perhaps you already have a cluster running?
+Hosting the HTTP server on port 45711 instead
+  warnings.warn(
 </pre></div>
 </div>
 </div>
@@ -488,12 +506,15 @@ document.write(`
     <span class="n">variables</span><span class="p">,</span>
     <span class="n">frequency</span><span class="o">=</span><span class="s2">&quot;mon&quot;</span><span class="p">,</span>
     <span class="n">mask</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">add_fx</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">merge_fx</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">add_missing_bounds</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">rewrite_grid</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">apply_fixes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
 <span class="p">):</span>
     <span class="n">cat</span> <span class="o">=</span> <span class="n">get_source_collection</span><span class="p">(</span><span class="n">variables</span><span class="p">,</span> <span class="n">frequency</span><span class="p">,</span> <span class="n">add_fx</span><span class="o">=</span><span class="n">add_fx</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-    <span class="n">dsets</span> <span class="o">=</span> <span class="n">open_and_sort</span><span class="p">(</span><span class="n">cat</span><span class="p">,</span> <span class="n">merge_fx</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">apply_fixes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">dsets</span> <span class="o">=</span> <span class="n">open_and_sort</span><span class="p">(</span><span class="n">cat</span><span class="p">,</span> <span class="n">merge_fx</span><span class="o">=</span><span class="n">merge_fx</span><span class="p">,</span> <span class="n">apply_fixes</span><span class="o">=</span><span class="n">apply_fixes</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">rewrite_grid</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">dset_id</span><span class="p">,</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">dsets</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">dsets</span><span class="p">[</span><span class="n">dset_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">rewrite_coords</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
@@ -535,7 +556,11 @@ document.write(`
 
 <span class="k">def</span><span class="w"> </span><span class="nf">regrid_dsets</span><span class="p">(</span><span class="n">dsets</span><span class="p">,</span> <span class="n">target_grid</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;bilinear&quot;</span><span class="p">):</span>
     <span class="k">for</span> <span class="n">dset_id</span><span class="p">,</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">dsets</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="n">mapping</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">cf</span><span class="p">[</span><span class="s2">&quot;grid_mapping&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">grid_mapping_name</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">mapping</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">cf</span><span class="p">[</span><span class="s2">&quot;grid_mapping&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">grid_mapping_name</span>
+        <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;KeyError: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2"> for </span><span class="si">{</span><span class="n">dset_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">mapping</span> <span class="o">=</span> <span class="s2">&quot;rotated_latitude_longitude&quot;</span>
         <span class="k">if</span> <span class="n">mapping</span> <span class="o">!=</span> <span class="s2">&quot;rotated_latitude_longitude&quot;</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;regridding </span><span class="si">{</span><span class="n">dset_id</span><span class="si">}</span><span class="s2"> with grid_mapping: </span><span class="si">{</span><span class="n">mapping</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="n">regridder</span> <span class="o">=</span> <span class="n">create_regridder</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">target_grid</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">)</span>
@@ -576,15 +601,19 @@ document.write(`
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dsets</span> <span class="o">=</span> <span class="n">open_datasets</span><span class="p">(</span>
     <span class="p">[</span><span class="s2">&quot;tas&quot;</span><span class="p">,</span> <span class="s2">&quot;pr&quot;</span><span class="p">],</span>
+    <span class="c1"># source_id=[&#39;CCLM6-0-1-URB-ESG&#39;],</span>
     <span class="n">frequency</span><span class="o">=</span><span class="s2">&quot;mon&quot;</span><span class="p">,</span>
     <span class="n">mip_era</span><span class="o">=</span><span class="s2">&quot;CMIP6&quot;</span><span class="p">,</span>
+    <span class="n">add_fx</span><span class="o">=</span><span class="n">add_fx</span><span class="p">,</span>
     <span class="n">add_missing_bounds</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">rewrite_grid</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">apply_fixes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Found: [&#39;ALARO1-SFX&#39;, &#39;CCLM6-0-1-URB&#39;, &#39;CNRM-ALADIN64E1&#39;, &#39;HCLIM43-ALADIN&#39;, &#39;ICON-CLM-202407-1-1&#39;, &#39;RACMO23E&#39;, &#39;REMO2020-2-2&#39;, &#39;REMO2020-2-2-MR2&#39;, &#39;RegCM5-0&#39;] for variables: [&#39;tas&#39;, &#39;pr&#39;]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Found: [&#39;ALARO1-SFX&#39;, &#39;CCLM6-0-1-URB&#39;, &#39;CCLM6-0-1-URB-ESG&#39;, &#39;CNRM-ALADIN64E1&#39;, &#39;HCLIM43-ALADIN&#39;, &#39;ICON-CLM-202407-1-1&#39;, &#39;RACMO23E&#39;, &#39;REMO2020-2-2&#39;, &#39;REMO2020-2-2-MR2&#39;, &#39;RegCM5-0&#39;] for variables: [&#39;tas&#39;, &#39;pr&#39;]
 
 --&gt; The keys in the returned dictionary of datasets are constructed as follows:
 	&#39;project_id.domain_id.institution_id.driving_source_id.driving_experiment_id.driving_variant_label.source_id.version_realization.frequency.version&#39;
@@ -608,115 +637,145 @@ document.write(`
 </style>
 </div><div class="output text_html">
     <div>
-      <progress value='25' class='' max='25' style='width:300px; height:20px; vertical-align: middle;'></progress>
-      100.00% [25/25 00:01&lt;00:00]
+      <progress value='41' class='' max='41' style='width:300px; height:20px; vertical-align: middle;'></progress>
+      100.00% [41/41 00:01&lt;00:00]
     </div>
-    </div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>decoding dataset CORDEX-CMIP6.EUR-12.CLMcom-Hereon.ERA5.evaluation.r1i1p1f1.ICON-CLM-202407-1-1.v1-r1.fx.v20240920
-Warning for CORDEX-CMIP6.EUR-12.CLMcom-Hereon.ERA5.evaluation.r1i1p1f1.ICON-CLM-202407-1-1.v1-r1.fx.v20240920: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
-Warning for CORDEX-CMIP6.EUR-12.CLMcom-Hereon.ERA5.evaluation.r1i1p1f1.ICON-CLM-202407-1-1.v1-r1.fx.v20240920: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
-Found 25 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.MIROC6.historical.r1i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
-Found 25 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.EC-Earth3-Veg.historical.r2i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
-Found 25 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-METNo.NorESM2-MM.historical.r1i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
-Found 25 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2.v1-r1.fx.v20241120
-Warning for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2.v1-r1.fx.v20241120: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
-Warning for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2.v1-r1.fx.v20241120: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
-Found 25 datasets
+    </div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.MIROC6.historical.r1i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
+Found 41 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.MPI-ESM1-2-HR.ssp370.r1i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
+Found 41 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.CLMcom-KUL.ERA5.evaluation.r1i1p1f1.CCLM6-0-1-URB-ESG.v1-r1.fx.v20250409
+Found 41 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.EC-Earth3-Veg.ssp370.r1i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
+Found 41 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.EC-Earth3-Veg.ssp126.r3i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
+Found 41 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.CNRM-ESM2-1.historical.r1i1p1f2.HCLIM43-ALADIN.v1-r1.fx.v20241205
+Found 41 datasets
 decoding dataset CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-MR2.v1-r1.fx.v20241120
 Warning for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-MR2.v1-r1.fx.v20241120: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
 Warning for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-MR2.v1-r1.fx.v20241120: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
-Found 25 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.RMIB-UGent.ERA5.evaluation.r1i1p1f1.ALARO1-SFX.v1-r1.fx.v20241009
-Found 25 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.EC-Earth3-Veg.historical.r1i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
-Found 25 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.CNRM-MF.ERA5.evaluation.r1i1p1f1.CNRM-ALADIN64E1.v1-r1.fx.v20250116
-Found 25 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.CNRM-ESM2-1.historical.r1i1p1f2.HCLIM43-ALADIN.v1-r1.fx.v20241205
-Found 25 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.ERA5.evaluation.r1i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
-Found 25 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.RMIB-UGent.ERA5.evaluation.r1i1p1f1.ALARO1-SFX.v1-r1.mon.v20241009
-Found 25 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.CLMcom-CMCC.ERA5.evaluation.r1i1p1f1.CCLM6-0-1-URB.v1-r1.fx.v20250201
-Found 25 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.MPI-ESM1-2-HR.historical.r1i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
-Found 25 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2.v1-r1.mon.v20241120
-Warning for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2.v1-r1.mon.v20241120: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
-Warning for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2.v1-r1.mon.v20241120: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
-Found 25 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.CLMcom-CMCC.ERA5.evaluation.r1i1p1f1.CCLM6-0-1-URB.v1-r1.mon.v20250201
-Found 25 datasets
+Found 41 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.CLMcom-Hereon.ERA5.evaluation.r1i1p1f1.ICON-CLM-202407-1-1.v1-r1.fx.v20240920
+Warning for CORDEX-CMIP6.EUR-12.CLMcom-Hereon.ERA5.evaluation.r1i1p1f1.ICON-CLM-202407-1-1.v1-r1.fx.v20240920: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+Warning for CORDEX-CMIP6.EUR-12.CLMcom-Hereon.ERA5.evaluation.r1i1p1f1.ICON-CLM-202407-1-1.v1-r1.fx.v20240920: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+Found 41 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.ICTP.ERA5.evaluation.r1i1p1f1.RegCM5-0.v1-r1.fx.v20250415
+Found 41 datasets
 decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.ERA5.evaluation.r1i1p1f1.HCLIM43-ALADIN.v1-r1.mon.v20241205
-Found 25 datasets
+Found 41 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.CNRM-ESM2-1.ssp126.r1i1p1f2.HCLIM43-ALADIN.v1-r1.fx.v20241205
+Found 41 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.EC-Earth3-Veg.historical.r2i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
+Found 41 datasets
 decoding dataset CORDEX-CMIP6.EUR-12.CNRM-MF.ERA5.evaluation.r1i1p1f1.CNRM-ALADIN64E1.v1-r1.mon.v20250116
 Warning for CORDEX-CMIP6.EUR-12.CNRM-MF.ERA5.evaluation.r1i1p1f1.CNRM-ALADIN64E1.v1-r1.mon.v20250116: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
 Warning for CORDEX-CMIP6.EUR-12.CNRM-MF.ERA5.evaluation.r1i1p1f1.CNRM-ALADIN64E1.v1-r1.mon.v20250116: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
-Found 25 datasets
+Found 41 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2.v1-r1.fx.v20241120
+Warning for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2.v1-r1.fx.v20241120: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+Warning for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2.v1-r1.fx.v20241120: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+Found 41 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.ICTP.ERA5.evaluation.r1i1p1f1.RegCM5-0.v1-r1.mon.v20250415
+Found 41 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.EC-Earth3-Veg.ssp126.r1i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
+Found 41 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.EC-Earth3-Veg.historical.r3i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
+Found 41 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2.v1-r1.mon.v20241120
+Warning for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2.v1-r1.mon.v20241120: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+Warning for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2.v1-r1.mon.v20241120: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+Found 41 datasets
 decoding dataset CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-MR2.v1-r1.mon.v20241120
 Warning for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-MR2.v1-r1.mon.v20241120: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
 Warning for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-MR2.v1-r1.mon.v20241120: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
-Found 25 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.EC-Earth3-Veg.historical.r3i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
-Found 25 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.ICTP.ERA5.evaluation.r1i1p1f1.RegCM5-0.v1-r1.mon.v20250415
-Found 25 datasets
+Found 41 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.CNRM-MF.ERA5.evaluation.r1i1p1f1.CNRM-ALADIN64E1.v1-r1.fx.v20250116
+Found 41 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.RMIB-UGent.ERA5.evaluation.r1i1p1f1.ALARO1-SFX.v1-r1.mon.v20241009
+Found 41 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.RMIB-UGent.ERA5.evaluation.r1i1p1f1.ALARO1-SFX.v1-r1.fx.v20241009
+Found 41 datasets
 decoding dataset CORDEX-CMIP6.EUR-12.KNMI.ERA5.evaluation.r1i1p1f1.RACMO23E.v1-r1.mon.v20241216
-Found 25 datasets
+Found 41 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.EC-Earth3-Veg.ssp370.r2i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
+Found 41 datasets
 decoding dataset CORDEX-CMIP6.EUR-12.KNMI.ERA5.evaluation.r1i1p1f1.RACMO23E.v1-r1.fx.v20241216
-Found 25 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.ICTP.ERA5.evaluation.r1i1p1f1.RegCM5-0.v1-r1.fx.v20250415
-Found 25 datasets
+Found 41 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.CLMcom-CMCC.ERA5.evaluation.r1i1p1f1.CCLM6-0-1-URB.v1-r1.fx.v20250201
+Found 41 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.EC-Earth3-Veg.historical.r1i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
+Found 41 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.MIROC6.ssp370.r1i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
+Found 41 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-METNo.NorESM2-MM.ssp370.r1i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
+Found 41 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.CNRM-ESM2-1.ssp370.r1i1p1f2.HCLIM43-ALADIN.v1-r1.fx.v20241205
+Found 41 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.CLMcom-CMCC.ERA5.evaluation.r1i1p1f1.CCLM6-0-1-URB.v1-r1.mon.v20250201
+Found 41 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.ERA5.evaluation.r1i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
+Found 41 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.MPI-ESM1-2-HR.ssp126.r1i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
+Found 41 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.EC-Earth3-Veg.ssp126.r2i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
+Found 41 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.CLMcom-KUL.ERA5.evaluation.r1i1p1f1.CCLM6-0-1-URB-ESG.v1-r1.mon.v20250409
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning for CORDEX-CMIP6.EUR-12.CLMcom-KUL.ERA5.evaluation.r1i1p1f1.CCLM6-0-1-URB-ESG.v1-r1.mon.v20250409: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+Warning for CORDEX-CMIP6.EUR-12.CLMcom-KUL.ERA5.evaluation.r1i1p1f1.CCLM6-0-1-URB-ESG.v1-r1.mon.v20250409: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+Found 41 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.EC-Earth3-Veg.ssp370.r3i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
+Found 41 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.MIROC6.ssp126.r1i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
+Found 41 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.MPI-ESM1-2-HR.historical.r1i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
+Found 41 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-METNo.NorESM2-MM.historical.r1i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
+Found 41 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-METNo.NorESM2-MM.ssp126.r1i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
+Found 41 datasets
 decoding dataset CORDEX-CMIP6.EUR-12.CLMcom-Hereon.ERA5.evaluation.r1i1p1f1.ICON-CLM-202407-1-1.v1-r1.mon.v20240920
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Warning for CORDEX-CMIP6.EUR-12.CLMcom-Hereon.ERA5.evaluation.r1i1p1f1.ICON-CLM-202407-1-1.v1-r1.mon.v20240920: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
 Warning for CORDEX-CMIP6.EUR-12.CLMcom-Hereon.ERA5.evaluation.r1i1p1f1.ICON-CLM-202407-1-1.v1-r1.mon.v20240920: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
-Found 25 datasets
-Renaming grid mapping variable rotated_latitude_longitude to &#39;crs&#39; for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2.v1-r1.fx.v20241120
-Renaming grid mapping variable rotated_latitude_longitude to &#39;crs&#39; for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-MR2.v1-r1.fx.v20241120
+Warning for CORDEX-CMIP6.EUR-12.CLMcom-Hereon.ERA5.evaluation.r1i1p1f1.ICON-CLM-202407-1-1.v1-r1.mon.v20240920: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+Found 41 datasets
+Warning for CORDEX-CMIP6.EUR-12.CLMcom-KUL.ERA5.evaluation.r1i1p1f1.CCLM6-0-1-URB-ESG.v1-r1.fx.v20250409: &quot;Receive multiple variables for key &#39;grid_mapping&#39;: [&#39;rotated_pole&#39;, &#39;crs&#39;]. Expected only one. Please pass a list [&#39;grid_mapping&#39;] instead to get all variables matching &#39;grid_mapping&#39;.&quot;
+Warning for CORDEX-CMIP6.EUR-12.CLMcom-KUL.ERA5.evaluation.r1i1p1f1.CCLM6-0-1-URB-ESG.v1-r1.fx.v20250409: Found multiple grid mapping variables [&#39;rotated_pole&#39;, &#39;crs&#39;]
+Warning for CORDEX-CMIP6.EUR-12.CLMcom-KUL.ERA5.evaluation.r1i1p1f1.CCLM6-0-1-URB-ESG.v1-r1.fx.v20250409: Using crs as the grid mapping variable name. Please check the dataset.
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/evalbook-remote/lib/python3.13/site-packages/evaltools/fix.py:45: UserWarning: Grid mapping name latitude_longitude is not supported for CORDEX-CMIP6.EUR-12.CNRM-MF.ERA5.evaluation.r1i1p1f1.CNRM-ALADIN64E1.v1-r1.fx.v20250116
-  warnings.warn(
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Fix failed for CORDEX-CMIP6.EUR-12.CNRM-MF.ERA5.evaluation.r1i1p1f1.CNRM-ALADIN64E1.v1-r1.fx.v20250116: Grid mapping name latitude_longitude is not supported for CORDEX-CMIP6.EUR-12.CNRM-MF.ERA5.evaluation.r1i1p1f1.CNRM-ALADIN64E1.v1-r1.fx.v20250116
-Dataset CORDEX-CMIP6.EUR-12.CNRM-MF.ERA5.evaluation.r1i1p1f1.CNRM-ALADIN64E1.v1-r1.fx.v20250116 will be ignored...
-Renaming grid mapping variable rotated_pole to &#39;crs&#39; for CORDEX-CMIP6.EUR-12.CLMcom-CMCC.ERA5.evaluation.r1i1p1f1.CCLM6-0-1-URB.v1-r1.fx.v20250201
-Renaming grid mapping variable rotated_latitude_longitude to &#39;crs&#39; for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2.v1-r1.mon.v20241120
-Renaming grid mapping variable rotated_pole to &#39;crs&#39; for CORDEX-CMIP6.EUR-12.CLMcom-CMCC.ERA5.evaluation.r1i1p1f1.CCLM6-0-1-URB.v1-r1.mon.v20250201
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/evalbook-remote/lib/python3.13/site-packages/evaltools/fix.py:45: UserWarning: Grid mapping name latitude_longitude is not supported for CORDEX-CMIP6.EUR-12.CNRM-MF.ERA5.evaluation.r1i1p1f1.CNRM-ALADIN64E1.v1-r1.mon.v20250116
-  warnings.warn(
-/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/evalbook-remote/lib/python3.13/site-packages/evaltools/fix.py:64: UserWarning: Grid mapping has (198.0, 39.25) which is inconsistent with (-162.0, 39.25) for EUR-12 and CORDEX-CMIP6.EUR-12.ICTP.ERA5.evaluation.r1i1p1f1.RegCM5-0.v1-r1.mon.v20250415.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/evalbook-remote/lib/python3.13/site-packages/evaltools/fix.py:88: UserWarning: Grid mapping has (198.0, 39.25) which is inconsistent with (-162.0, 39.25) for EUR-12 and CORDEX-CMIP6.EUR-12.ICTP.ERA5.evaluation.r1i1p1f1.RegCM5-0.v1-r1.fx.v20250415.
   warnings.warn(message)
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Fix failed for CORDEX-CMIP6.EUR-12.CNRM-MF.ERA5.evaluation.r1i1p1f1.CNRM-ALADIN64E1.v1-r1.mon.v20250116: Grid mapping name latitude_longitude is not supported for CORDEX-CMIP6.EUR-12.CNRM-MF.ERA5.evaluation.r1i1p1f1.CNRM-ALADIN64E1.v1-r1.mon.v20250116
-Dataset CORDEX-CMIP6.EUR-12.CNRM-MF.ERA5.evaluation.r1i1p1f1.CNRM-ALADIN64E1.v1-r1.mon.v20250116 will be ignored...
-Renaming grid mapping variable rotated_latitude_longitude to &#39;crs&#39; for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-MR2.v1-r1.mon.v20241120
-Fix failed for CORDEX-CMIP6.EUR-12.ICTP.ERA5.evaluation.r1i1p1f1.RegCM5-0.v1-r1.mon.v20250415: Grid mapping has (198.0, 39.25) which is inconsistent with (-162.0, 39.25) for EUR-12 and CORDEX-CMIP6.EUR-12.ICTP.ERA5.evaluation.r1i1p1f1.RegCM5-0.v1-r1.mon.v20250415.
-Dataset CORDEX-CMIP6.EUR-12.ICTP.ERA5.evaluation.r1i1p1f1.RegCM5-0.v1-r1.mon.v20250415 will be ignored...
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/evalbook-remote/lib/python3.13/site-packages/evaltools/fix.py:64: UserWarning: Grid mapping has (198.0, 39.25) which is inconsistent with (-162.0, 39.25) for EUR-12 and CORDEX-CMIP6.EUR-12.ICTP.ERA5.evaluation.r1i1p1f1.RegCM5-0.v1-r1.fx.v20250415.
+/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/evalbook-remote/lib/python3.13/site-packages/evaltools/fix.py:69: UserWarning: Grid mapping name latitude_longitude is not supported for CORDEX-CMIP6.EUR-12.CNRM-MF.ERA5.evaluation.r1i1p1f1.CNRM-ALADIN64E1.v1-r1.mon.v20250116
+  warnings.warn(
+/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/evalbook-remote/lib/python3.13/site-packages/evaltools/fix.py:88: UserWarning: Grid mapping has (198.0, 39.25) which is inconsistent with (-162.0, 39.25) for EUR-12 and CORDEX-CMIP6.EUR-12.ICTP.ERA5.evaluation.r1i1p1f1.RegCM5-0.v1-r1.mon.v20250415.
   warnings.warn(message)
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Fix failed for CORDEX-CMIP6.EUR-12.ICTP.ERA5.evaluation.r1i1p1f1.RegCM5-0.v1-r1.fx.v20250415: Grid mapping has (198.0, 39.25) which is inconsistent with (-162.0, 39.25) for EUR-12 and CORDEX-CMIP6.EUR-12.ICTP.ERA5.evaluation.r1i1p1f1.RegCM5-0.v1-r1.fx.v20250415.
 Dataset CORDEX-CMIP6.EUR-12.ICTP.ERA5.evaluation.r1i1p1f1.RegCM5-0.v1-r1.fx.v20250415 will be ignored...
-merging CORDEX-CMIP6.EUR-12.RMIB-UGent.ERA5.evaluation.r1i1p1f1.ALARO1-SFX.v1-r1.mon.v20241009 with CORDEX-CMIP6.EUR-12.RMIB-UGent.ERA5.evaluation.r1i1p1f1.ALARO1-SFX.v1-r1.fx.v20241009
+Fix failed for CORDEX-CMIP6.EUR-12.CNRM-MF.ERA5.evaluation.r1i1p1f1.CNRM-ALADIN64E1.v1-r1.mon.v20250116: Grid mapping name latitude_longitude is not supported for CORDEX-CMIP6.EUR-12.CNRM-MF.ERA5.evaluation.r1i1p1f1.CNRM-ALADIN64E1.v1-r1.mon.v20250116
+Dataset CORDEX-CMIP6.EUR-12.CNRM-MF.ERA5.evaluation.r1i1p1f1.CNRM-ALADIN64E1.v1-r1.mon.v20250116 will be ignored...
+Fix failed for CORDEX-CMIP6.EUR-12.ICTP.ERA5.evaluation.r1i1p1f1.RegCM5-0.v1-r1.mon.v20250415: Grid mapping has (198.0, 39.25) which is inconsistent with (-162.0, 39.25) for EUR-12 and CORDEX-CMIP6.EUR-12.ICTP.ERA5.evaluation.r1i1p1f1.RegCM5-0.v1-r1.mon.v20250415.
+Dataset CORDEX-CMIP6.EUR-12.ICTP.ERA5.evaluation.r1i1p1f1.RegCM5-0.v1-r1.mon.v20250415 will be ignored...
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/evalbook-remote/lib/python3.13/site-packages/evaltools/fix.py:69: UserWarning: Grid mapping name latitude_longitude is not supported for CORDEX-CMIP6.EUR-12.CNRM-MF.ERA5.evaluation.r1i1p1f1.CNRM-ALADIN64E1.v1-r1.fx.v20250116
+  warnings.warn(
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Fix failed for CORDEX-CMIP6.EUR-12.CNRM-MF.ERA5.evaluation.r1i1p1f1.CNRM-ALADIN64E1.v1-r1.fx.v20250116: Grid mapping name latitude_longitude is not supported for CORDEX-CMIP6.EUR-12.CNRM-MF.ERA5.evaluation.r1i1p1f1.CNRM-ALADIN64E1.v1-r1.fx.v20250116
+Dataset CORDEX-CMIP6.EUR-12.CNRM-MF.ERA5.evaluation.r1i1p1f1.CNRM-ALADIN64E1.v1-r1.fx.v20250116 will be ignored...
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>merging CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.ERA5.evaluation.r1i1p1f1.HCLIM43-ALADIN.v1-r1.mon.v20241205 with CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.ERA5.evaluation.r1i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
 merging CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2.v1-r1.mon.v20241120 with CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2.v1-r1.fx.v20241120
-merging CORDEX-CMIP6.EUR-12.CLMcom-CMCC.ERA5.evaluation.r1i1p1f1.CCLM6-0-1-URB.v1-r1.mon.v20250201 with CORDEX-CMIP6.EUR-12.CLMcom-CMCC.ERA5.evaluation.r1i1p1f1.CCLM6-0-1-URB.v1-r1.fx.v20250201
-merging CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.ERA5.evaluation.r1i1p1f1.HCLIM43-ALADIN.v1-r1.mon.v20241205 with CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.ERA5.evaluation.r1i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
 merging CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-MR2.v1-r1.mon.v20241120 with CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-MR2.v1-r1.fx.v20241120
+merging CORDEX-CMIP6.EUR-12.RMIB-UGent.ERA5.evaluation.r1i1p1f1.ALARO1-SFX.v1-r1.mon.v20241009 with CORDEX-CMIP6.EUR-12.RMIB-UGent.ERA5.evaluation.r1i1p1f1.ALARO1-SFX.v1-r1.fx.v20241009
 merging CORDEX-CMIP6.EUR-12.KNMI.ERA5.evaluation.r1i1p1f1.RACMO23E.v1-r1.mon.v20241216 with CORDEX-CMIP6.EUR-12.KNMI.ERA5.evaluation.r1i1p1f1.RACMO23E.v1-r1.fx.v20241216
+merging CORDEX-CMIP6.EUR-12.CLMcom-CMCC.ERA5.evaluation.r1i1p1f1.CCLM6-0-1-URB.v1-r1.mon.v20250201 with CORDEX-CMIP6.EUR-12.CLMcom-CMCC.ERA5.evaluation.r1i1p1f1.CCLM6-0-1-URB.v1-r1.fx.v20250201
+merging CORDEX-CMIP6.EUR-12.CLMcom-KUL.ERA5.evaluation.r1i1p1f1.CCLM6-0-1-URB-ESG.v1-r1.mon.v20250409 with CORDEX-CMIP6.EUR-12.CLMcom-KUL.ERA5.evaluation.r1i1p1f1.CCLM6-0-1-URB-ESG.v1-r1.fx.v20250409
 merging CORDEX-CMIP6.EUR-12.CLMcom-Hereon.ERA5.evaluation.r1i1p1f1.ICON-CLM-202407-1-1.v1-r1.mon.v20240920 with CORDEX-CMIP6.EUR-12.CLMcom-Hereon.ERA5.evaluation.r1i1p1f1.ICON-CLM-202407-1-1.v1-r1.fx.v20240920
 </pre></div>
 </div>
@@ -730,18 +789,6 @@ merging CORDEX-CMIP6.EUR-12.CLMcom-Hereon.ERA5.evaluation.r1i1p1f1.ICON-CLM-2024
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>regridding CORDEX-CMIP6.EUR-12.RMIB-UGent.ERA5.evaluation.r1i1p1f1.ALARO1-SFX.v1-r1.mon.v20241009 with grid_mapping: lambert_conformal_conic
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>xESMF Regridder 
-Regridding algorithm:       bilinear 
-Weight filename:            bilinear_483x483_412x424.nc 
-Reuse pre-computed weights? False 
-Input grid shape:           (483, 483) 
-Output grid shape:          (412, 424) 
-Periodic in longitude?      False
-</pre></div>
-</div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>regridding CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.ERA5.evaluation.r1i1p1f1.HCLIM43-ALADIN.v1-r1.mon.v20241205 with grid_mapping: lambert_conformal_conic
 </pre></div>
 </div>
@@ -750,6 +797,18 @@ Regridding algorithm:       bilinear
 Weight filename:            bilinear_453x453_412x424.nc 
 Reuse pre-computed weights? False 
 Input grid shape:           (453, 453) 
+Output grid shape:          (412, 424) 
+Periodic in longitude?      False
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>regridding CORDEX-CMIP6.EUR-12.RMIB-UGent.ERA5.evaluation.r1i1p1f1.ALARO1-SFX.v1-r1.mon.v20241009 with grid_mapping: lambert_conformal_conic
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>xESMF Regridder 
+Regridding algorithm:       bilinear 
+Weight filename:            bilinear_483x483_412x424.nc 
+Reuse pre-computed weights? False 
+Input grid shape:           (483, 483) 
 Output grid shape:          (412, 424) 
 Periodic in longitude?      False
 </pre></div>
@@ -834,8 +893,8 @@ See also https://docs.dask.org/en/stable/best-practices.html#load-data-with-dask
   warnings.warn(
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 3.93 s, sys: 1.03 s, total: 4.96 s
-Wall time: 34.7 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 3.84 s, sys: 910 ms, total: 4.75 s
+Wall time: 29.1 s
 </pre></div>
 </div>
 </div>
@@ -856,8 +915,8 @@ Wall time: 34.7 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 16.7 s, sys: 2.01 s, total: 18.7 s
-Wall time: 25.5 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 19.2 s, sys: 2.22 s, total: 21.4 s
+Wall time: 28.7 s
 </pre></div>
 </div>
 </div>
@@ -882,8 +941,8 @@ Wall time: 25.5 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 17.4 s, sys: 1.97 s, total: 19.3 s
-Wall time: 25.8 s
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 19.3 s, sys: 2.07 s, total: 21.4 s
+Wall time: 28.2 s
 </pre></div>
 </div>
 </div>
@@ -921,7 +980,7 @@ Wall time: 25.8 s
 <span class="p">)</span>
 
 <span class="n">seasonal_bias</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
-    <span class="p">[</span><span class="n">seasonal_bias_tas</span><span class="p">,</span> <span class="n">seasonal_bias_pr</span><span class="p">],</span>
+    <span class="p">[</span><span class="n">seasonal_bias_tas</span><span class="p">,</span> <span class="n">seasonal_bias_pr</span><span class="p">],</span> <span class="n">compat</span><span class="o">=</span><span class="s2">&quot;override&quot;</span><span class="p">,</span> <span class="n">join</span><span class="o">=</span><span class="s2">&quot;override&quot;</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -935,7 +994,7 @@ Wall time: 25.8 s
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/evalbook-remote/lib/python3.13/site-packages/distributed/client.py:3357: UserWarning: Sending large graph of size 60.84 MiB.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/evalbook-remote/lib/python3.13/site-packages/distributed/client.py:3357: UserWarning: Sending large graph of size 66.18 MiB.
 This may cause some slowdown.
 Consider loading the data with Dask directly
  or using futures or delayed objects to embed the data into the graph without repetition.
@@ -943,8 +1002,8 @@ See also https://docs.dask.org/en/stable/best-practices.html#load-data-with-dask
   warnings.warn(
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 108 ms, sys: 113 ms, total: 220 ms
-Wall time: 328 ms
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CPU times: user 128 ms, sys: 129 ms, total: 257 ms
+Wall time: 362 ms
 </pre></div>
 </div>
 </div>
@@ -1072,125 +1131,134 @@ Wall time: 328 ms
 </div>
 </div>
 <div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/evalbook-remote/lib/python3.13/site-packages/cf_xarray/accessor.py:718: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  unused_keys = set(attribute.keys()) - set(inverted)
+/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/evalbook-remote/lib/python3.13/site-packages/cf_xarray/accessor.py:719: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  for key, value in attribute.items():
+&lt;frozen _collections_abc&gt;:899: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/evalbook-remote/lib/python3.13/site-packages/cf_xarray/accessor.py:727: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  newmap.update({key: attribute[key] for key in unused_keys})
+</pre></div>
+</div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>aspect: 0.9716981132075472
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/evalbook-remote/lib/python3.13/site-packages/cf_xarray/accessor.py:718: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
-  unused_keys = set(attribute.keys()) - set(inverted)
-/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/evalbook-remote/lib/python3.13/site-packages/cf_xarray/accessor.py:719: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
-  for key, value in attribute.items():
-&lt;frozen _collections_abc&gt;:899: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
-/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/evalbook-remote/lib/python3.13/site-packages/cf_xarray/accessor.py:727: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
-  newmap.update({key: attribute[key] for key in unused_keys})
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0 0 0 DJF RMIB-UGent-ALARO1-SFX
+0 0 0 DJF HCLIMcom-SMHI-HCLIM43-ALADIN
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0 1 4 DJF GERICS-REMO2020-2-2
+0 2 8 DJF GERICS-REMO2020-2-2-MR2
+0 3 12 DJF RMIB-UGent-ALARO1-SFX
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0 2 8 DJF CLMcom-CMCC-CCLM6-0-1-URB
-0 3 12 DJF HCLIMcom-SMHI-HCLIM43-ALADIN
-0 4 16 DJF GERICS-REMO2020-2-2-MR2
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0 4 16 DJF KNMI-RACMO23E
+0 5 20 DJF CLMcom-CMCC-CCLM6-0-1-URB
+0 6 24 DJF CLMcom-KUL-CCLM6-0-1-URB-ESG
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span> 5 20 DJF KNMI-RACMO23E
-0 6 24 DJF CLMcom-Hereon-ICON-CLM-202407-1-1
-1 0 1 JJA RMIB-UGent-ALARO1-SFX
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1 1 5 JJA GERICS-REMO2020-2-2
-1 2 9 JJA CLMcom-CMCC-CCLM6-0-1-URB
-1 3 13 JJA HCLIMcom-SMHI-HCLIM43-ALADIN
-1 4 17 JJA GERICS-REMO2020-2-2-MR2
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1 5 21 JJA KNMI-RACMO23E
-1 6 25 JJA CLMcom-Hereon-ICON-CLM-202407-1-1
-2 0 2 MAM RMIB-UGent-ALARO1-SFX
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2 1 6 MAM GERICS-REMO2020-2-2
-2 2 10 MAM CLMcom-CMCC-CCLM6-0-1-URB
-2 3 14 MAM HCLIMcom-SMHI-HCLIM43-ALADIN
-2 4 18 MAM GERICS-REMO2020-2-2-MR2
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2 5 22 MAM KNMI-RACMO23E
-2 6 26 MAM CLMcom-Hereon-ICON-CLM-202407-1-1
-3 0 3 SON RMIB-UGent-ALARO1-SFX
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3 1 7 SON GERICS-REMO2020-2-2
-3 2 11 SON CLMcom-CMCC-CCLM6-0-1-URB
-3 3 15 SON HCLIMcom-SMHI-HCLIM43-ALADIN
-3 4 19 SON GERICS-REMO2020-2-2-MR2
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3 5 23 SON KNMI-RACMO23E
-3 6 27 SON CLMcom-Hereon-ICON-CLM-202407-1-1
-aspect: 0.9716981132075472
-0 0 0 DJF RMIB-UGent-ALARO1-SFX
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/evalbook-remote/lib/python3.13/site-packages/cf_xarray/accessor.py:718: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
-  unused_keys = set(attribute.keys()) - set(inverted)
-/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/evalbook-remote/lib/python3.13/site-packages/cf_xarray/accessor.py:719: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
-  for key, value in attribute.items():
-&lt;frozen _collections_abc&gt;:899: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
-/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/evalbook-remote/lib/python3.13/site-packages/cf_xarray/accessor.py:727: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
-  newmap.update({key: attribute[key] for key in unused_keys})
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0 1 4 DJF GERICS-REMO2020-2-2
-0 2 8 DJF CLMcom-CMCC-CCLM6-0-1-URB
-0 3 12 DJF HCLIMcom-SMHI-HCLIM43-ALADIN
-0 4 16 DJF GERICS-REMO2020-2-2-MR2
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0 5 20 DJF KNMI-RACMO23E
-0 6 24 DJF CLMcom-Hereon-ICON-CLM-202407-1-1
-1 0 1 JJA RMIB-UGent-ALARO1-SFX
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0 7 28 DJF CLMcom-Hereon-ICON-CLM-202407-1-1
+1 0 1 JJA HCLIMcom-SMHI-HCLIM43-ALADIN
 1 1 5 JJA GERICS-REMO2020-2-2
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1 2 9 JJA CLMcom-CMCC-CCLM6-0-1-URB
-1 3 13 JJA HCLIMcom-SMHI-HCLIM43-ALADIN
-1 4 17 JJA GERICS-REMO2020-2-2-MR2
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1 2 9 JJA GERICS-REMO2020-2-2-MR2
+1 3 13 JJA RMIB-UGent-ALARO1-SFX
+1 4 17 JJA KNMI-RACMO23E
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1 5 21 JJA KNMI-RACMO23E
-1 6 25 JJA CLMcom-Hereon-ICON-CLM-202407-1-1
-2 0 2 MAM RMIB-UGent-ALARO1-SFX
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1 5 21 JJA CLMcom-CMCC-CCLM6-0-1-URB
+1 6 25 JJA CLMcom-KUL-CCLM6-0-1-URB-ESG
+1 7 29 JJA CLMcom-Hereon-ICON-CLM-202407-1-1
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2 0 2 MAM HCLIMcom-SMHI-HCLIM43-ALADIN
 2 1 6 MAM GERICS-REMO2020-2-2
+2 2 10 MAM GERICS-REMO2020-2-2-MR2
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2 2 10 MAM CLMcom-CMCC-CCLM6-0-1-URB
-2 3 14 MAM HCLIMcom-SMHI-HCLIM43-ALADIN
-2 4 18 MAM GERICS-REMO2020-2-2-MR2
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2 3 14 MAM RMIB-UGent-ALARO1-SFX
+2 4 18 MAM KNMI-RACMO23E
+2 5 22 MAM CLMcom-CMCC-CCLM6-0-1-URB
+2 6 26 MAM CLMcom-KUL-CCLM6-0-1-URB-ESG
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2 5 22 MAM KNMI-RACMO23E
-2 6 26 MAM CLMcom-Hereon-ICON-CLM-202407-1-1
-3 0 3 SON RMIB-UGent-ALARO1-SFX
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2 7 30 MAM CLMcom-Hereon-ICON-CLM-202407-1-1
+3 0 3 SON HCLIMcom-SMHI-HCLIM43-ALADIN
+3 1 7 SON GERICS-REMO2020-2-2
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3 1 7 SON GERICS-REMO2020-2-2
-3 2 11 SON CLMcom-CMCC-CCLM6-0-1-URB
-3 3 15 SON HCLIMcom-SMHI-HCLIM43-ALADIN
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3 2 11 SON GERICS-REMO2020-2-2-MR2
+3 3 15 SON RMIB-UGent-ALARO1-SFX
+3 4 19 SON KNMI-RACMO23E
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3 4 19 SON GERICS-REMO2020-2-2-MR2
-3 5 23 SON KNMI-RACMO23E
-3 6 27 SON CLMcom-Hereon-ICON-CLM-202407-1-1
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3 5 23 SON CLMcom-CMCC-CCLM6-0-1-URB
+3 6 27 SON CLMcom-KUL-CCLM6-0-1-URB-ESG
+3 7 31 SON CLMcom-Hereon-ICON-CLM-202407-1-1
 </pre></div>
 </div>
-<img alt="_images/ac43e880151a01ec04e943727076ce4dc787fd806566d1612565f16ca71239b2.png" src="_images/ac43e880151a01ec04e943727076ce4dc787fd806566d1612565f16ca71239b2.png" />
-<img alt="_images/08c72e92865a37e47742e9ce6ef9e0c446e620413e48427ff4d6a4f894dc8f86.png" src="_images/08c72e92865a37e47742e9ce6ef9e0c446e620413e48427ff4d6a4f894dc8f86.png" />
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/evalbook-remote/lib/python3.13/site-packages/cf_xarray/accessor.py:718: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  unused_keys = set(attribute.keys()) - set(inverted)
+/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/evalbook-remote/lib/python3.13/site-packages/cf_xarray/accessor.py:719: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  for key, value in attribute.items():
+&lt;frozen _collections_abc&gt;:899: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+/mnt/CORDEX_CMIP6_tmp/user_tmp/lbuntemeyer/conda_envs/evalbook-remote/lib/python3.13/site-packages/cf_xarray/accessor.py:727: FutureWarning: The return type of `Dataset.dims` will be changed to return a set of dimension names in future, in order to be more consistent with `DataArray.dims`. To access a mapping from dimension names to lengths, please use `Dataset.sizes`.
+  newmap.update({key: attribute[key] for key in unused_keys})
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>aspect: 0.9716981132075472
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0 0 0 DJF HCLIMcom-SMHI-HCLIM43-ALADIN
+0 1 4 DJF GERICS-REMO2020-2-2
+0 2 8 DJF GERICS-REMO2020-2-2-MR2
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0 3 12 DJF RMIB-UGent-ALARO1-SFX
+0 4 16 DJF KNMI-RACMO23E
+0 5 20 DJF CLMcom-CMCC-CCLM6-0-1-URB
+0 6 24 DJF CLMcom-KUL-CCLM6-0-1-URB-ESG
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0 7 28 DJF CLMcom-Hereon-ICON-CLM-202407-1-1
+1 0 1 JJA HCLIMcom-SMHI-HCLIM43-ALADIN
+1 1 5 JJA GERICS-REMO2020-2-2
+1 2 9 JJA GERICS-REMO2020-2-2-MR2
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1 3 13 JJA RMIB-UGent-ALARO1-SFX
+1 4 17 JJA KNMI-RACMO23E
+1 5 21 JJA CLMcom-CMCC-CCLM6-0-1-URB
+1 6 25 JJA CLMcom-KUL-CCLM6-0-1-URB-ESG
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1 7 29 JJA CLMcom-Hereon-ICON-CLM-202407-1-1
+2 0 2 MAM HCLIMcom-SMHI-HCLIM43-ALADIN
+2 1 6 MAM GERICS-REMO2020-2-2
+2 2 10 MAM GERICS-REMO2020-2-2-MR2
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2 3 14 MAM RMIB-UGent-ALARO1-SFX
+2 4 18 MAM KNMI-RACMO23E
+2 5 22 MAM CLMcom-CMCC-CCLM6-0-1-URB
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2 6 26 MAM CLMcom-KUL-CCLM6-0-1-URB-ESG
+2 7 30 MAM CLMcom-Hereon-ICON-CLM-202407-1-1
+3 0 3 SON HCLIMcom-SMHI-HCLIM43-ALADIN
+3 1 7 SON GERICS-REMO2020-2-2
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3 2 11 SON GERICS-REMO2020-2-2-MR2
+3 3 15 SON RMIB-UGent-ALARO1-SFX
+3 4 19 SON KNMI-RACMO23E
+3 5 23 SON CLMcom-CMCC-CCLM6-0-1-URB
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3 6 27 SON CLMcom-KUL-CCLM6-0-1-URB-ESG
+3 7 31 SON CLMcom-Hereon-ICON-CLM-202407-1-1
+</pre></div>
+</div>
+<img alt="_images/3f6533fa4cda8e952fbe0344a30bf3f1dac8f5d01e7c2555d0e14a158080c737.png" src="_images/3f6533fa4cda8e952fbe0344a30bf3f1dac8f5d01e7c2555d0e14a158080c737.png" />
+<img alt="_images/669d4b749e536fee1caacdfbe37fa3f44a2946d2d9fc7da12f8b83cba04c1246.png" src="_images/669d4b749e536fee1caacdfbe37fa3f44a2946d2d9fc7da12f8b83cba04c1246.png" />
 </div>
 </div>
 </section>
