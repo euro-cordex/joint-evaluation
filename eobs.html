@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>EOBS seasonal means &#8212; Joint evaluation</title>
+    <title>Evaluating Seasonal Climate Biases: A Comparison of Model Outputs with EOBS Observations &#8212; Joint evaluation</title>
   
   
   
@@ -395,7 +395,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>EOBS seasonal means</h1>
+    <h1>Evaluating Seasonal Climate Biases: A Comparison of Model Outputs with EOBS Observations</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -409,8 +409,18 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="eobs-seasonal-means">
-<h1>EOBS seasonal means<a class="headerlink" href="#eobs-seasonal-means" title="Link to this heading">#</a></h1>
+  <section class="tex2jax_ignore mathjax_ignore" id="evaluating-seasonal-climate-biases-a-comparison-of-model-outputs-with-eobs-observations">
+<h1>Evaluating Seasonal Climate Biases: A Comparison of Model Outputs with EOBS Observations<a class="headerlink" href="#evaluating-seasonal-climate-biases-a-comparison-of-model-outputs-with-eobs-observations" title="Link to this heading">#</a></h1>
+<p>This notebook analyzes seasonal means and biases for temperature (<code class="docutils literal notranslate"><span class="pre">tas</span></code>) and precipitation (<code class="docutils literal notranslate"><span class="pre">pr</span></code>) using EOBS observational data and model outputs.</p>
+<p>The workflow includes:</p>
+<ul class="simple">
+<li><p>Loading and preprocessing datasets.</p></li>
+<li><p>Regridding datasets to a common grid for comparison.</p></li>
+<li><p>Computing seasonal means for both observations and model outputs.</p></li>
+<li><p>Calculating biases for temperature and precipitation.</p></li>
+<li><p>Visualizing the results using contour plots.</p></li>
+</ul>
+<p>This analysis helps evaluate the performance of climate models in simulating seasonal temperature and precipitation patterns.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> autoreload
@@ -484,12 +494,15 @@ document.write(`
     <span class="n">variables</span><span class="p">,</span>
     <span class="n">frequency</span><span class="o">=</span><span class="s2">&quot;mon&quot;</span><span class="p">,</span>
     <span class="n">mask</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">add_fx</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+    <span class="n">merge_fx</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">add_missing_bounds</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">rewrite_grid</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">apply_fixes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
 <span class="p">):</span>
     <span class="n">cat</span> <span class="o">=</span> <span class="n">get_source_collection</span><span class="p">(</span><span class="n">variables</span><span class="p">,</span> <span class="n">frequency</span><span class="p">,</span> <span class="n">add_fx</span><span class="o">=</span><span class="n">add_fx</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-    <span class="n">dsets</span> <span class="o">=</span> <span class="n">open_and_sort</span><span class="p">(</span><span class="n">cat</span><span class="p">,</span> <span class="n">merge_fx</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">apply_fixes</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">dsets</span> <span class="o">=</span> <span class="n">open_and_sort</span><span class="p">(</span><span class="n">cat</span><span class="p">,</span> <span class="n">merge_fx</span><span class="o">=</span><span class="n">merge_fx</span><span class="p">,</span> <span class="n">apply_fixes</span><span class="o">=</span><span class="n">apply_fixes</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">rewrite_grid</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">dset_id</span><span class="p">,</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">dsets</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="n">dsets</span><span class="p">[</span><span class="n">dset_id</span><span class="p">]</span> <span class="o">=</span> <span class="n">rewrite_coords</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
@@ -531,7 +544,11 @@ document.write(`
 
 <span class="k">def</span><span class="w"> </span><span class="nf">regrid_dsets</span><span class="p">(</span><span class="n">dsets</span><span class="p">,</span> <span class="n">target_grid</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="s2">&quot;bilinear&quot;</span><span class="p">):</span>
     <span class="k">for</span> <span class="n">dset_id</span><span class="p">,</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">dsets</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-        <span class="n">mapping</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">cf</span><span class="p">[</span><span class="s2">&quot;grid_mapping&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">grid_mapping_name</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">mapping</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">cf</span><span class="p">[</span><span class="s2">&quot;grid_mapping&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">grid_mapping_name</span>
+        <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;KeyError: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2"> for </span><span class="si">{</span><span class="n">dset_id</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">mapping</span> <span class="o">=</span> <span class="s2">&quot;rotated_latitude_longitude&quot;</span>
         <span class="k">if</span> <span class="n">mapping</span> <span class="o">!=</span> <span class="s2">&quot;rotated_latitude_longitude&quot;</span><span class="p">:</span>
             <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;regridding </span><span class="si">{</span><span class="n">dset_id</span><span class="si">}</span><span class="s2"> with grid_mapping: </span><span class="si">{</span><span class="n">mapping</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
             <span class="n">regridder</span> <span class="o">=</span> <span class="n">create_regridder</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">target_grid</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">method</span><span class="p">)</span>
@@ -572,9 +589,13 @@ document.write(`
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dsets</span> <span class="o">=</span> <span class="n">open_datasets</span><span class="p">(</span>
     <span class="p">[</span><span class="s2">&quot;tas&quot;</span><span class="p">,</span> <span class="s2">&quot;pr&quot;</span><span class="p">],</span>
+    <span class="c1"># source_id=[&#39;CCLM6-0-1-URB-ESG&#39;],</span>
     <span class="n">frequency</span><span class="o">=</span><span class="s2">&quot;mon&quot;</span><span class="p">,</span>
     <span class="n">mip_era</span><span class="o">=</span><span class="s2">&quot;CMIP6&quot;</span><span class="p">,</span>
+    <span class="n">add_fx</span><span class="o">=</span><span class="n">add_fx</span><span class="p">,</span>
     <span class="n">add_missing_bounds</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">rewrite_grid</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">apply_fixes</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span>
 </pre></div>
 </div>
@@ -727,7 +748,7 @@ document.write(`
 <span class="p">)</span>
 
 <span class="n">seasonal_bias</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span>
-    <span class="p">[</span><span class="n">seasonal_bias_tas</span><span class="p">,</span> <span class="n">seasonal_bias_pr</span><span class="p">],</span>
+    <span class="p">[</span><span class="n">seasonal_bias_tas</span><span class="p">,</span> <span class="n">seasonal_bias_pr</span><span class="p">],</span> <span class="n">compat</span><span class="o">=</span><span class="s2">&quot;override&quot;</span><span class="p">,</span> <span class="n">join</span><span class="o">=</span><span class="s2">&quot;override&quot;</span>
 <span class="p">)</span>
 </pre></div>
 </div>
