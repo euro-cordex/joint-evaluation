@@ -156,7 +156,7 @@ def plot(data, y, prefix="timeseries"):
         kind="line",
         facet_kws=dict(sharey=True),
     )
-    sns.move_legend(ax, "lower left", bbox_to_anchor=(0.2, -0.1))
+    sns.move_legend(ax, "lower left", bbox_to_anchor=(0.2, -0.25))
     ax.savefig(f"plots/{prefix}-{y}.png", dpi=150)
     plt.close()
 

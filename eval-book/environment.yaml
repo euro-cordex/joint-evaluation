@@ -11,6 +11,7 @@ dependencies:
   - cftime
   - flox
   - netCDF4
+  - h5netcdf
   - xesmf
   - cdo
   - python-cdo
