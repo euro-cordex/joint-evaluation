@@ -217,6 +217,52 @@ def seasonal_mean(da):
     )
 
 
+def regional_mean(ds, regions=None, weights=None, aggr=None):
+    """
+    Compute the regional mean of a dataset over specified regions.
+
+    Parameters:
+    ds (xarray.Dataset): The dataset to compute the regional mean for.
+    regions (regionmask.Regions): The regions to compute the mean over.
+
+    Returns:
+    xarray.Dataset: The regional mean values.
+    """
+    mask = 1.0
+    if weights is None:
+        weights = xr.ones_like(ds.lon)
+    if regions:
+        mask = regions.mask_3D(ds.lon, ds.lat, drop=False)
+    if aggr == "mean":
+        result = ds.cf.weighted(mask * weights).mean(dim=("X", "Y"), skipna=True)
+    elif aggr == "P95":
+        ds = np.abs(ds)
+        ds = ds.where(mask)
+        result = ds.cf.quantile(0.95, dim=["X", "Y"], skipna=True)
+
+    return result
+
+
+def regional_means(dsets, regions=None, aggr=None):
+    """
+    Compute the regional means for multiple datasets over specified regions.
+
+    Parameters:
+    dsets (dict): A dictionary of datasets to compute the regional means for.
+    regions (regionmask.Regions): The regions to compute the means over.
+
+    Returns:
+    xarray.Dataset: The concatenated regional mean values for all datasets.
+    """
+    concat_dim = xr.DataArray(list(dsets.keys()), dims="iid", name="iid")
+    return xr.concat(
+        [regional_mean(ds, regions, None, aggr) for ds in dsets.values()],
+        dim=concat_dim,
+        coords="minimal",
+        compat="override",
+    )
+
+
 def standardize_unit(ds, variable):
     if variable == "tas":
         ds = convert_celsius_to_kelvin(ds)
