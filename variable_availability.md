@@ -1,5 +1,8 @@
 # Variable Availability Plots
 
+ * dark blue stands for the data that was uploaded by the groups to the JSC-server
+ * light blue stands for old CORDEX-CMIP5 data also available in the JSC-server (in principle, for the overview study, but additional variables can be uploaded if necessary)
+
 ## AtmRivers
 ![AtmRivers](plots/variable_availability__AtmRivers.png)
 
