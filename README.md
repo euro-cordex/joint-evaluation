@@ -16,11 +16,9 @@ There is also a repository ([evaltools](https://github.com/euro-cordex/evaltools
 
 ## How to contribute an analysis
 
-You are very welcome and encouraged to contribute your own analysis to the workflow here, we recommend the following:
-* [Create an issue](https://github.com/euro-cordex/joint-evaluation/issues/new) to let us know about your analysis and find synergies with other topics (maybe reuse code from other topics?)
-* [Fork and Clone](https://docs.github.com/en/get-started/exploring-projects-on-github/contributing-to-a-project) the joint-evaluation repository to be ready to contribute your code.
-* Add a new script in the `code` subdirectory that drives your analysis (optional: add reusable code to [evaltools](https://github.com/euro-cordex/evaltools) repository or host it somewhere else. We can help with this.).
-* [Create a pull request](https://docs.github.com/en/get-started/exploring-projects-on-github/contributing-to-a-project#making-a-pull-request) to add your script to the joint-evaluation repository (and maybe evaltools). Do this as early as possible, so we can help!
+You are very welcome and encouraged to contribute your own analysis to the overall joint evaluation effort. We recommend to [create an issue](https://github.com/euro-cordex/joint-evaluation/issues/new) to let us know about your analysis and find synergies with other topics (maybe reuse code from other topics?).
+Right now, most evaluation topics have their own dedicated repository under the EURO-CORDEX github organization, e.g., the [Fire Weather Index Evaluation](https://github.com/euro-cordex/fwi-evaluation) and the [Water Budget Analysis](https://github.com/euro-cordex/water-budget-evaluation).
+If you need a repository for your own topic or already have one and would like to move it here, just let us know! You can also have a look at our common code base ([evaltools](https://github.com/euro-cordex/evaltools)) which can help you accessing, loading and fixing CORDEX-CMIP6 datasets.
 
 If you have never contributed on github before, you find also some helpful insight [here](https://book.the-turing-way.org/reproducible-research/vcs/vcs-github.html#contributing-to-other-projects).
 
