@@ -38,8 +38,28 @@ var_dic = {
         "name": "Precipitation BIAS [%]",
         "diff": "rel",
         "aggr": "mean",
-        "levels": [-100, -90, -80, -70, -60, -50, -40, -30, -20, -10, 10,
-                   20, 30, 40, 50, 60, 70, 80, 90, 100],
+        "levels": [
+            -100,
+            -90,
+            -80,
+            -70,
+            -60,
+            -50,
+            -40,
+            -30,
+            -20,
+            -10,
+            10,
+            20,
+            30,
+            40,
+            50,
+            60,
+            70,
+            80,
+            90,
+            100,
+        ],
         "cmap": "BrBG",
         "units": "%",
         "datasets": ["era5", "cerra-land"],
@@ -57,16 +77,12 @@ var_dic = {
 }
 
 e_obs_dic = {
-    'tas': {
-        "cmap":cmocean.cm.thermal,     
-        'levels':np.arange(264, 303, 3), 
-        'units': 'K'
+    "tas": {"cmap": cmocean.cm.thermal, "levels": np.arange(264, 303, 3), "units": "K"},
+    "pr": {
+        "cmap": cmocean.cm.rain,
+        "levels": [0, 30, 60, 90, 120, 150, 210, 270, 330, 360, 420, 480],
+        "units": "mm",
     },
-    'pr': {
-        "cmap":cmocean.cm.rain, 
-        'levels':[0, 30, 60, 90, 120, 150, 210, 270, 330, 360, 420, 480], 
-        'units': 'mm'
-    }
 }
 
 variable_mapping = {
@@ -75,6 +91,7 @@ variable_mapping = {
     "era5": {"tas": "t2m", "pr": "tp"},
 }
 
+
 def load_obs(variable, dataset, add_fx=True, mask=True):
     root = f"/mnt/CORDEX_CMIP6_tmp/aux_data/{dataset}/mon/{variable}/"
     ds = xr.open_mfdataset(
@@ -82,12 +99,12 @@ def load_obs(variable, dataset, add_fx=True, mask=True):
     )
     ds = ds.rename({"valid_time": "time"})
     ds = fix_360_longitudes(ds, lonname="longitude")
-    
+
     if add_fx is True:
         files_fx = list(traverseDir(f"/mnt/CORDEX_CMIP6_tmp/aux_data/{dataset}/fx/"))
         files_fx = [f for f in files_fx if "fixed" in f]
         for fx in ["orog", "sftlf", "areacella"]:
-            file_fx = [f for f in files_fx  if fx in f]
+            file_fx = [f for f in files_fx if fx in f]
             if file_fx:
                 ds_fx = xr.open_dataset(file_fx[0])
                 ds_fx = fix_360_longitudes(ds_fx, lonname="longitude")
@@ -98,6 +115,7 @@ def load_obs(variable, dataset, add_fx=True, mask=True):
             sftlf = ds["sftlf"]
             ds["mask"] = sftlf > 0
     return ds
+
 
 def add_bounds(ds):
     if "longitude" not in ds.cf.bounds and "latitude" not in ds.cf.bounds:
@@ -116,6 +134,7 @@ def add_bounds(ds):
     )
     return ds
 
+
 def mask_with_sftlf(ds, sftlf=None):
     if sftlf is None and "sftlf" in ds:
         sftlf = ds["sftlf"]
@@ -126,6 +145,7 @@ def mask_with_sftlf(ds, sftlf=None):
     else:
         warn(f"sftlf not found in dataset: {ds.source_id}")
     return ds
+
 
 def open_datasets(
     variables,
@@ -153,6 +173,7 @@ def open_datasets(
             dsets[dset_id] = add_bounds(ds)
     return dsets
 
+
 def create_cordex_grid(domain_id):
     grid = cx.domain(domain_id, bounds=True, mip_era="CMIP6")
     # grid["lon"].attrs = {}
@@ -165,9 +186,11 @@ def create_cordex_grid(domain_id):
     )
     return grid.assign_coords(lon_b=lon_b, lat_b=lat_b)
 
+
 def create_regridder(source, target, method="bilinear"):
     regridder = xe.Regridder(source, target, method=method)
     return regridder
+
 
 def regrid(ds, regridder, mask_after_regrid=True):
     ds_regrid = regridder(ds)
@@ -176,6 +199,7 @@ def regrid(ds, regridder, mask_after_regrid=True):
             if var not in ["orog", "sftlf", "areacella"]:
                 ds_regrid[var] = ds_regrid[var].where(ds_regrid["mask"] > 0.0)
     return ds_regrid
+
 
 def regrid_dsets(dsets, target_grid, method="bilinear"):
     for dset_id, ds in dsets.items():
@@ -191,6 +215,7 @@ def regrid_dsets(dsets, target_grid, method="bilinear"):
             dsets[dset_id] = regrid(ds, regridder)
     return dsets
 
+
 def mask_invalid(ds, vars=None, threshold=0.1):
     if isinstance(vars, str):
         vars = [vars]
@@ -201,10 +226,12 @@ def mask_invalid(ds, vars=None, threshold=0.1):
         ds[var] = ds[var].where(var_nan < threshold)
     return ds
 
+
 def rewrite_coords(ds, coords="all"):
     if ds.cf["grid_mapping"].grid_mapping_name == "rotated_latitude_longitude":
         ds = ds.cx.rewrite_coords(coords=coords)
     return ds
+
 
 def height_temperature_correction(model_elev, obs_elev):
     """
@@ -213,6 +240,7 @@ def height_temperature_correction(model_elev, obs_elev):
     lapse_rate = 0.0065  # °C per meter
     # Apply correction (adjust model temp to obs elevation)
     return lapse_rate * (obs_elev - model_elev)
+
 
 def seasonal_mean(da):
     """Optimized function to calculate seasonal averages from time series of monthly means
@@ -234,6 +262,7 @@ def seasonal_mean(da):
         (da * weights).groupby("time.season").sum(dim="time", skipna=True, min_count=1)
     )
 
+
 def regional_mean(ds, regions=None, weights=None, aggr=None):
     """
     Compute the regional mean of a dataset over specified regions.
@@ -247,9 +276,11 @@ def regional_mean(ds, regions=None, weights=None, aggr=None):
     """
     mask = 1.0
     if "lon" in ds.coords:
-        x = "lon"; y = "lat"
+        x = "lon"
+        y = "lat"
     elif "longitude" in ds.coords:
-        x = "longitude"; y = "latitude"
+        x = "longitude"
+        y = "latitude"
     if weights is None:
         weights = xr.ones_like(ds[x])
     if regions:
@@ -262,6 +293,7 @@ def regional_mean(ds, regions=None, weights=None, aggr=None):
         result = ds.cf.quantile(0.95, dim=["X", "Y"], skipna=True)
 
     return result
+
 
 def regional_means(dsets, regions=None, aggr=None):
     """
@@ -282,12 +314,14 @@ def regional_means(dsets, regions=None, aggr=None):
         compat="override",
     )
 
+
 def standardize_unit(ds, variable):
     if variable == "tas":
         ds = convert_celsius_to_kelvin(ds)
     elif variable == "pr":
         ds = convert_precipitation_to_mm(ds)
     return ds
+
 
 def convert_celsius_to_kelvin(ds, threshold=200):
     """
@@ -328,6 +362,7 @@ def convert_celsius_to_kelvin(ds, threshold=200):
 
     return ds
 
+
 def convert_precipitation_to_mm(ds):
     """
     Converts all precipitation variables in an xarray Dataset to millimeters (mm)
@@ -359,10 +394,12 @@ def convert_precipitation_to_mm(ds):
 
     return ds
 
+
 def check_equal_period(ds, period):
     years_in_ds = np.unique(ds.time.dt.year.values)
     expected_years = np.arange(int(period.start), int(period.stop) + 1)
     return np.all(np.isin(expected_years, years_in_ds))
+
 
 def fix_360_longitudes(dataset: xr.Dataset, lonname: str = "lon") -> xr.Dataset:
     """
@@ -384,20 +421,22 @@ def fix_360_longitudes(dataset: xr.Dataset, lonname: str = "lon") -> xr.Dataset:
         dataset[lonname] = dataset[lonname].where(lon <= 180, other=lon - 360)
     return dataset
 
+
 def traverseDir(root):
     for dirpath, dirnames, filenames in os.walk(root):
         for file in filenames:
             if file.endswith(".nc"):
                 yield os.path.join(dirpath, file)
 
+
 def select_period(ds: xr.DataArray) -> xr.DataArray:
     """
     Add a new dimension 'period' based on the time coordinate.
-    
+
     Parameters:
     - data: xarray DataArray with a 'time' dimension
     - period: dictionary mapping periods
-    
+
     Returns:
     - DataArray with a new 'period' dimension added
     """
@@ -407,53 +446,55 @@ def select_period(ds: xr.DataArray) -> xr.DataArray:
     for period in periods.items():
         mask = ds["time"].dt.month.isin(months)
         season_dim[season] = ds.where(mask, np.nan)
-    
+
     season_da = xr.concat(
         list(season_dim.values()),
-        dim = "season",
+        dim="season",
         coords="minimal",
         compat="override",
     )
-    
+
     season_da.coords["season"] = ["winter", "spring", "summer", "fall"]
-    
+
     return season_da
+
 
 def select_season(ds: xr.DataArray) -> xr.DataArray:
     """
     Add a new dimension 'season' based on the month of the time coordinate.
-    
+
     Parameters:
     - data: xarray DataArray with a 'time' dimension
     - season_months: dictionary mapping season names to lists of months (1-12)
-    
+
     Returns:
     - DataArray with a new 'season' dimension added
     """
 
     season_months = {
-        'winter': [12, 1, 2],
-        'spring': [3, 4, 5],
-        'summer': [6, 7, 8],
-        'fall': [9, 10, 11]
+        "winter": [12, 1, 2],
+        "spring": [3, 4, 5],
+        "summer": [6, 7, 8],
+        "fall": [9, 10, 11],
     }
-    
+
     # Create a list of seasons based on the 'time' coordinate
     season_dim = {}
     for season, months in season_months.items():
         mask = ds["time"].dt.month.isin(months)
         season_dim[season] = ds.where(mask, np.nan)
-    
+
     season_da = xr.concat(
         list(season_dim.values()),
-        dim = "season",
+        dim="season",
         coords="minimal",
         compat="override",
     )
-    
+
     season_da.coords["season"] = ["winter", "spring", "summer", "fall"]
-    
+
     return season_da
+
 
 class TaylorDiagram(object):
     """Taylor diagram.
@@ -466,17 +507,25 @@ class TaylorDiagram(object):
     __author__ = "Yannick Copin <yannick.copin@...547...>"
     Taylor diagram (Taylor, 2001) implementation.
     Source: http://www-pcmdi.llnl.gov/about/staff/Taylor/CV/Taylor_diagram_primer.htm
-    
+
     """
 
-    def __init__(self, refstd, fig=None, rect=111, 
-                 label='_', srange=(0,2.5), 
-                 rlocs = np.concatenate([[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9], [0.95,0.99]])):
+    def __init__(
+        self,
+        refstd,
+        fig=None,
+        rect=111,
+        label="_",
+        srange=(0, 2.5),
+        rlocs=np.concatenate(
+            [[0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9], [0.95, 0.99]]
+        ),
+    ):
         """Set up Taylor diagram axes, i.e. single quadrant polar
-        plot, using `mpl_toolkits.axisartist.floating_axes`. 
+        plot, using `mpl_toolkits.axisartist.floating_axes`.
 
         Parameters:
-        
+
         * refstd: reference standard deviation to be compared to
         * fig: input Figure or None
         * rect: subplot definition
@@ -489,26 +538,27 @@ class TaylorDiagram(object):
         import mpl_toolkits.axisartist.floating_axes as FA
         import mpl_toolkits.axisartist.grid_finder as GF
 
-        self.refstd = refstd            # Reference standard deviation
+        self.refstd = refstd  # Reference standard deviation
         self.rlocs = rlocs
 
         tr = PolarAxes.PolarTransform()
 
         # Correlation labels
-        tlocs = np.arccos(rlocs)        # Conversion to polar angles
-        gl1 = GF.FixedLocator(tlocs)    # Positions
-        tf1 = GF.DictFormatter(dict(zip(tlocs, map(str,rlocs))))
+        tlocs = np.arccos(rlocs)  # Conversion to polar angles
+        gl1 = GF.FixedLocator(tlocs)  # Positions
+        tf1 = GF.DictFormatter(dict(zip(tlocs, map(str, rlocs))))
 
         # Standard deviation axis extent (in units of reference stddev)
-        self.smin = srange[0]*self.refstd
-        self.smax = srange[1]*self.refstd
+        self.smin = srange[0] * self.refstd
+        self.smax = srange[1] * self.refstd
 
+        ghelper = FA.GridHelperCurveLinear(
+            tr,
+            extremes=(0, np.pi / 2, self.smin, self.smax),  # 1st quadrant
+            grid_locator1=gl1,
+            tick_formatter1=tf1,
+        )
 
-        ghelper = FA.GridHelperCurveLinear(tr,
-                                           extremes=(0, np.pi/2, # 1st quadrant
-                                                     self.smin, self.smax),
-                                           grid_locator1=gl1, tick_formatter1=tf1)
-        
         if fig is None:
             fig = plt.figure()
 
@@ -522,50 +572,47 @@ class TaylorDiagram(object):
         ax.axis["top"].label.set_axis_direction("top")
         ax.axis["top"].label.set_text("Temporal Correlation")
 
-        ax.axis["left"].set_axis_direction("bottom") # "X axis"
+        ax.axis["left"].set_axis_direction("bottom")  # "X axis"
         ax.axis["left"].label.set_text("Normalized Standard Deviation")
 
-        ax.axis["right"].set_axis_direction("top")   # "Y axis"
+        ax.axis["right"].set_axis_direction("top")  # "Y axis"
         ax.axis["right"].toggle(ticklabels=True)
         ax.axis["right"].major_ticklabels.set_axis_direction("left")
 
-        ax.axis["bottom"].set_visible(False)         # Useless
-        
-        self._ax = ax                   # Graphical axes
-        self.ax = ax.get_aux_axes(tr)   # Polar coordinates
+        ax.axis["bottom"].set_visible(False)  # Useless
 
+        self._ax = ax  # Graphical axes
+        self.ax = ax.get_aux_axes(tr)  # Polar coordinates
 
         # Add reference point and stddev contour
         plot_reference = False
         if plot_reference == True:
-            l, = self.ax.plot([0], self.refstd, 'k*',
-                              ls='', ms=10, label=label)
+            (l,) = self.ax.plot([0], self.refstd, "k*", ls="", ms=10, label=label)
             # Collect sample points for latter use (e.g. legend)
             self.samplePoints = [l]
-            
+
         else:
             self.samplePoints = []
 
-        t = np.linspace(0, np.pi/2)
+        t = np.linspace(0, np.pi / 2)
         r = np.zeros_like(t) + self.refstd
-        self.ax.plot(t,r, 'k--', label='_')
+        self.ax.plot(t, r, "k--", label="_")
 
         for v in [0.5, 1, 1.5, 2]:
-            t = np.linspace(0, np.pi/2)
+            t = np.linspace(0, np.pi / 2)
             r = np.zeros_like(t) + v
-            self.ax.plot(t,r, 'k--', linewidth = 0.5)
-            
+            self.ax.plot(t, r, "k--", linewidth=0.5)
 
     def add_sample(self, stddev, corrcoef, *args, **kwargs):
         """Add sample (*stddev*,*corrcoeff*) to the Taylor
         diagram. *args* and *kwargs* are directly propagated to the
         `Figure.plot` command."""
 
-        l, = self.ax.plot(np.arccos(corrcoef), stddev,
-                          *args, **kwargs) # (theta,radius)
-        #l, = self.ax.scatter(np.arccos(corrcoef), stddev, 
+        (l,) = self.ax.plot(
+            np.arccos(corrcoef), stddev, *args, **kwargs
+        )  # (theta,radius)
+        # l, = self.ax.scatter(np.arccos(corrcoef), stddev,
         #                  *args, **kwargs) # (theta,radius)
-
 
         self.samplePoints.append(l)
 
@@ -581,17 +628,25 @@ class TaylorDiagram(object):
         rlocs = [0.2, 0.4, 0.6, 0.8, 0.9]
         for r in rlocs:
             theta = np.arccos(r)
-            self.ax.plot([theta, theta], [self.smin, self.smax], color='gray', linestyle='--', linewidth=0.4, **kwargs)        
+            self.ax.plot(
+                [theta, theta],
+                [self.smin, self.smax],
+                color="gray",
+                linestyle="--",
+                linewidth=0.4,
+                **kwargs,
+            )
 
     def add_contours(self, levels=5, **kwargs):
         """Add constant centered RMS difference contours, defined by
         *levels*."""
 
-        rs,ts = np.meshgrid(np.linspace(self.smin,self.smax),
-                            np.linspace(0,np.pi/2))
+        rs, ts = np.meshgrid(
+            np.linspace(self.smin, self.smax), np.linspace(0, np.pi / 2)
+        )
         # Compute centered RMS difference
-        rms = np.sqrt(self.refstd**2 + rs**2 - 2*self.refstd*rs*np.cos(ts))
-        
+        rms = np.sqrt(self.refstd**2 + rs**2 - 2 * self.refstd * rs * np.cos(ts))
+
         contours = self.ax.contour(ts, rs, rms, levels, **kwargs)
 
-        return contours    
+        return contours
