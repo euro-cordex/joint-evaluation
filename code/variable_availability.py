@@ -93,7 +93,7 @@ if __name__ == "__main__":
     )
     md_lines = ["# Variable Availability Plots\n"]
     for study in get_studies(dreq):
-        plot_path = f"plots/variable_availability__{study}.png"
+        plot_path = f"plots/variable_availability__{study}.svg"
         plot_availability(study, dreq, catalog, plans, outname=plot_path)
         md_lines.append(f"## {study}")
         md_lines.append(f"![{study}]({plot_path})\n")
