@@ -64,7 +64,7 @@ def check_for_inconsistency(attrs):
     check_keys = [k for k in attrs.keys() if k.endswith("_2")]
     for k in check_keys:
         if attrs[k] != attrs[k[:-2]]:
-            print(f"Warning: {k} != {k[:-2]}")
+            print(f"Warning: {k} ({attrs[k]}) != {k[:-2]} ({attrs[k[:-2]]})")
             inconsistent.append(k)
     return inconsistent
 
@@ -95,10 +95,10 @@ def parse_filepath(filename, project):
         inconsistencies = check_for_inconsistency(attrs)
         if inconsistencies:
             print(
-                f"Warning: parsing returns inconsistent attributes: {inconsistencies}"
+                f"Warning: parsing returns inconsistent attributes: {inconsistencies}, will use the first occurrence of each attribute."
             )
-            print(f"Ignoring: {filename}")
-            return {}
+            print(f"Please check: {filename}")
+            # return {}
     else:
         print(
             f"The filepath does not match the expected pattern (will be ignored): {filename}"
