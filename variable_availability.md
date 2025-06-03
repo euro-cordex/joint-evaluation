@@ -1,52 +1,49 @@
 # Variable Availability Plots
 
- * dark blue stands for the data that was uploaded by the groups to the JSC-server
- * light blue stands for old CORDEX-CMIP5 data also available in the JSC-server (in principle, for the overview study, but additional variables can be uploaded if necessary)
-
 ## AtmRivers
-![AtmRivers](plots/variable_availability__AtmRivers.png)
+![AtmRivers](plots/variable_availability__AtmRivers.svg)
 
 ## Circulation
-![Circulation](plots/variable_availability__Circulation.png)
+![Circulation](plots/variable_availability__Circulation.svg)
 
 ## ClimateClassification
-![ClimateClassification](plots/variable_availability__ClimateClassification.png)
+![ClimateClassification](plots/variable_availability__ClimateClassification.svg)
 
 ## ClimateServicesPrio1
-![ClimateServicesPrio1](plots/variable_availability__ClimateServicesPrio1.png)
+![ClimateServicesPrio1](plots/variable_availability__ClimateServicesPrio1.svg)
 
 ## ClimateServicesPrio2
-![ClimateServicesPrio2](plots/variable_availability__ClimateServicesPrio2.png)
+![ClimateServicesPrio2](plots/variable_availability__ClimateServicesPrio2.svg)
 
 ## Droughts
-![Droughts](plots/variable_availability__Droughts.png)
+![Droughts](plots/variable_availability__Droughts.svg)
 
 ## Elevation
-![Elevation](plots/variable_availability__Elevation.png)
+![Elevation](plots/variable_availability__Elevation.svg)
 
 ## FWI
-![FWI](plots/variable_availability__FWI.png)
+![FWI](plots/variable_availability__FWI.svg)
 
 ## HeatStress
-![HeatStress](plots/variable_availability__HeatStress.png)
+![HeatStress](plots/variable_availability__HeatStress.svg)
 
 ## Multifeature
-![Multifeature](plots/variable_availability__Multifeature.png)
+![Multifeature](plots/variable_availability__Multifeature.svg)
 
 ## Overview
-![Overview](plots/variable_availability__Overview.png)
+![Overview](plots/variable_availability__Overview.svg)
 
 ## PrecipExtremes
-![PrecipExtremes](plots/variable_availability__PrecipExtremes.png)
+![PrecipExtremes](plots/variable_availability__PrecipExtremes.svg)
 
 ## Snow
-![Snow](plots/variable_availability__Snow.png)
+![Snow](plots/variable_availability__Snow.svg)
 
 ## Trends
-![Trends](plots/variable_availability__Trends.png)
+![Trends](plots/variable_availability__Trends.svg)
 
 ## WaterBudget
-![WaterBudget](plots/variable_availability__WaterBudget.png)
+![WaterBudget](plots/variable_availability__WaterBudget.svg)
 
 ## WindEnergy
-![WindEnergy](plots/variable_availability__WindEnergy.png)
+![WindEnergy](plots/variable_availability__WindEnergy.svg)
