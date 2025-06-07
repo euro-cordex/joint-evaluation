@@ -91,6 +91,9 @@ variable_mapping = {
     "era5": {"tas": "t2m", "pr": "tp"},
 }
 
+# List of models that need regridding although they are on rotated pole
+force_regrid = ["WRF541Q", "RegCM5-0"]
+
 
 def load_obs(variable, dataset, add_fx=True, mask=True):
     root = f"/mnt/CORDEX_CMIP6_tmp/aux_data/{dataset}/mon/{variable}/"
@@ -164,6 +167,7 @@ def open_datasets(
     dsets = open_and_sort(cat, merge_fx=merge_fx, apply_fixes=apply_fixes)
     if rewrite_grid is True:
         for dset_id, ds in dsets.items():
+            print("rewriting coordinates for", dset_id)
             dsets[dset_id] = rewrite_coords(ds)
     if mask is True:
         for ds in dsets.values():
@@ -429,34 +433,34 @@ def traverseDir(root):
                 yield os.path.join(dirpath, file)
 
 
-def select_period(ds: xr.DataArray) -> xr.DataArray:
-    """
-    Add a new dimension 'period' based on the time coordinate.
-
-    Parameters:
-    - data: xarray DataArray with a 'time' dimension
-    - period: dictionary mapping periods
-
-    Returns:
-    - DataArray with a new 'period' dimension added
-    """
-
-    # Create a list of seasons based on the 'time' coordinate
-    period_dim = {}
-    for period in periods.items():
-        mask = ds["time"].dt.month.isin(months)
-        season_dim[season] = ds.where(mask, np.nan)
-
-    season_da = xr.concat(
-        list(season_dim.values()),
-        dim="season",
-        coords="minimal",
-        compat="override",
-    )
-
-    season_da.coords["season"] = ["winter", "spring", "summer", "fall"]
-
-    return season_da
+# def select_period(ds: xr.DataArray) -> xr.DataArray:
+#    """
+#    Add a new dimension 'period' based on the time coordinate.
+#
+#    Parameters:
+#    - data: xarray DataArray with a 'time' dimension
+#    - period: dictionary mapping periods
+#
+#    Returns:
+#    - DataArray with a new 'period' dimension added
+#    """
+#
+#    # Create a list of seasons based on the 'time' coordinate
+#    period_dim = {}
+#    for period in periods.items():
+#        mask = ds["time"].dt.month.isin(months)
+#        season_dim[season] = ds.where(mask, np.nan)
+#
+#    season_da = xr.concat(
+#        list(season_dim.values()),
+#        dim="season",
+#        coords="minimal",
+#        compat="override",
+#    )
+#
+#    season_da.coords["season"] = ["winter", "spring", "summer", "fall"]
+#
+#    return season_da
 
 
 def select_season(ds: xr.DataArray) -> xr.DataArray:
@@ -560,7 +564,7 @@ class TaylorDiagram(object):
         )
 
         if fig is None:
-            fig = plt.figure()
+            fig = plt.figure()  # noqa
 
         ax = FA.FloatingSubplot(fig, rect, grid_helper=ghelper)
         fig.add_subplot(ax)
@@ -586,10 +590,10 @@ class TaylorDiagram(object):
 
         # Add reference point and stddev contour
         plot_reference = False
-        if plot_reference == True:
-            (l,) = self.ax.plot([0], self.refstd, "k*", ls="", ms=10, label=label)
+        if plot_reference is True:
+            (lx,) = self.ax.plot([0], self.refstd, "k*", ls="", ms=10, label=label)
             # Collect sample points for latter use (e.g. legend)
-            self.samplePoints = [l]
+            self.samplePoints = [lx]
 
         else:
             self.samplePoints = []
@@ -608,15 +612,15 @@ class TaylorDiagram(object):
         diagram. *args* and *kwargs* are directly propagated to the
         `Figure.plot` command."""
 
-        (l,) = self.ax.plot(
+        (la,) = self.ax.plot(
             np.arccos(corrcoef), stddev, *args, **kwargs
         )  # (theta,radius)
         # l, = self.ax.scatter(np.arccos(corrcoef), stddev,
         #                  *args, **kwargs) # (theta,radius)
 
-        self.samplePoints.append(l)
+        self.samplePoints.append(la)
 
-        return l
+        return la
 
     def add_grid(self, *args, **kwargs):
         """Add a grid."""
