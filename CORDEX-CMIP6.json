@@ -65,12 +65,13 @@
     "aggregations": [
       {
         "type": "union",
-        "attribute_name": "variable_id"
+        "attribute_name": "variable_id",
+        "options": { "join": "override" }
       },
       {
         "type": "join_existing",
         "attribute_name": "time_range",
-        "options": { "dim": "time", "coords": "minimal", "compat": "override", "join": "override" }
+        "options": { "dim": "time", "coords": "minimal", "compat": "override" }
       }
     ]
   }
