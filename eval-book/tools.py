@@ -6,6 +6,7 @@ from warnings import warn
 import numpy as np
 import os
 from evaltools.source import get_source_collection, open_and_sort
+
 import cmocean
 
 default_attrs_ = [
@@ -141,9 +142,9 @@ def add_bounds(ds):
 def mask_with_sftlf(ds, sftlf=None):
     if sftlf is None and "sftlf" in ds:
         sftlf = ds["sftlf"]
-        for var in ds.data_vars:
-            if var != "sftlf":
-                ds[var] = ds[var].where(sftlf > 0)
+        # for var in ds.data_vars:
+        #    if var != "sftlf":
+        #        ds[var] = ds[var].where(sftlf > 0)
         ds["mask"] = sftlf > 0
     else:
         warn(f"sftlf not found in dataset: {ds.source_id}")
@@ -167,8 +168,11 @@ def open_datasets(
     dsets = open_and_sort(cat, merge_fx=merge_fx, apply_fixes=apply_fixes)
     if rewrite_grid is True:
         for dset_id, ds in dsets.items():
-            print("rewriting coordinates for", dset_id)
-            dsets[dset_id] = rewrite_coords(ds)
+            try:
+                dsets[dset_id] = rewrite_coords(ds)
+            except Exception as e:
+                warn(f"Error rewriting coordinates for {dset_id}: {e}")
+                dsets[dset_id] = ds
     if mask is True:
         for ds in dsets.values():
             mask_with_sftlf(ds)
@@ -192,16 +196,16 @@ def create_cordex_grid(domain_id):
 
 
 def create_regridder(source, target, method="bilinear"):
-    regridder = xe.Regridder(source, target, method=method)
+    regridder = xe.Regridder(source, target, method=method, unmapped_to_nan=True)
     return regridder
 
 
-def regrid(ds, regridder, mask_after_regrid=True):
+def regrid(ds, regridder, mask_after_regrid="sftlf"):
     ds_regrid = regridder(ds)
     if mask_after_regrid:
         for var in ds.data_vars:
             if var not in ["orog", "sftlf", "areacella"]:
-                ds_regrid[var] = ds_regrid[var].where(ds_regrid["mask"] > 0.0)
+                ds_regrid[var] = ds_regrid[var].where(ds_regrid["sftlf"] > 0.0)
     return ds_regrid
 
 
@@ -212,7 +216,7 @@ def regrid_dsets(dsets, target_grid, method="bilinear"):
         except KeyError as e:
             warn(f"KeyError: {e} for {dset_id}")
             mapping = "rotated_latitude_longitude"
-        if mapping != "rotated_latitude_longitude":
+        if mapping != "rotated_latitude_longitude" or ds.source_id in force_regrid:
             print(f"regridding {dset_id} with grid_mapping: {mapping}")
             regridder = create_regridder(ds, target_grid, method=method)
             print(regridder)
