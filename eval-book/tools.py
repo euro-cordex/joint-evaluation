@@ -93,7 +93,11 @@ variable_mapping = {
 }
 
 # List of models that need regridding although they are on rotated pole
-force_regrid = ["WRF541Q", "RegCM5-0"]
+special_case = ["WRF451Q", "RegCM5-0"]
+
+
+def is_special_case(dset_id):
+    return any(source_id in dset_id.split(".") for source_id in special_case)
 
 
 def load_obs(variable, dataset, add_fx=True, mask=True):
@@ -147,7 +151,7 @@ def mask_with_sftlf(ds, sftlf=None):
         #        ds[var] = ds[var].where(sftlf > 0)
         ds["mask"] = sftlf > 0
     else:
-        warn(f"sftlf not found in dataset: {ds.source_id}")
+        warn("sftlf not found in dataset")
     return ds
 
 
@@ -168,11 +172,13 @@ def open_datasets(
     dsets = open_and_sort(cat, merge_fx=merge_fx, apply_fixes=apply_fixes)
     if rewrite_grid is True:
         for dset_id, ds in dsets.items():
-            try:
-                dsets[dset_id] = rewrite_coords(ds)
-            except Exception as e:
-                warn(f"Error rewriting coordinates for {dset_id}: {e}")
-                dsets[dset_id] = ds
+            if not is_special_case(dset_id):
+                print(f"Rewriting coordinates for {dset_id}")
+                try:
+                    dsets[dset_id] = rewrite_coords(ds)
+                except Exception as e:
+                    warn(f"Error rewriting coordinates for {dset_id}: {e}")
+                    # dsets[dset_id] = ds
     if mask is True:
         for ds in dsets.values():
             mask_with_sftlf(ds)
@@ -216,7 +222,7 @@ def regrid_dsets(dsets, target_grid, method="bilinear"):
         except KeyError as e:
             warn(f"KeyError: {e} for {dset_id}")
             mapping = "rotated_latitude_longitude"
-        if mapping != "rotated_latitude_longitude" or ds.source_id in force_regrid:
+        if mapping != "rotated_latitude_longitude" or is_special_case(dset_id):
             print(f"regridding {dset_id} with grid_mapping: {mapping}")
             regridder = create_regridder(ds, target_grid, method=method)
             print(regridder)
