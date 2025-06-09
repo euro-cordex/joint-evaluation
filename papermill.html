@@ -409,6 +409,7 @@ document.write(`
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Spatial bias (Figures 2, 3 and 4 from Kotlarski et al. 2014)</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#seasonal-bias-figures-5-6-7-and-8-from-kotlarski-et-al-2014">Seasonal bias (Figures 5, 6, 7 and 8 from Kotlarski et al. 2014)</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#temporal-taylor-diagrams-figures-11-and-12-from-kotlarski-et-al-2014">Temporal Taylor diagrams (Figures 11 and 12 from Kotlarski et al. 2014)</a></li>
 </ul>
 
             </nav>
@@ -425,61 +426,13 @@ document.write(`
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 
-<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">papermill</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pm</span>
 </pre></div>
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">root_cat</span> <span class="o">=</span> <span class="s2">&quot;/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/joint-evaluation/&quot;</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">catalog</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">root_cat</span><span class="si">}</span><span class="s2">catalog.csv&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rows</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span> <span class="k">for</span> <span class="n">r</span> <span class="ow">in</span> <span class="n">catalog</span><span class="o">.</span><span class="n">index</span> <span class="k">if</span> <span class="s2">&quot;CCLM6-0-1-URB-ESG&quot;</span> <span class="ow">in</span> <span class="n">catalog</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">r</span><span class="p">][</span><span class="s2">&quot;path&quot;</span><span class="p">]]</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">catalog</span> <span class="o">=</span> <span class="n">catalog</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">rows</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">catalog</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">root_cat</span><span class="si">}</span><span class="s2">catalog_new.csv&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">catalog</span> <span class="o">=</span> <span class="n">catalog</span><span class="p">[</span><span class="n">catalog</span><span class="p">[</span><span class="s2">&quot;source_id&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;ICON-CLM-202407-1-1&quot;</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">catalog</span> <span class="o">=</span> <span class="n">catalog</span><span class="p">[</span><span class="n">catalog</span><span class="p">[</span><span class="s2">&quot;variable_id&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;tas&quot;</span><span class="p">]</span>
-</pre></div>
-</div>
-</div>
-</div>
+<section class="tex2jax_ignore mathjax_ignore" id="spatial-bias-figures-2-3-and-4-from-kotlarski-et-al-2014">
+<h1>Spatial bias (Figures 2, 3 and 4 from Kotlarski et al. 2014)<a class="headerlink" href="#spatial-bias-figures-2-3-and-4-from-kotlarski-et-al-2014" title="Link to this heading">#</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Spatial Bias</span>
@@ -488,30 +441,41 @@ document.write(`
 
 <span class="c1"># Iterate over variables</span>
 <span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;tas&quot;</span><span class="p">,</span> <span class="s2">&quot;pr&quot;</span><span class="p">]:</span>
-    <span class="n">output_notebook</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;spatial_bias_</span><span class="si">{</span><span class="n">variable</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">mip_era</span><span class="si">}</span><span class="s2">.ipynb&quot;</span>
-    <span class="c1"># Generate parameters for the current city</span>
-    <span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="n">variable</span><span class="p">,</span>
-    <span class="p">}</span>
-    <span class="c1"># Execute notebook using Papermill</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="n">pm</span><span class="o">.</span><span class="n">execute_notebook</span><span class="p">(</span>
-            <span class="n">input_path</span><span class="o">=</span><span class="n">input_notebook</span><span class="p">,</span>
-            <span class="n">output_path</span><span class="o">=</span><span class="n">output_notebook</span><span class="p">,</span>
-            <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span>
-            <span class="n">kernel_name</span><span class="o">=</span><span class="s2">&quot;python3&quot;</span><span class="p">,</span>
+    <span class="k">for</span> <span class="n">parent</span> <span class="ow">in</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]:</span>
+
+        <span class="k">if</span> <span class="n">parent</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">period_star</span> <span class="o">=</span> <span class="s2">&quot;1989&quot;</span>
+            <span class="n">period_stop</span> <span class="o">=</span> <span class="s2">&quot;2008&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">period_star</span> <span class="o">=</span> <span class="s2">&quot;1991&quot;</span>
+            <span class="n">period_stop</span> <span class="o">=</span> <span class="s2">&quot;2020&quot;</span>
+        <span class="n">output_notebook</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;spatial_bias_</span><span class="si">{</span><span class="n">variable</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">mip_era</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">period_star</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">period_stop</span><span class="si">}</span><span class="s2">.ipynb&quot;</span>
         <span class="p">)</span>
-    <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="c1"># Handle errors by saving a failed version of the output notebook</span>
-        <span class="n">output_notebook_failed</span> <span class="o">=</span> <span class="n">output_notebook</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.ipynb&quot;</span><span class="p">,</span> <span class="s2">&quot;_ERROR&quot;</span><span class="p">)</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;cp </span><span class="si">{</span><span class="n">output_notebook</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">output_notebook_failed</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error executing notebook: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="c1"># Generate parameters for the current city</span>
+        <span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="n">variable</span><span class="p">,</span>
+            <span class="s2">&quot;parent&quot;</span><span class="p">:</span> <span class="n">parent</span><span class="p">,</span>
+            <span class="s2">&quot;period_star&quot;</span><span class="p">:</span> <span class="n">period_star</span><span class="p">,</span>
+            <span class="s2">&quot;period_stop&quot;</span><span class="p">:</span> <span class="n">period_stop</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="c1"># Execute notebook using Papermill</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">pm</span><span class="o">.</span><span class="n">execute_notebook</span><span class="p">(</span>
+                <span class="n">input_path</span><span class="o">=</span><span class="n">input_notebook</span><span class="p">,</span>
+                <span class="n">output_path</span><span class="o">=</span><span class="n">output_notebook</span><span class="p">,</span>
+                <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span>
+                <span class="n">kernel_name</span><span class="o">=</span><span class="s2">&quot;python3&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="c1"># Handle errors by saving a failed version of the output notebook</span>
+            <span class="n">output_notebook_failed</span> <span class="o">=</span> <span class="n">output_notebook</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.ipynb&quot;</span><span class="p">,</span> <span class="s2">&quot;_ERROR&quot;</span><span class="p">)</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;cp </span><span class="si">{</span><span class="n">output_notebook</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">output_notebook_failed</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error executing notebook: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
-<section class="tex2jax_ignore mathjax_ignore" id="spatial-bias-figures-2-3-and-4-from-kotlarski-et-al-2014">
-<h1>Spatial bias (Figures 2, 3 and 4 from Kotlarski et al. 2014)<a class="headerlink" href="#spatial-bias-figures-2-3-and-4-from-kotlarski-et-al-2014" title="Link to this heading">#</a></h1>
 </section>
 <section class="tex2jax_ignore mathjax_ignore" id="seasonal-bias-figures-5-6-7-and-8-from-kotlarski-et-al-2014">
 <h1>Seasonal bias (Figures 5, 6, 7 and 8 from Kotlarski et al. 2014)<a class="headerlink" href="#seasonal-bias-figures-5-6-7-and-8-from-kotlarski-et-al-2014" title="Link to this heading">#</a></h1>
@@ -521,7 +485,7 @@ document.write(`
 <span class="n">input_notebook</span> <span class="o">=</span> <span class="s2">&quot;regional_bias.ipynb&quot;</span>
 
 <span class="c1"># Iterate over variables</span>
-<span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;tas&quot;</span><span class="p">,</span> <span class="s2">&quot;tas95&quot;</span><span class="p">]:</span>
+<span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;tas&quot;</span><span class="p">,</span> <span class="s2">&quot;pr&quot;</span><span class="p">]:</span>
     <span class="c1"># for variable in [&quot;pr95&quot;, &quot;tas&quot;, &quot;tas95&quot;, &quot;pr&quot;]:</span>
 
     <span class="n">output_notebook</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;regional_bias_</span><span class="si">{</span><span class="n">variable</span><span class="si">}</span><span class="s2">.ipynb&quot;</span>
@@ -547,6 +511,50 @@ document.write(`
 </div>
 </div>
 </section>
+<section class="tex2jax_ignore mathjax_ignore" id="temporal-taylor-diagrams-figures-11-and-12-from-kotlarski-et-al-2014">
+<h1>Temporal Taylor diagrams (Figures 11 and 12 from Kotlarski et al. 2014)<a class="headerlink" href="#temporal-taylor-diagrams-figures-11-and-12-from-kotlarski-et-al-2014" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Spatial Bias</span>
+<span class="n">input_notebook</span> <span class="o">=</span> <span class="s2">&quot;temporal_taylor_diagrams.ipynb&quot;</span>
+<span class="n">mip_era</span> <span class="o">=</span> <span class="s2">&quot;CMIP6&quot;</span>
+
+<span class="c1"># Iterate over variables</span>
+<span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;tas&quot;</span><span class="p">,</span> <span class="s2">&quot;pr&quot;</span><span class="p">]:</span>
+    <span class="k">for</span> <span class="n">parent</span> <span class="ow">in</span> <span class="p">[</span><span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">]:</span>
+
+        <span class="k">if</span> <span class="n">parent</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">period_star</span> <span class="o">=</span> <span class="s2">&quot;1989&quot;</span>
+            <span class="n">period_stop</span> <span class="o">=</span> <span class="s2">&quot;2008&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">period_star</span> <span class="o">=</span> <span class="s2">&quot;1991&quot;</span>
+            <span class="n">period_stop</span> <span class="o">=</span> <span class="s2">&quot;2020&quot;</span>
+        <span class="n">output_notebook</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;temporal_taylor_diagrams_</span><span class="si">{</span><span class="n">variable</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">mip_era</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">period_star</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">period_stop</span><span class="si">}</span><span class="s2">.ipynb&quot;</span>
+        <span class="c1"># Generate parameters for the current city</span>
+        <span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;variable&quot;</span><span class="p">:</span> <span class="n">variable</span><span class="p">,</span>
+            <span class="s2">&quot;parent&quot;</span><span class="p">:</span> <span class="n">parent</span><span class="p">,</span>
+            <span class="s2">&quot;period_star&quot;</span><span class="p">:</span> <span class="n">period_star</span><span class="p">,</span>
+            <span class="s2">&quot;period_stop&quot;</span><span class="p">:</span> <span class="n">period_stop</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="c1"># Execute notebook using Papermill</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">pm</span><span class="o">.</span><span class="n">execute_notebook</span><span class="p">(</span>
+                <span class="n">input_path</span><span class="o">=</span><span class="n">input_notebook</span><span class="p">,</span>
+                <span class="n">output_path</span><span class="o">=</span><span class="n">output_notebook</span><span class="p">,</span>
+                <span class="n">parameters</span><span class="o">=</span><span class="n">parameters</span><span class="p">,</span>
+                <span class="n">kernel_name</span><span class="o">=</span><span class="s2">&quot;python3&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+            <span class="c1"># Handle errors by saving a failed version of the output notebook</span>
+            <span class="n">output_notebook_failed</span> <span class="o">=</span> <span class="n">output_notebook</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.ipynb&quot;</span><span class="p">,</span> <span class="s2">&quot;_ERROR&quot;</span><span class="p">)</span>
+            <span class="n">os</span><span class="o">.</span><span class="n">system</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;cp </span><span class="si">{</span><span class="n">output_notebook</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">output_notebook_failed</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error executing notebook: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
 
     <script type="text/x-thebe-config">
     {
@@ -557,16 +565,16 @@ document.write(`
         },
         codeMirrorConfig: {
             theme: "abcdef",
-            mode: "eval-book"
+            mode: "evaltools"
         },
         kernelOptions: {
-            name: "eval-book",
+            name: "evaltools",
             path: "./."
         },
         predefinedOutput: true
     }
     </script>
-    <script>kernelName = 'eval-book'</script>
+    <script>kernelName = 'evaltools'</script>
 
                 </article>
               
@@ -596,6 +604,7 @@ document.write(`
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Spatial bias (Figures 2, 3 and 4 from Kotlarski et al. 2014)</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#seasonal-bias-figures-5-6-7-and-8-from-kotlarski-et-al-2014">Seasonal bias (Figures 5, 6, 7 and 8 from Kotlarski et al. 2014)</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#temporal-taylor-diagrams-figures-11-and-12-from-kotlarski-et-al-2014">Temporal Taylor diagrams (Figures 11 and 12 from Kotlarski et al. 2014)</a></li>
 </ul>
 
   </nav></div>
