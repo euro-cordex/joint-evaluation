@@ -1,0 +1,1268 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Urban and rural surrounding areas selection &#8212; Joint evaluation</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'UHI';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="README.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/WCRP-CORDEX-logo.png" class="logo__image only-light" alt="Joint evaluation - Home"/>
+    <script>document.write(`<img src="_static/WCRP-CORDEX-logo.png" class="logo__image only-dark" alt="Joint evaluation - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="README.html">
+                    Joint evaluation
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="eobs.nbconvert.html">Evaluating Seasonal Climate Biases: A Comparison of Model Outputs with EOBS Observations</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://mybinder.org/v2/gh/euro-cordex/joint-evaluation/main?urlpath=lab/tree/eval/UHI.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch on Binder"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img alt="Binder logo" src="_static/images/logo_binder.svg">
+  </span>
+<span class="btn__text-container">Binder</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/euro-cordex/joint-evaluation" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/euro-cordex/joint-evaluation/issues/new?title=Issue%20on%20page%20%2FUHI.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/UHI.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Urban and rural surrounding areas selection</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Urban and rural surrounding areas selection</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-libraries">Load libraries</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#cordex-eur-cmip6">CORDEX-EUR-CMIP6</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#cmip6">CMIP6</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#define-urban-areas-and-vicinity">Define urban areas and vicinity</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#load-static-variables">Load static variables</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="urban-and-rural-surrounding-areas-selection">
+<h1>Urban and rural surrounding areas selection<a class="headerlink" href="#urban-and-rural-surrounding-areas-selection" title="Link to this heading">#</a></h1>
+<section id="load-libraries">
+<h2>Load libraries<a class="headerlink" href="#load-libraries" title="Link to this heading">#</a></h2>
+<p>Here we load the required libraries to execute the notebook. Note that specific code from dedicated scripts (<code class="docutils literal notranslate"><span class="pre">utils.py</span></code>, <code class="docutils literal notranslate"><span class="pre">urban_areas.py</span></code>, …) is also loaded here.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%</span><span class="k">load_ext</span> autoreload
+<span class="o">%</span><span class="k">autoreload</span> 2
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The autoreload extension is already loaded. To reload it, use:
+  %reload_ext autoreload
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span><span class="nb">echo</span><span class="w"> </span><span class="nv">$CONDA_DEFAULT_ENV</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/conda_envs/evaltools
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">urclimask.GHCNd_stations</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_valid_timeseries</span><span class="p">,</span> <span class="n">inside_city</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">urclimask.UHI_analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">UrbanIsland</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">urclimask.urban_areas</span><span class="w"> </span><span class="kn">import</span> <span class="n">UrbanVicinity</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">urclimask.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_ucdb_city</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">tools</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">check_equal_period</span><span class="p">,</span>
+    <span class="n">fix_360_longitudes</span><span class="p">,</span>
+    <span class="n">open_datasets</span><span class="p">,</span>
+    <span class="n">standardize_unit</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">save_results_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span>
+    <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="s2">&quot;..&quot;</span><span class="p">,</span> <span class="s2">&quot;intermediate-results&quot;</span><span class="p">)</span>
+<span class="p">)</span>
+<span class="n">save_figure_path</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">abspath</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">(),</span> <span class="s2">&quot;..&quot;</span><span class="p">,</span> <span class="s2">&quot;plots&quot;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="cordex-eur-cmip6">
+<h1>CORDEX-EUR-CMIP6<a class="headerlink" href="#cordex-eur-cmip6" title="Link to this heading">#</a></h1>
+<div class="cell tag_parameters docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">city</span> <span class="o">=</span> <span class="s2">&quot;Paris&quot;</span>
+<span class="n">lon_city</span> <span class="o">=</span> <span class="mf">2.35</span>
+<span class="n">lat_city</span> <span class="o">=</span> <span class="mf">48.85</span>
+
+<span class="n">domain</span> <span class="o">=</span> <span class="s2">&quot;EUR-11&quot;</span>
+<span class="n">model</span> <span class="o">=</span> <span class="s2">&quot;REMO&quot;</span>
+<span class="n">scenario</span> <span class="o">=</span> <span class="s2">&quot;evaluation&quot;</span>
+
+<span class="n">urban_var</span> <span class="o">=</span> <span class="s2">&quot;sfturf&quot;</span>
+
+<span class="n">urban_th</span> <span class="o">=</span> <span class="mi">40</span>
+<span class="n">urban_sur_th</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">orog_diff</span> <span class="o">=</span> <span class="mi">100</span>
+<span class="n">sftlf_th</span> <span class="o">=</span> <span class="mi">70</span>
+<span class="n">scale</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">min_city_size</span> <span class="o">=</span> <span class="mi">8</span>
+<span class="n">lon_lim</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">lat_lim</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="n">variable</span> <span class="o">=</span> <span class="s2">&quot;tasmin&quot;</span>
+<span class="n">period_star</span> <span class="o">=</span> <span class="s2">&quot;1991&quot;</span>
+<span class="n">period_stop</span> <span class="o">=</span> <span class="s2">&quot;2020&quot;</span>
+<span class="n">period</span> <span class="o">=</span> <span class="nb">slice</span><span class="p">(</span><span class="n">period_star</span><span class="p">,</span> <span class="n">period_stop</span><span class="p">)</span>
+
+<span class="n">domain_resolution</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">domain</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;-&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="cmip6">
+<h1>CMIP6<a class="headerlink" href="#cmip6" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mip_era</span> <span class="o">=</span> <span class="s2">&quot;CMIP6&quot;</span>
+<span class="n">driving_source_id</span> <span class="o">=</span> <span class="s2">&quot;ERA5&quot;</span>
+<span class="n">frequency</span> <span class="o">=</span> <span class="s2">&quot;mon&quot;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dsets</span> <span class="o">=</span> <span class="n">open_datasets</span><span class="p">(</span>
+    <span class="p">[</span><span class="n">variable</span><span class="p">],</span>
+    <span class="n">frequency</span><span class="o">=</span><span class="n">frequency</span><span class="p">,</span>
+    <span class="n">driving_source_id</span><span class="o">=</span><span class="n">driving_source_id</span><span class="p">,</span>
+    <span class="n">mask</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">add_missing_bounds</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Found: [&#39;ALARO1-SFX&#39;, &#39;CCLM6-0-1-URB&#39;, &#39;CNRM-ALADIN64E1&#39;, &#39;HCLIM43-ALADIN&#39;, &#39;ICON-CLM-202407-1-1&#39;, &#39;RACMO23E&#39;, &#39;REMO2020-2-2&#39;, &#39;REMO2020-2-2-MR2&#39;, &#39;REMO2020-2-2-iMOVE&#39;, &#39;REMO2020-2-2-iMOVE-LUC&#39;, &#39;RegCM5-0&#39;] for variables: [&#39;tasmin&#39;]
+
+--&gt; The keys in the returned dictionary of datasets are constructed as follows:
+	&#39;project_id.domain_id.institution_id.driving_source_id.driving_experiment_id.driving_variant_label.source_id.version_realization.frequency.version&#39;
+</pre></div>
+</div>
+<div class="output text_html">
+<style>
+    /* Turns off some styling */
+    progress {
+        /* gets rid of default border in Firefox and Opera. */
+        border: none;
+        /* Needs to be in here for Safari polyfill so background images work as expected. */
+        background-size: auto;
+    }
+    progress:not([value]), progress:not([value])::-webkit-progress-bar {
+        background: repeating-linear-gradient(45deg, #7e7e7e, #7e7e7e 10px, #5c5c5c 10px, #5c5c5c 20px);
+    }
+    .progress-bar-interrupted, .progress-bar-interrupted::-webkit-progress-bar {
+        background: #F44336;
+    }
+</style>
+</div><div class="output text_html">
+    <div>
+      <progress value='60' class='' max='60' style='width:300px; height:20px; vertical-align: middle;'></progress>
+      100.00% [60/60 00:04&lt;00:00]
+    </div>
+    </div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.CNRM-ESM2-1.ssp370.r1i1p1f2.HCLIM43-ALADIN.v1-r1.fx.v20241205
+Found 59 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.EC-Earth3-Veg.ssp370.r1i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
+Found 59 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.KNMI.NorESM2-MM.ssp126.r1i1p1f1.RACMO23E.v1-r1.fx.v20241216
+Found 59 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.EC-Earth3-Veg.ssp370.r2i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
+Found 59 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.KNMI.EC-Earth3-Veg.historical.r1i1p1f1.RACMO23E.v1-r1.fx.v20241216
+Found 59 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.KNMI.MPI-ESM1-2-HR.ssp126.r1i1p1f1.RACMO23E.v1-r1.fx.v20241216
+Found 59 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.KNMI.MPI-ESM1-2-HR.historical.r1i1p1f1.RACMO23E.v1-r1.fx.v20241216
+Found 59 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.KNMI.EC-Earth3-Veg.ssp370.r1i1p1f1.RACMO23E.v1-r1.fx.v20241216
+Found 59 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.MIROC6.ssp370.r1i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
+Found 59 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.KNMI.ERA5.evaluation.r1i1p1f1.RACMO23E.v1-r1.fx.v20241216
+Found 59 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.EC-Earth3-Veg.ssp126.r1i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
+Found 59 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2.v1-r1.fx.v20241120
+Warning for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2.v1-r1.fx.v20241120: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+Warning for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2.v1-r1.fx.v20241120: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+Found 59 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.CNRM-MF.ERA5.evaluation.r1i1p1f1.CNRM-ALADIN64E1.v1-r1.fx.v20250505
+Found 59 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.EC-Earth3-Veg.ssp370.r3i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
+Found 59 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-METNo.NorESM2-MM.ssp126.r1i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
+Found 59 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.MPI-ESM1-2-HR.ssp126.r1i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
+Found 59 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-METNo.NorESM2-MM.ssp370.r1i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
+Found 59 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.EC-Earth3-Veg.historical.r2i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
+Found 59 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.MIROC6.ssp126.r1i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
+Found 59 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.MIROC6.historical.r1i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
+Found 59 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.MPI-ESM1-2-HR.ssp370.r1i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
+Found 59 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.KNMI.CNRM-ESM2-1.historical.r1i1p1f2.RACMO23E.v1-r1.fx.v20241216
+Found 59 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-iMOVE.v1-r1.fx.v20250515
+Warning for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-iMOVE.v1-r1.fx.v20250515: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+Warning for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-iMOVE.v1-r1.fx.v20250515: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+Found 59 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.CLMcom-CMCC.ERA5.evaluation.r1i1p1f1.CCLM6-0-1-URB.v1-r1.fx.v20250201
+Found 59 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.CNRM-MF.CNRM-ESM2-1.historical.r1i1p1f2.CNRM-ALADIN64E1.v1-r1.fx.v20250328
+Warning for CORDEX-CMIP6.EUR-12.CNRM-MF.CNRM-ESM2-1.historical.r1i1p1f2.CNRM-ALADIN64E1.v1-r1.fx.v20250328: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+Warning for CORDEX-CMIP6.EUR-12.CNRM-MF.CNRM-ESM2-1.historical.r1i1p1f2.CNRM-ALADIN64E1.v1-r1.fx.v20250328: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+Found 59 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.KNMI.EC-Earth3.historical.r1i1p1f1.RACMO23E.v1-r1.fx.v20241216
+Found 59 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.ERA5.evaluation.r1i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
+Found 59 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.RMIB-UGent.ERA5.evaluation.r1i1p1f1.ALARO1-SFX.v1-r1.fx.v20241009
+Found 59 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.KNMI.EC-Earth3.ssp126.r1i1p1f1.RACMO23E.v1-r1.fx.v20241216
+Found 59 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.KNMI.EC-Earth3-Veg.ssp126.r1i1p1f1.RACMO23E.v1-r1.fx.v20241216
+Found 59 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.ICTP.ERA5.evaluation.r1i1p1f1.RegCM5-0.v1-r1.fx.v20250415
+Found 59 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.EC-Earth3-Veg.ssp126.r2i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
+Found 59 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-iMOVE-LUC.v1-r1.mon.v20250515
+Warning for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-iMOVE-LUC.v1-r1.mon.v20250515: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+Found 59 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.KNMI.EC-Earth3.ssp370.r1i1p1f1.RACMO23E.v1-r1.fx.v20241216
+Found 59 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.KNMI.CNRM-ESM2-1.ssp370.r1i1p1f2.RACMO23E.v1-r1.fx.v20241216
+Found 59 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.KNMI.NorESM2-MM.ssp370.r1i1p1f1.RACMO23E.v1-r1.fx.v20241216
+Found 59 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.EC-Earth3-Veg.ssp126.r3i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
+Found 59 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-iMOVE.v1-r1.mon.v20250515
+Warning for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-iMOVE.v1-r1.mon.v20250515: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+Found 59 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-MR2.v1-r1.fx.v20241120
+Warning for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-MR2.v1-r1.fx.v20241120: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+Warning for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-MR2.v1-r1.fx.v20241120: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+Found 59 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.CNRM-MF.CNRM-ESM2-1.ssp370.r1i1p1f2.CNRM-ALADIN64E1.v1-r1.fx.v20250328
+Warning for CORDEX-CMIP6.EUR-12.CNRM-MF.CNRM-ESM2-1.ssp370.r1i1p1f2.CNRM-ALADIN64E1.v1-r1.fx.v20250328: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+Warning for CORDEX-CMIP6.EUR-12.CNRM-MF.CNRM-ESM2-1.ssp370.r1i1p1f2.CNRM-ALADIN64E1.v1-r1.fx.v20250328: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+Found 59 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.CNRM-MF.ERA5.evaluation.r1i1p1f1.CNRM-ALADIN64E1.v1-r1.mon.v20250505
+Warning for CORDEX-CMIP6.EUR-12.CNRM-MF.ERA5.evaluation.r1i1p1f1.CNRM-ALADIN64E1.v1-r1.mon.v20250505: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+Found 59 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.CLMcom-Hereon.ERA5.evaluation.r1i1p1f1.ICON-CLM-202407-1-1.v1-r1.fx.v20240920
+Warning for CORDEX-CMIP6.EUR-12.CLMcom-Hereon.ERA5.evaluation.r1i1p1f1.ICON-CLM-202407-1-1.v1-r1.fx.v20240920: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+Warning for CORDEX-CMIP6.EUR-12.CLMcom-Hereon.ERA5.evaluation.r1i1p1f1.ICON-CLM-202407-1-1.v1-r1.fx.v20240920: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+Warning for CORDEX-CMIP6.EUR-12.CLMcom-Hereon.ERA5.evaluation.r1i1p1f1.ICON-CLM-202407-1-1.v1-r1.fx.v20240920: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+Found 59 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.EC-Earth3-Veg.historical.r1i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
+Found 59 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-iMOVE-LUC.v1-r1.fx.v20250515
+Warning for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-iMOVE-LUC.v1-r1.fx.v20250515: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+Warning for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-iMOVE-LUC.v1-r1.fx.v20250515: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+Found 59 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.CNRM-ESM2-1.historical.r1i1p1f2.HCLIM43-ALADIN.v1-r1.fx.v20241205
+Found 59 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-METNo.NorESM2-MM.historical.r1i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
+Found 59 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.KNMI.NorESM2-MM.historical.r1i1p1f1.RACMO23E.v1-r1.fx.v20241216
+Found 59 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.KNMI.MPI-ESM1-2-HR.ssp370.r1i1p1f1.RACMO23E.v1-r1.fx.v20241216
+Found 59 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.CLMcom-CMCC.ERA5.evaluation.r1i1p1f1.CCLM6-0-1-URB.v1-r1.mon.v20250201
+Found 59 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.EC-Earth3-Veg.historical.r3i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
+Found 59 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.CNRM-ESM2-1.ssp126.r1i1p1f2.HCLIM43-ALADIN.v1-r1.fx.v20241205
+Found 59 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-MR2.v1-r1.mon.v20241120
+Warning for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-MR2.v1-r1.mon.v20241120: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+Found 59 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.MPI-ESM1-2-HR.historical.r1i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
+Found 59 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.ERA5.evaluation.r1i1p1f1.HCLIM43-ALADIN.v1-r1.mon.v20241205
+Found 59 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.KNMI.CNRM-ESM2-1.ssp126.r1i1p1f2.RACMO23E.v1-r1.fx.v20241216
+Found 59 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.ICTP.ERA5.evaluation.r1i1p1f1.RegCM5-0.v1-r1.mon.v20250415
+Found 59 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.CLMcom-Hereon.ERA5.evaluation.r1i1p1f1.ICON-CLM-202407-1-1.v1-r1.mon.v20240920
+Warning for CORDEX-CMIP6.EUR-12.CLMcom-Hereon.ERA5.evaluation.r1i1p1f1.ICON-CLM-202407-1-1.v1-r1.mon.v20240920: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+Found 59 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.KNMI.ERA5.evaluation.r1i1p1f1.RACMO23E.v1-r1.mon.v20241216
+Found 59 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2.v1-r1.mon.v20241120
+Warning for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2.v1-r1.mon.v20241120: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+Found 59 datasets
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/evaltools/evaltools/fix.py:69: UserWarning: Grid mapping name latitude_longitude is not supported for CORDEX-CMIP6.EUR-12.CNRM-MF.CNRM-ESM2-1.historical.r1i1p1f2.CNRM-ALADIN64E1.v1-r1.fx.v20250328
+  warnings.warn(
+/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/evaltools/evaltools/fix.py:88: UserWarning: Grid mapping has (198.0, 39.25) which is inconsistent with (-162.0, 39.25) for EUR-12 and CORDEX-CMIP6.EUR-12.ICTP.ERA5.evaluation.r1i1p1f1.RegCM5-0.v1-r1.fx.v20250415.
+  warnings.warn(message)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Fix failed for CORDEX-CMIP6.EUR-12.CNRM-MF.CNRM-ESM2-1.historical.r1i1p1f2.CNRM-ALADIN64E1.v1-r1.fx.v20250328: Grid mapping name latitude_longitude is not supported for CORDEX-CMIP6.EUR-12.CNRM-MF.CNRM-ESM2-1.historical.r1i1p1f2.CNRM-ALADIN64E1.v1-r1.fx.v20250328
+Dataset CORDEX-CMIP6.EUR-12.CNRM-MF.CNRM-ESM2-1.historical.r1i1p1f2.CNRM-ALADIN64E1.v1-r1.fx.v20250328 will be ignored...
+Fix failed for CORDEX-CMIP6.EUR-12.ICTP.ERA5.evaluation.r1i1p1f1.RegCM5-0.v1-r1.fx.v20250415: Grid mapping has (198.0, 39.25) which is inconsistent with (-162.0, 39.25) for EUR-12 and CORDEX-CMIP6.EUR-12.ICTP.ERA5.evaluation.r1i1p1f1.RegCM5-0.v1-r1.fx.v20250415.
+Dataset CORDEX-CMIP6.EUR-12.ICTP.ERA5.evaluation.r1i1p1f1.RegCM5-0.v1-r1.fx.v20250415 will be ignored...
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/evaltools/evaltools/fix.py:69: UserWarning: Grid mapping name latitude_longitude is not supported for CORDEX-CMIP6.EUR-12.CNRM-MF.CNRM-ESM2-1.ssp370.r1i1p1f2.CNRM-ALADIN64E1.v1-r1.fx.v20250328
+  warnings.warn(
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Fix failed for CORDEX-CMIP6.EUR-12.CNRM-MF.CNRM-ESM2-1.ssp370.r1i1p1f2.CNRM-ALADIN64E1.v1-r1.fx.v20250328: Grid mapping name latitude_longitude is not supported for CORDEX-CMIP6.EUR-12.CNRM-MF.CNRM-ESM2-1.ssp370.r1i1p1f2.CNRM-ALADIN64E1.v1-r1.fx.v20250328
+Dataset CORDEX-CMIP6.EUR-12.CNRM-MF.CNRM-ESM2-1.ssp370.r1i1p1f2.CNRM-ALADIN64E1.v1-r1.fx.v20250328 will be ignored...
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/evaltools/evaltools/fix.py:88: UserWarning: Grid mapping has (198.0, 39.25) which is inconsistent with (-162.0, 39.25) for EUR-12 and CORDEX-CMIP6.EUR-12.ICTP.ERA5.evaluation.r1i1p1f1.RegCM5-0.v1-r1.mon.v20250415.
+  warnings.warn(message)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Fix failed for CORDEX-CMIP6.EUR-12.ICTP.ERA5.evaluation.r1i1p1f1.RegCM5-0.v1-r1.mon.v20250415: Grid mapping has (198.0, 39.25) which is inconsistent with (-162.0, 39.25) for EUR-12 and CORDEX-CMIP6.EUR-12.ICTP.ERA5.evaluation.r1i1p1f1.RegCM5-0.v1-r1.mon.v20250415.
+Dataset CORDEX-CMIP6.EUR-12.ICTP.ERA5.evaluation.r1i1p1f1.RegCM5-0.v1-r1.mon.v20250415 will be ignored...
+merging CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-iMOVE-LUC.v1-r1.mon.v20250515 with CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-iMOVE-LUC.v1-r1.fx.v20250515
+merging CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-iMOVE.v1-r1.mon.v20250515 with CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-iMOVE.v1-r1.fx.v20250515
+merging CORDEX-CMIP6.EUR-12.CNRM-MF.ERA5.evaluation.r1i1p1f1.CNRM-ALADIN64E1.v1-r1.mon.v20250505 with CORDEX-CMIP6.EUR-12.CNRM-MF.ERA5.evaluation.r1i1p1f1.CNRM-ALADIN64E1.v1-r1.fx.v20250505
+merging CORDEX-CMIP6.EUR-12.CLMcom-CMCC.ERA5.evaluation.r1i1p1f1.CCLM6-0-1-URB.v1-r1.mon.v20250201 with CORDEX-CMIP6.EUR-12.CLMcom-CMCC.ERA5.evaluation.r1i1p1f1.CCLM6-0-1-URB.v1-r1.fx.v20250201
+merging CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-MR2.v1-r1.mon.v20241120 with CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-MR2.v1-r1.fx.v20241120
+merging CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.ERA5.evaluation.r1i1p1f1.HCLIM43-ALADIN.v1-r1.mon.v20241205 with CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.ERA5.evaluation.r1i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
+merging CORDEX-CMIP6.EUR-12.CLMcom-Hereon.ERA5.evaluation.r1i1p1f1.ICON-CLM-202407-1-1.v1-r1.mon.v20240920 with CORDEX-CMIP6.EUR-12.CLMcom-Hereon.ERA5.evaluation.r1i1p1f1.ICON-CLM-202407-1-1.v1-r1.fx.v20240920
+merging CORDEX-CMIP6.EUR-12.KNMI.ERA5.evaluation.r1i1p1f1.RACMO23E.v1-r1.mon.v20241216 with CORDEX-CMIP6.EUR-12.KNMI.ERA5.evaluation.r1i1p1f1.RACMO23E.v1-r1.fx.v20241216
+merging CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2.v1-r1.mon.v20241120 with CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2.v1-r1.fx.v20241120
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># delete simulatios with not urban static variable</span>
+<span class="n">to_delete</span> <span class="o">=</span> <span class="p">[</span><span class="n">dset</span> <span class="k">for</span> <span class="n">dset</span><span class="p">,</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">dsets</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">urban_var</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">ds</span><span class="o">.</span><span class="n">variables</span><span class="p">]</span>
+
+<span class="k">for</span> <span class="n">dset</span> <span class="ow">in</span> <span class="n">to_delete</span><span class="p">:</span>
+    <span class="k">del</span> <span class="n">dsets</span><span class="p">[</span><span class="n">dset</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">dset</span> <span class="ow">in</span> <span class="n">dsets</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="n">dsets</span><span class="p">[</span><span class="n">dset</span><span class="p">]</span> <span class="o">=</span> <span class="n">dsets</span><span class="p">[</span><span class="n">dset</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">period</span><span class="p">)</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">dset</span> <span class="ow">in</span> <span class="n">dsets</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">check_equal_period</span><span class="p">(</span><span class="n">dsets</span><span class="p">[</span><span class="n">dset</span><span class="p">],</span> <span class="n">period</span><span class="p">):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Temporal coverage of </span><span class="si">{</span><span class="n">dset</span><span class="si">}</span><span class="s2"> does not match with </span><span class="si">{</span><span class="n">period</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">dset</span> <span class="ow">in</span> <span class="n">dsets</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="n">dsets</span><span class="p">[</span><span class="n">dset</span><span class="p">]</span> <span class="o">=</span> <span class="n">standardize_unit</span><span class="p">(</span><span class="n">dsets</span><span class="p">[</span><span class="n">dset</span><span class="p">],</span> <span class="n">variable</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="define-urban-areas-and-vicinity">
+<h2>Define urban areas and vicinity<a class="headerlink" href="#define-urban-areas-and-vicinity" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">### Load city shapefile</span>
+<span class="n">root_aux_data</span> <span class="o">=</span> <span class="s2">&quot;/mnt/CORDEX_CMIP6_tmp/aux_data/&quot;</span>
+<span class="n">ucdb_city</span> <span class="o">=</span> <span class="n">load_ucdb_city</span><span class="p">(</span><span class="n">root_aux_data</span><span class="p">,</span> <span class="n">city</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="load-static-variables">
+<h3>Load static variables<a class="headerlink" href="#load-static-variables" title="Link to this heading">#</a></h3>
+<p>Load static variables, such as urban fraction (sfturf), terrain elevation (orography) or land-sea fraction (sftlf).</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rcm_names</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">dset</span><span class="p">,</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">dsets</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+
+    <span class="n">ds</span> <span class="o">=</span> <span class="n">fix_360_longitudes</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">lonname</span><span class="o">=</span><span class="s2">&quot;lon&quot;</span><span class="p">)</span>
+
+    <span class="n">ds_sfturf</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[[</span><span class="n">urban_var</span><span class="p">]]</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+    <span class="n">ds_orog</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[[</span><span class="s2">&quot;orog&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+    <span class="n">ds_sftlf</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[[</span><span class="s2">&quot;sftlf&quot;</span><span class="p">]]</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">rcm_name</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;model_id&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;rcm_version_id&quot;</span><span class="p">]</span>
+    <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>
+        <span class="n">rcm_name</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;source_id&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="n">ds</span><span class="o">.</span><span class="n">attrs</span><span class="p">[</span><span class="s2">&quot;version_realization&quot;</span><span class="p">]</span>
+
+    <span class="n">rcm_names</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rcm_name</span><span class="p">)</span>
+
+    <span class="c1"># Add parameters to the function</span>
+    <span class="n">URBAN</span> <span class="o">=</span> <span class="n">UrbanVicinity</span><span class="p">(</span>
+        <span class="n">urban_sur_th</span><span class="o">=</span><span class="n">urban_sur_th</span><span class="p">,</span>
+        <span class="n">orog_diff</span><span class="o">=</span><span class="n">orog_diff</span><span class="p">,</span>
+        <span class="n">sftlf_th</span><span class="o">=</span><span class="n">sftlf_th</span><span class="p">,</span>
+        <span class="n">scale</span><span class="o">=</span><span class="n">scale</span><span class="p">,</span>
+        <span class="n">min_city_size</span><span class="o">=</span><span class="n">min_city_size</span><span class="p">,</span>
+        <span class="n">lon_city</span><span class="o">=</span><span class="n">lon_city</span><span class="p">,</span>
+        <span class="n">lat_city</span><span class="o">=</span><span class="n">lat_city</span><span class="p">,</span>
+        <span class="n">lon_lim</span><span class="o">=</span><span class="n">lon_lim</span><span class="p">,</span>
+        <span class="n">lat_lim</span><span class="o">=</span><span class="n">lat_lim</span><span class="p">,</span>
+        <span class="n">model</span><span class="o">=</span><span class="n">model</span><span class="p">,</span>
+        <span class="n">domain</span><span class="o">=</span><span class="n">domain</span><span class="p">,</span>
+        <span class="n">urban_th</span><span class="o">=</span><span class="n">urban_th</span><span class="p">,</span>
+        <span class="n">urban_var</span><span class="o">=</span><span class="n">urban_var</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1"># Crop area around de city</span>
+    <span class="n">ds_sfturf</span> <span class="o">=</span> <span class="n">URBAN</span><span class="o">.</span><span class="n">crop_area_city</span><span class="p">(</span><span class="n">ds</span><span class="o">=</span><span class="n">ds_sfturf</span><span class="p">,</span> <span class="n">res</span><span class="o">=</span><span class="n">domain_resolution</span><span class="p">)</span>
+    <span class="n">ds_orog</span> <span class="o">=</span> <span class="n">URBAN</span><span class="o">.</span><span class="n">crop_area_city</span><span class="p">(</span><span class="n">ds</span><span class="o">=</span><span class="n">ds_orog</span><span class="p">,</span> <span class="n">res</span><span class="o">=</span><span class="n">domain_resolution</span><span class="p">)</span>
+    <span class="n">ds_sftlf</span> <span class="o">=</span> <span class="n">URBAN</span><span class="o">.</span><span class="n">crop_area_city</span><span class="p">(</span><span class="n">ds</span><span class="o">=</span><span class="n">ds_sftlf</span><span class="p">,</span> <span class="n">res</span><span class="o">=</span><span class="n">domain_resolution</span><span class="p">)</span>
+    <span class="c1"># Define masks using the parameters above</span>
+    <span class="n">sfturf_mask</span><span class="p">,</span> <span class="n">sfturf_sur_mask</span><span class="p">,</span> <span class="n">orog_mask</span><span class="p">,</span> <span class="n">sftlf_mask</span> <span class="o">=</span> <span class="n">URBAN</span><span class="o">.</span><span class="n">define_masks</span><span class="p">(</span>
+        <span class="n">ds_sfturf</span><span class="o">=</span><span class="n">ds_sfturf</span><span class="p">,</span>
+        <span class="n">ds_orog</span><span class="o">=</span><span class="n">ds_orog</span><span class="p">,</span>
+        <span class="n">ds_sftlf</span><span class="o">=</span><span class="n">ds_sftlf</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="c1"># Define rural vicinity areas</span>
+    <span class="n">urmask</span> <span class="o">=</span> <span class="n">URBAN</span><span class="o">.</span><span class="n">select_urban_vicinity</span><span class="p">(</span>
+        <span class="n">sfturf_mask</span><span class="o">=</span><span class="n">sfturf_mask</span><span class="p">,</span>
+        <span class="n">orog_mask</span><span class="o">=</span><span class="n">orog_mask</span><span class="p">,</span>
+        <span class="n">sftlf_mask</span><span class="o">=</span><span class="n">sftlf_mask</span><span class="p">,</span>
+        <span class="n">sfturf_sur_mask</span><span class="o">=</span><span class="n">sfturf_sur_mask</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="c1"># We can plot the masks and the urban vs vicinity areas. The latter are are passed via the `urban_areas` parameter. They are hidden if set to `None`.</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">URBAN</span><span class="o">.</span><span class="n">plot_static_variables</span><span class="p">(</span>
+        <span class="n">ds_sfturf</span><span class="o">=</span><span class="n">ds_sfturf</span><span class="p">,</span>
+        <span class="n">ds_orog</span><span class="o">=</span><span class="n">ds_orog</span><span class="p">,</span>
+        <span class="n">ds_sftlf</span><span class="o">=</span><span class="n">ds_sftlf</span><span class="p">,</span>
+        <span class="n">sfturf_mask</span><span class="o">=</span><span class="n">sfturf_mask</span><span class="p">,</span>
+        <span class="n">orog_mask</span><span class="o">=</span><span class="n">orog_mask</span><span class="p">,</span>
+        <span class="n">sftlf_mask</span><span class="o">=</span><span class="n">sftlf_mask</span><span class="p">,</span>
+        <span class="n">urban_areas</span><span class="o">=</span><span class="n">urmask</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">save_figure_path</span><span class="si">}</span><span class="s2">/CMIP6_Paris_static_</span><span class="si">{</span><span class="n">variable</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">rcm_name</span><span class="si">}</span><span class="s2">.png&quot;</span><span class="p">,</span>
+        <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">&quot;tight&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="c1">## Calculate Urban Heat Island (UHI)</span>
+    <span class="n">ds_RCM</span> <span class="o">=</span> <span class="n">ds</span><span class="p">[[</span><span class="n">variable</span><span class="p">]]</span>
+    <span class="n">ds_RCM</span> <span class="o">=</span> <span class="n">URBAN</span><span class="o">.</span><span class="n">crop_area_city</span><span class="p">(</span><span class="n">ds</span><span class="o">=</span><span class="n">ds_RCM</span><span class="p">,</span> <span class="n">res</span><span class="o">=</span><span class="n">domain_resolution</span><span class="p">)</span>
+
+    <span class="c1"># Load obs data</span>
+    <span class="n">output_file</span> <span class="o">=</span> <span class="s2">&quot;/mnt/CORDEX_CMIP6_tmp/aux_data/PARIS_surface_weather_data/Data_MF_1980-2017.csv&quot;</span>
+    <span class="n">radious</span> <span class="o">=</span> <span class="mf">0.5</span>
+    <span class="n">stan_data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">output_file</span><span class="p">)</span>
+    <span class="n">stan_data</span><span class="p">[</span><span class="s2">&quot;code&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">stan_data</span><span class="p">[</span><span class="s2">&quot;code&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+    <span class="n">stan_data</span> <span class="o">=</span> <span class="n">stan_data</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">stan_data</span><span class="p">[</span><span class="s2">&quot;dist&quot;</span><span class="p">]</span> <span class="o">&lt;</span> <span class="n">radious</span><span class="p">]</span>
+    <span class="n">valid_obs</span><span class="p">,</span> <span class="n">time_series_obs</span><span class="p">,</span> <span class="n">ds_RCM_period</span> <span class="o">=</span> <span class="n">get_valid_timeseries</span><span class="p">(</span>
+        <span class="n">city</span><span class="p">,</span>
+        <span class="n">stan_data</span><span class="p">,</span>
+        <span class="n">ds_RCM</span><span class="p">,</span>
+        <span class="n">variable</span><span class="p">,</span>
+        <span class="n">idate</span><span class="o">=</span><span class="s2">&quot;1991-01-01&quot;</span><span class="p">,</span>
+        <span class="n">fdate</span><span class="o">=</span><span class="s2">&quot;2020-12-31&quot;</span><span class="p">,</span>
+        <span class="n">divide</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">valid_obs</span> <span class="o">=</span> <span class="n">inside_city</span><span class="p">(</span><span class="n">valid_obs</span><span class="p">,</span> <span class="n">ucdb_city</span><span class="p">)</span>
+
+    <span class="c1">### Compute the annual cycle climatology of anomalies with respect to rural vicinity mean</span>
+    <span class="n">UHI</span> <span class="o">=</span> <span class="n">UrbanIsland</span><span class="p">(</span>
+        <span class="n">ds</span><span class="o">=</span><span class="n">ds_RCM</span><span class="p">[</span><span class="n">variable</span><span class="p">],</span>
+        <span class="n">urban_vicinity</span><span class="o">=</span><span class="n">urmask</span><span class="p">,</span>
+        <span class="n">rcm</span><span class="o">=</span><span class="n">rcm_name</span><span class="p">,</span>
+        <span class="n">anomaly</span><span class="o">=</span><span class="s2">&quot;abs&quot;</span><span class="p">,</span>
+        <span class="n">obs_attributes</span><span class="o">=</span><span class="n">valid_obs</span><span class="p">,</span>
+        <span class="n">obs_timeseries</span><span class="o">=</span><span class="n">time_series_obs</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="c1">## Plot the data</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">UHI</span><span class="o">.</span><span class="n">plot_UI_map</span><span class="p">(</span><span class="n">city_name</span><span class="o">=</span><span class="n">city</span><span class="p">,</span> <span class="n">ucdb_city</span><span class="o">=</span><span class="n">ucdb_city</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+
+    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">save_figure_path</span><span class="si">}</span><span class="s2">/CMIP6_Paris_UHI_map_</span><span class="si">{</span><span class="n">variable</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">rcm_name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">period</span><span class="o">.</span><span class="n">start</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">period</span><span class="o">.</span><span class="n">stop</span><span class="si">}</span><span class="s2">.png&quot;</span><span class="p">,</span>
+        <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">&quot;tight&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">fig</span> <span class="o">=</span> <span class="n">UHI</span><span class="o">.</span><span class="n">plot_UI_annual_cycle</span><span class="p">(</span>
+        <span class="n">percentiles</span><span class="o">=</span><span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">25</span><span class="p">],</span> <span class="n">gridcell_series</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">city_name</span><span class="o">=</span><span class="n">city</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=-</span><span class="mf">1.5</span>
+    <span class="p">)</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">save_figure_path</span><span class="si">}</span><span class="s2">/CMIP6_Paris_Annual_cycle_</span><span class="si">{</span><span class="n">variable</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">rcm_name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">period</span><span class="o">.</span><span class="n">start</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">period</span><span class="o">.</span><span class="n">stop</span><span class="si">}</span><span class="s2">.png&quot;</span><span class="p">,</span>
+        <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">&quot;tight&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:103: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  print(f&#39;{city} -- {stn_data.NAME[0]} - {var} has {100*valid_records:.1f}% valid records in {idate} to {fdate}&#39;)
+/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:103: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  print(f&#39;{city} -- {stn_data.NAME[0]} - {var} has {100*valid_records:.1f}% valid records in {idate} to {fdate}&#39;)
+/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:103: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  print(f&#39;{city} -- {stn_data.NAME[0]} - {var} has {100*valid_records:.1f}% valid records in {idate} to {fdate}&#39;)
+/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:103: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  print(f&#39;{city} -- {stn_data.NAME[0]} - {var} has {100*valid_records:.1f}% valid records in {idate} to {fdate}&#39;)
+/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:103: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  print(f&#39;{city} -- {stn_data.NAME[0]} - {var} has {100*valid_records:.1f}% valid records in {idate} to {fdate}&#39;)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Paris -- PARIS-MONTSOURIS - TMIN has 90.0% valid records in 1991-01-01 to 2020-12-31
+Paris -- MELUN - TMIN has 90.0% valid records in 1991-01-01 to 2020-12-31
+Paris -- TOUSSUS-LE-NOBLE - TMIN has 90.0% valid records in 1991-01-01 to 2020-12-31
+Paris -- TRAPPES - TMIN has 90.0% valid records in 1991-01-01 to 2020-12-31
+Paris -- VILLACOUBLAY - TMIN has 90.0% valid records in 1991-01-01 to 2020-12-31
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:103: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  print(f&#39;{city} -- {stn_data.NAME[0]} - {var} has {100*valid_records:.1f}% valid records in {idate} to {fdate}&#39;)
+/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:103: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  print(f&#39;{city} -- {stn_data.NAME[0]} - {var} has {100*valid_records:.1f}% valid records in {idate} to {fdate}&#39;)
+/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:103: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  print(f&#39;{city} -- {stn_data.NAME[0]} - {var} has {100*valid_records:.1f}% valid records in {idate} to {fdate}&#39;)
+/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:103: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  print(f&#39;{city} -- {stn_data.NAME[0]} - {var} has {100*valid_records:.1f}% valid records in {idate} to {fdate}&#39;)
+/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:152: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value &#39;True&#39; has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  valid_obs.loc[valid_obs[&#39;code&#39;].str.contains(obs.code), &#39;inside_city&#39;] = is_inside.values[0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Paris -- ORLY - TMIN has 90.0% valid records in 1991-01-01 to 2020-12-31
+Paris -- BRETIGNY-SAPC - TMIN has 89.9% valid records in 1991-01-01 to 2020-12-31
+Paris -- SAINT-MAUR - TMIN has 89.8% valid records in 1991-01-01 to 2020-12-31
+Paris -- ROISSY - TMIN has 90.0% valid records in 1991-01-01 to 2020-12-31
+There are 5 series inside the city and 4 outside
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/urban_areas.py:156: UserWarning: Only one label was provided to `remove_small_objects`. Did you mean to use a boolean array?
+  cleaned_mask = morphology.remove_small_objects(labeled_mask, min_size=self.min_city_size)
+/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:103: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  print(f&#39;{city} -- {stn_data.NAME[0]} - {var} has {100*valid_records:.1f}% valid records in {idate} to {fdate}&#39;)
+/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:103: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  print(f&#39;{city} -- {stn_data.NAME[0]} - {var} has {100*valid_records:.1f}% valid records in {idate} to {fdate}&#39;)
+/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:103: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  print(f&#39;{city} -- {stn_data.NAME[0]} - {var} has {100*valid_records:.1f}% valid records in {idate} to {fdate}&#39;)
+/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:103: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  print(f&#39;{city} -- {stn_data.NAME[0]} - {var} has {100*valid_records:.1f}% valid records in {idate} to {fdate}&#39;)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Paris -- PARIS-MONTSOURIS - TMIN has 90.0% valid records in 1991-01-01 to 2020-12-31
+Paris -- MELUN - TMIN has 90.0% valid records in 1991-01-01 to 2020-12-31
+Paris -- TOUSSUS-LE-NOBLE - TMIN has 90.0% valid records in 1991-01-01 to 2020-12-31
+Paris -- TRAPPES - TMIN has 90.0% valid records in 1991-01-01 to 2020-12-31
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:103: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  print(f&#39;{city} -- {stn_data.NAME[0]} - {var} has {100*valid_records:.1f}% valid records in {idate} to {fdate}&#39;)
+/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:103: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  print(f&#39;{city} -- {stn_data.NAME[0]} - {var} has {100*valid_records:.1f}% valid records in {idate} to {fdate}&#39;)
+/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:103: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  print(f&#39;{city} -- {stn_data.NAME[0]} - {var} has {100*valid_records:.1f}% valid records in {idate} to {fdate}&#39;)
+/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:103: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  print(f&#39;{city} -- {stn_data.NAME[0]} - {var} has {100*valid_records:.1f}% valid records in {idate} to {fdate}&#39;)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Paris -- VILLACOUBLAY - TMIN has 90.0% valid records in 1991-01-01 to 2020-12-31
+Paris -- ORLY - TMIN has 90.0% valid records in 1991-01-01 to 2020-12-31
+Paris -- BRETIGNY-SAPC - TMIN has 89.9% valid records in 1991-01-01 to 2020-12-31
+Paris -- SAINT-MAUR - TMIN has 89.8% valid records in 1991-01-01 to 2020-12-31
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:103: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  print(f&#39;{city} -- {stn_data.NAME[0]} - {var} has {100*valid_records:.1f}% valid records in {idate} to {fdate}&#39;)
+/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:152: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value &#39;True&#39; has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  valid_obs.loc[valid_obs[&#39;code&#39;].str.contains(obs.code), &#39;inside_city&#39;] = is_inside.values[0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Paris -- ROISSY - TMIN has 90.0% valid records in 1991-01-01 to 2020-12-31
+There are 5 series inside the city and 4 outside
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/urban_areas.py:156: UserWarning: Only one label was provided to `remove_small_objects`. Did you mean to use a boolean array?
+  cleaned_mask = morphology.remove_small_objects(labeled_mask, min_size=self.min_city_size)
+/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:103: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  print(f&#39;{city} -- {stn_data.NAME[0]} - {var} has {100*valid_records:.1f}% valid records in {idate} to {fdate}&#39;)
+/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:103: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  print(f&#39;{city} -- {stn_data.NAME[0]} - {var} has {100*valid_records:.1f}% valid records in {idate} to {fdate}&#39;)
+/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:103: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  print(f&#39;{city} -- {stn_data.NAME[0]} - {var} has {100*valid_records:.1f}% valid records in {idate} to {fdate}&#39;)
+/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:103: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  print(f&#39;{city} -- {stn_data.NAME[0]} - {var} has {100*valid_records:.1f}% valid records in {idate} to {fdate}&#39;)
+/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:103: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  print(f&#39;{city} -- {stn_data.NAME[0]} - {var} has {100*valid_records:.1f}% valid records in {idate} to {fdate}&#39;)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Paris -- PARIS-MONTSOURIS - TMIN has 90.0% valid records in 1991-01-01 to 2020-12-31
+Paris -- MELUN - TMIN has 90.0% valid records in 1991-01-01 to 2020-12-31
+Paris -- TOUSSUS-LE-NOBLE - TMIN has 90.0% valid records in 1991-01-01 to 2020-12-31
+Paris -- TRAPPES - TMIN has 90.0% valid records in 1991-01-01 to 2020-12-31
+Paris -- VILLACOUBLAY - TMIN has 90.0% valid records in 1991-01-01 to 2020-12-31
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:103: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  print(f&#39;{city} -- {stn_data.NAME[0]} - {var} has {100*valid_records:.1f}% valid records in {idate} to {fdate}&#39;)
+/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:103: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  print(f&#39;{city} -- {stn_data.NAME[0]} - {var} has {100*valid_records:.1f}% valid records in {idate} to {fdate}&#39;)
+/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:103: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  print(f&#39;{city} -- {stn_data.NAME[0]} - {var} has {100*valid_records:.1f}% valid records in {idate} to {fdate}&#39;)
+/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:103: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
+  print(f&#39;{city} -- {stn_data.NAME[0]} - {var} has {100*valid_records:.1f}% valid records in {idate} to {fdate}&#39;)
+/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:152: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value &#39;True&#39; has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
+  valid_obs.loc[valid_obs[&#39;code&#39;].str.contains(obs.code), &#39;inside_city&#39;] = is_inside.values[0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Paris -- ORLY - TMIN has 90.0% valid records in 1991-01-01 to 2020-12-31
+Paris -- BRETIGNY-SAPC - TMIN has 89.9% valid records in 1991-01-01 to 2020-12-31
+Paris -- SAINT-MAUR - TMIN has 89.8% valid records in 1991-01-01 to 2020-12-31
+Paris -- ROISSY - TMIN has 90.0% valid records in 1991-01-01 to 2020-12-31
+There are 5 series inside the city and 4 outside
+</pre></div>
+</div>
+<img alt="_images/412176cf63e90c3cfd8d81580dd47adbeff375f28f4923fc452fa0eb203a316d.png" src="_images/412176cf63e90c3cfd8d81580dd47adbeff375f28f4923fc452fa0eb203a316d.png" />
+<img alt="_images/dd9c5eafb54ca304355caf61775176832b907d76d10ddf14f9ba5798b694656f.png" src="_images/dd9c5eafb54ca304355caf61775176832b907d76d10ddf14f9ba5798b694656f.png" />
+<img alt="_images/5480c07c45bab6fe6a115809acece8a764e3732fe179083d1f3d88868202c2aa.png" src="_images/5480c07c45bab6fe6a115809acece8a764e3732fe179083d1f3d88868202c2aa.png" />
+<img alt="_images/b458804328d7e61b201ddee1d65e2ec5768805f3860feb219ecc804292e396ba.png" src="_images/b458804328d7e61b201ddee1d65e2ec5768805f3860feb219ecc804292e396ba.png" />
+<img alt="_images/62767a1dc0c2dde72822d16f18b3f429f67147db46a6e6e61549d588473b53ec.png" src="_images/62767a1dc0c2dde72822d16f18b3f429f67147db46a6e6e61549d588473b53ec.png" />
+<img alt="_images/76bb54c2e3417323cd837c34e9b1180538fabe136a87d63518a5c20d76e3b312.png" src="_images/76bb54c2e3417323cd837c34e9b1180538fabe136a87d63518a5c20d76e3b312.png" />
+<img alt="_images/4a7ba9c26707d6467676b9a152084f4d5ab3e185132107b2ea6aa99c32c2b55a.png" src="_images/4a7ba9c26707d6467676b9a152084f4d5ab3e185132107b2ea6aa99c32c2b55a.png" />
+<img alt="_images/0ecfa669cedd2635fda252d8e5ff8c56348e337b737d8e3c9fc7f3ccba262537.png" src="_images/0ecfa669cedd2635fda252d8e5ff8c56348e337b737d8e3c9fc7f3ccba262537.png" />
+<img alt="_images/89c1a4ed292488f77ebfd985c1cea664454248dd67345c832c1efe0bbe2365b7.png" src="_images/89c1a4ed292488f77ebfd985c1cea664454248dd67345c832c1efe0bbe2365b7.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">PIL</span><span class="w"> </span><span class="kn">import</span> <span class="n">Image</span>
+
+<span class="n">imgs</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">save_figure_path</span><span class="si">}</span><span class="s2">/CMIP6_Paris_UHI_map_</span><span class="si">{</span><span class="n">variable</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">rcm_name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">period</span><span class="o">.</span><span class="n">start</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">period</span><span class="o">.</span><span class="n">stop</span><span class="si">}</span><span class="s2">.png&quot;</span>
+    <span class="p">)</span>
+    <span class="k">for</span> <span class="n">rcm_name</span> <span class="ow">in</span> <span class="n">rcm_names</span>
+<span class="p">]</span>
+<span class="n">imgs</span> <span class="o">=</span> <span class="p">[</span><span class="n">img</span><span class="o">.</span><span class="n">crop</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">getbbox</span><span class="p">())</span> <span class="k">for</span> <span class="n">img</span> <span class="ow">in</span> <span class="n">imgs</span><span class="p">]</span>
+
+<span class="n">w</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">imgs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">size</span>
+<span class="n">final_img</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;RGB&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span> <span class="o">*</span> <span class="n">w</span><span class="p">,</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">h</span><span class="p">),</span> <span class="s2">&quot;white&quot;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">n_i</span><span class="p">,</span> <span class="n">img</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">imgs</span><span class="p">):</span>
+    <span class="n">final_img</span><span class="o">.</span><span class="n">paste</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_i</span> <span class="o">*</span> <span class="n">h</span><span class="p">))</span>
+
+<span class="n">final_img</span><span class="o">.</span><span class="n">save</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">save_figure_path</span><span class="si">}</span><span class="s2">/CMIP6_Paris_UHI_map_</span><span class="si">{</span><span class="n">variable</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">period</span><span class="o">.</span><span class="n">start</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">period</span><span class="o">.</span><span class="n">stop</span><span class="si">}</span><span class="s2">.png&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">PIL</span><span class="w"> </span><span class="kn">import</span> <span class="n">Image</span>
+
+<span class="n">imgs</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">save_figure_path</span><span class="si">}</span><span class="s2">/CMIP6_Paris_Annual_cycle_</span><span class="si">{</span><span class="n">variable</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">rcm_name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">period</span><span class="o">.</span><span class="n">start</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">period</span><span class="o">.</span><span class="n">stop</span><span class="si">}</span><span class="s2">.png&quot;</span>
+    <span class="p">)</span>
+    <span class="k">for</span> <span class="n">rcm_name</span> <span class="ow">in</span> <span class="n">rcm_names</span>
+<span class="p">]</span>
+<span class="n">imgs</span> <span class="o">=</span> <span class="p">[</span><span class="n">img</span><span class="o">.</span><span class="n">crop</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">getbbox</span><span class="p">())</span> <span class="k">for</span> <span class="n">img</span> <span class="ow">in</span> <span class="n">imgs</span><span class="p">]</span>
+
+<span class="n">w</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">imgs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">size</span>
+<span class="n">final_img</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;RGB&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span> <span class="o">*</span> <span class="n">w</span><span class="p">,</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">h</span><span class="p">),</span> <span class="s2">&quot;white&quot;</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">n_i</span><span class="p">,</span> <span class="n">img</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">imgs</span><span class="p">):</span>
+    <span class="n">final_img</span><span class="o">.</span><span class="n">paste</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_i</span> <span class="o">*</span> <span class="n">h</span><span class="p">))</span>
+
+<span class="n">final_img</span><span class="o">.</span><span class="n">save</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">save_figure_path</span><span class="si">}</span><span class="s2">/CMIP6_Paris_Annual_cycle_</span><span class="si">{</span><span class="n">variable</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">period</span><span class="o">.</span><span class="n">start</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">period</span><span class="o">.</span><span class="n">stop</span><span class="si">}</span><span class="s2">.png&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">img1</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">save_figure_path</span><span class="si">}</span><span class="s2">/CMIP6_Paris_UHI_map_</span><span class="si">{</span><span class="n">variable</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">period</span><span class="o">.</span><span class="n">start</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">period</span><span class="o">.</span><span class="n">stop</span><span class="si">}</span><span class="s2">.png&quot;</span>
+<span class="p">)</span>
+<span class="n">img2</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">save_figure_path</span><span class="si">}</span><span class="s2">/CMIP6_Paris_Annual_cycle_</span><span class="si">{</span><span class="n">variable</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">period</span><span class="o">.</span><span class="n">start</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">period</span><span class="o">.</span><span class="n">stop</span><span class="si">}</span><span class="s2">.png&quot;</span>
+<span class="p">)</span>
+
+<span class="n">img1</span> <span class="o">=</span> <span class="n">img1</span><span class="o">.</span><span class="n">crop</span><span class="p">(</span><span class="n">img1</span><span class="o">.</span><span class="n">getbbox</span><span class="p">())</span>
+<span class="n">img2</span> <span class="o">=</span> <span class="n">img2</span><span class="o">.</span><span class="n">crop</span><span class="p">(</span><span class="n">img2</span><span class="o">.</span><span class="n">getbbox</span><span class="p">())</span>
+
+<span class="n">w1</span><span class="p">,</span> <span class="n">h1</span> <span class="o">=</span> <span class="n">img1</span><span class="o">.</span><span class="n">size</span>
+<span class="n">w2</span><span class="p">,</span> <span class="n">h2</span> <span class="o">=</span> <span class="n">img2</span><span class="o">.</span><span class="n">size</span>
+
+<span class="n">new_w2</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">w2</span> <span class="o">*</span> <span class="n">h1</span> <span class="o">/</span> <span class="n">h2</span><span class="p">)</span>
+<span class="n">img2</span> <span class="o">=</span> <span class="n">img2</span><span class="o">.</span><span class="n">resize</span><span class="p">((</span><span class="n">new_w2</span><span class="p">,</span> <span class="n">h1</span><span class="p">),</span> <span class="n">Image</span><span class="o">.</span><span class="n">LANCZOS</span><span class="p">)</span>
+
+<span class="n">final_img</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;RGB&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">w1</span> <span class="o">+</span> <span class="n">new_w2</span><span class="p">,</span> <span class="n">h1</span><span class="p">),</span> <span class="s2">&quot;white&quot;</span><span class="p">)</span>
+
+<span class="n">final_img</span><span class="o">.</span><span class="n">paste</span><span class="p">(</span><span class="n">img1</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+<span class="n">final_img</span><span class="o">.</span><span class="n">paste</span><span class="p">(</span><span class="n">img2</span><span class="p">,</span> <span class="p">(</span><span class="n">w1</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
+
+<span class="n">final_img</span><span class="o">.</span><span class="n">save</span><span class="p">(</span>
+    <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">save_figure_path</span><span class="si">}</span><span class="s2">/CMIP6_Paris_</span><span class="si">{</span><span class="n">variable</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">period</span><span class="o">.</span><span class="n">start</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">period</span><span class="o">.</span><span class="n">stop</span><span class="si">}</span><span class="s2">.png&quot;</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "evaltools"
+        },
+        kernelOptions: {
+            name: "evaltools",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'evaltools'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Urban and rural surrounding areas selection</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-libraries">Load libraries</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#cordex-eur-cmip6">CORDEX-EUR-CMIP6</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#cmip6">CMIP6</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#define-urban-areas-and-vicinity">Define urban areas and vicinity</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#load-static-variables">Load static variables</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By EURO-CORDEX
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2024.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
