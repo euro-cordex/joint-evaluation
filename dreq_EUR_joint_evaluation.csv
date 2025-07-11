@@ -42,7 +42,7 @@ rsdscs,mon,W m-2,Surface Downwelling Clear-Sky Shortwave Radiation,surface_downw
 rsut,mon,W m-2,TOA Outgoing Shortwave Radiation,toa_outgoing_shortwave_flux,area: time: mean,Trends,
 rsutcs,mon,W m-2,TOA Outgoing Clear-Sky Shortwave Radiation,toa_outgoing_shortwave_flux_assuming_clear_sky,area: time: mean,Trends,
 sfcWind,1hr,m s-1,Near-Surface Wind Speed,wind_speed,area: mean time: point,FWI WindEnergy,FWI will only use 12:00 UTC output
-sfcWind,day,m s-1,Near-Surface Wind Speed,wind_speed,area: time: mean,HeatStress WindEnergy,
+sfcWind,day,m s-1,Near-Surface Wind Speed,wind_speed,area: time: mean,ClimateServicesPrio2 HeatStress WindEnergy,
 sfcWind,mon,m s-1,Near-Surface Wind Speed,wind_speed,area: time: mean,Trends,
 sfcWindmax,day,m s-1,Daily Maximum Near-Surface Wind Speed,wind_speed,area: mean time: maximum,FWI,Maximum from all integrated time steps per day
 sftlaf,fx,%,Percentage of the Grid Cell Occupied by Lake,area_fraction,area: mean where fresh_free_water,Overview,not in CMIP or in CF
