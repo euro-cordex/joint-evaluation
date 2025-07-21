@@ -356,13 +356,13 @@ def convert_celsius_to_kelvin(ds, variable, threshold=200):
         if var == variable:
             units = ds[var].attrs.get("units", "").lower()
             standard_name = ds[var].attrs.get("standard_name", "").lower()
-    
+
             # Check if units explicitly indicate Celsius
             if units in ["c", "°c", "celsius", "degc"]:
                 ds[var] = ds[var] + 273.15
                 ds[var].attrs["units"] = "K"
                 print("Convert celsius to kelvin")
-    
+
             # If no unit attribute exists, check standard_name for temperature-related terms
             elif standard_name in [
                 "air_temperature",
@@ -374,7 +374,7 @@ def convert_celsius_to_kelvin(ds, variable, threshold=200):
                     ds[var] = ds[var] + 273.15
                     ds[var].attrs["units"] = "K"
                     print("Convert celsius to kelvin")
-                    
+
     return ds
 
 
@@ -395,13 +395,13 @@ def convert_precipitation_to_mm(ds, variable):
         if var == variable:
             units = ds[var].attrs.get("units", "").lower()
             # standard_name = ds[var].attrs.get("standard_name", "").lower()
-    
+
             # Check if units explicitly indicate meters (m) or kilograms per meter per second squared (kg/m/s²)
             if units in ["m", "meters"]:
                 ds[var] = ds[var] * 1000  # Convert from meters to millimeters
                 ds[var].attrs["units"] = "mm"
                 print("Convert precipitation from meters to millimeters (mm).")
-    
+
             elif units in ["kg m-2 s-1", "kg/m/s2"]:
                 # Precipitation rate in kg/m/s² can be converted to mm/s by multiplying by 1000
                 ds[var] = ds[var] * 86400  # Convert kg/m/s² to mm/day
