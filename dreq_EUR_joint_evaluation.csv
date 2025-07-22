@@ -4,8 +4,8 @@ clt,mon,%,Total Cloud Cover Percentage,cloud_area_fraction,area: time: mean,Tren
 evspsbl,day,kg m-2 s-1,Evaporation Including Sublimation and Transpiration,water_evapotranspiration_flux,area: time: mean,ClimateServicesPrio2,
 evspsbl,mon,kg m-2 s-1,Evaporation Including Sublimation and Transpiration,water_evapotranspiration_flux,area: time: mean,WaterBudget,
 hfls,mon,W m-2,Surface Upward Latent Heat Flux,surface_upward_latent_heat_flux,area: time: mean, WaterBudget,
-hurs,1hr,%,Near-Surface Relative Humidity,relative_humidity,area: mean time: point,FWI,Only 12:00 UTC output will be used
-hurs,day,%,Near-Surface Relative Humidity,relative_humidity,area: time: mean,FWI,
+hurs,1hr,%,Near-Surface Relative Humidity,relative_humidity,area: mean time: point,FWI Urban,Only 12:00 UTC output will be used
+hurs,day,%,Near-Surface Relative Humidity,relative_humidity,area: time: mean,FWI Urban,
 huss,day,1,Near-Surface Specific Humidity,specific_humidity,area: time: mean,ClimateServicesPrio2 HeatStress,
 hus1000,6hr,1,Specific Humidity,specific_humidity,area: mean time: point,AtmRivers Multifeature,
 hus200,6hr,1,Specific Humidity,specific_humidity,area: mean time: point,AtmRivers Multifeature,
@@ -21,10 +21,10 @@ mrros,mon,kg m-2 s-1,Surface Runoff,surface_runoff_flux,area: time: mean, WaterB
 mrro,mon,kg m-2 s-1,Total Runoff,runoff_flux,area: time: mean, WaterBudget,
 mrso,mon,kg m-2,Total Soil Moisture Content,mass_content_of_water_in_soil,area: time: point, WaterBudget,
 od550aer,mon,1,Ambient Aerosol Optical Thickness at 550nm,atmosphere_optical_thickness_due_to_ambient_aerosol_particles,area: time: mean,Trends,"long_name fixed, 2022.09.22  https://github.com/WCRP-CORDEX/cordex-cmip6-data-request/issues/6"
-orog,fx,m,Surface Altitude,surface_altitude,area: mean,Overview WaterBudget,
-pr,1hr,kg m-2 s-1,Precipitation,precipitation_flux,area: time: mean,AtmRivers PrecipExtremes Multifeature,
+orog,fx,m,Surface Altitude,surface_altitude,area: mean,Overview WaterBudget Urban,
+pr,1hr,kg m-2 s-1,Precipitation,precipitation_flux,area: time: mean,AtmRivers PrecipExtremes Multifeature Urban,
 pr,day,kg m-2 s-1,Precipitation,precipitation_flux,area: time: mean,PrecipExtremes FWI ClimateServicesPrio1,
-pr,mon,kg m-2 s-1,Precipitation,precipitation_flux,area: time: mean,Overview Trends Snow WaterBudget Elevation ClimateClassification,
+pr,mon,kg m-2 s-1,Precipitation,precipitation_flux,area: time: mean,Overview Trends Snow WaterBudget Elevation ClimateClassification Urban,
 prsn,mon,kg m-2 s-1,Snowfall Flux,snowfall_flux,area: time: mean,Elevation,
 prw,1hr,kg m-2,Water Vapor Path,atmosphere_mass_content_of_water_vapor,area: mean time: point,AtmRivers,
 psl,1hr,Pa,Sea Level Pressure,air_pressure_at_mean_sea_level,area: mean time: point,Multifeature,
@@ -41,13 +41,13 @@ rsds,mon,W m-2,Surface Downwelling Shortwave Radiation,surface_downwelling_short
 rsdscs,mon,W m-2,Surface Downwelling Clear-Sky Shortwave Radiation,surface_downwelling_shortwave_flux_in_air_assuming_clear_sky,area: time: mean,Trends,
 rsut,mon,W m-2,TOA Outgoing Shortwave Radiation,toa_outgoing_shortwave_flux,area: time: mean,Trends,
 rsutcs,mon,W m-2,TOA Outgoing Clear-Sky Shortwave Radiation,toa_outgoing_shortwave_flux_assuming_clear_sky,area: time: mean,Trends,
-sfcWind,1hr,m s-1,Near-Surface Wind Speed,wind_speed,area: mean time: point,FWI WindEnergy,FWI will only use 12:00 UTC output
+sfcWind,1hr,m s-1,Near-Surface Wind Speed,wind_speed,area: mean time: point,FWI WindEnergy Urban,FWI will only use 12:00 UTC output
 sfcWind,day,m s-1,Near-Surface Wind Speed,wind_speed,area: time: mean,ClimateServicesPrio2 HeatStress WindEnergy,
-sfcWind,mon,m s-1,Near-Surface Wind Speed,wind_speed,area: time: mean,Trends,
+sfcWind,mon,m s-1,Near-Surface Wind Speed,wind_speed,area: time: mean,Trends Urban,
 sfcWindmax,day,m s-1,Daily Maximum Near-Surface Wind Speed,wind_speed,area: mean time: maximum,FWI,Maximum from all integrated time steps per day
 sftlaf,fx,%,Percentage of the Grid Cell Occupied by Lake,area_fraction,area: mean where fresh_free_water,Overview,not in CMIP or in CF
-sftlf,fx,%,Percentage of the Grid Cell Occupied by Land,land_area_fraction,area: mean,Overview WaterBudget FWI,
-sfturf,fx,%,Percentage of the Grid Cell Occupied by Urban Area,area_fraction,area: mean where urban,Overview,not in CMIP or in CF
+sftlf,fx,%,Percentage of the Grid Cell Occupied by Land,land_area_fraction,area: mean,Overview WaterBudget FWI Urban,
+sfturf,fx,%,Percentage of the Grid Cell Occupied by Urban Area,area_fraction,area: mean where urban,Overview Urban,not in CMIP or in CF
 snc,day,%,Snow Area Percentage,surface_snow_area_fraction,area: time: mean,Snow,
 snc,mon,%,Snow Area Percentage,surface_snow_area_fraction,area: time: mean,Snow WaterBudget,
 snd,day,m,Snow Depth,surface_snow_thickness,area: mean where land time: mean,Snow,
@@ -55,13 +55,13 @@ snd,mon,m,Snow Depth,surface_snow_thickness,area: mean where land time: mean,Sno
 snw,day,kg m-2,Surface Snow Amount,surface_snow_amount,area: mean where land time: mean,Snow,
 snw,mon,kg m-2,Surface Snow Amount,surface_snow_amount,area: mean where land time: mean,Snow WaterBudget,
 ta850,6hr,K,Air Temperature,air_temperature,area: mean time: point,Multifeature,
-tas,1hr,K,Near-Surface Air Temperature,air_temperature,area: mean time: point,FWI,Only 12:00 UTC output will be used
+tas,1hr,K,Near-Surface Air Temperature,air_temperature,area: mean time: point,FWI Urban,Only 12:00 UTC output will be used
 tas,day,K,Near-Surface Air Temperature,air_temperature,area: time: mean,ClimateServicesPrio1 HeatStress,
-tas,mon,K,Near-Surface Air Temperature,air_temperature,area: time: mean,Overview Trends Snow ClimateClassification,
+tas,mon,K,Near-Surface Air Temperature,air_temperature,area: time: mean,Overview Trends Snow ClimateClassification Urban,
 tasmax,day,K,Daily Maximum Near-Surface Air Temperature,air_temperature,area: mean time: maximum,FWI ClimateServicesPrio1 Droughts HeatStress,maximum from all integrated time steps per day
-tasmax,mon,K,Daily Maximum Near-Surface Air Temperature,air_temperature,area: mean time: maximum within days time: mean over days,Overview Trends Elevation,maximum from all integrated time steps per day
+tasmax,mon,K,Daily Maximum Near-Surface Air Temperature,air_temperature,area: mean time: maximum within days time: mean over days,Overview Trends Elevation Urban,maximum from all integrated time steps per day
 tasmin,day,K,Daily Minimum Near-Surface Air Temperature,air_temperature,area: mean time: minimum,ClimateServicesPrio1 Droughts HeatStress,minimum from all integrated time steps per day
-tasmin,mon,K,Daily Minimum Near-Surface Air Temperature,air_temperature,area: mean time: minimum within days time: mean over days,Overview Trends Elevation,minimum from all integrated time steps per day
+tasmin,mon,K,Daily Minimum Near-Surface Air Temperature,air_temperature,area: mean time: minimum within days time: mean over days,Overview Trends Elevation Urban,minimum from all integrated time steps per day
 ua1000,6hr,m s-1,Eastward Wind,eastward_wind,area: mean time: point,AtmRivers Multifeature,
 ua200,6hr,m s-1,Eastward Wind,eastward_wind,area: mean time: point,AtmRivers Multifeature,
 ua250,6hr,m s-1,Eastward Wind,eastward_wind,area: mean time: point,AtmRivers Multifeature,
