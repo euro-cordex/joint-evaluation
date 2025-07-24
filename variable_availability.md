@@ -42,6 +42,9 @@
 ## Trends
 ![Trends](plots/variable_availability__Trends.svg)
 
+## Urban
+![Urban](plots/variable_availability__Urban.svg)
+
 ## WaterBudget
 ![WaterBudget](plots/variable_availability__WaterBudget.svg)
 
