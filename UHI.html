@@ -413,7 +413,8 @@ document.write(`
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#cordex-eur-cmip6">CORDEX-EUR-CMIP6</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#cmip6">CMIP6</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#define-urban-areas-and-vicinity">Define urban areas and vicinity</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#define-urban-areas-and-vicinity">Define urban areas and vicinity</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-observations-for-paris">Load observations for Paris</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#load-static-variables">Load static variables</a></li>
 </ul>
 </li>
@@ -465,12 +466,12 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">urclimask.GHCNd_stations</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_valid_timeseries</span><span class="p">,</span> <span class="n">inside_city</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">urclimask.UHI_analysis</span><span class="w"> </span><span class="kn">import</span> <span class="n">UrbanIsland</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">urclimask.urban_areas</span><span class="w"> </span><span class="kn">import</span> <span class="n">UrbanVicinity</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">urclimask.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_ucdb_city</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">urclimask.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_ucdb_city</span><span class="p">,</span> <span class="n">traverseDir</span>
 </pre></div>
 </div>
 </div>
@@ -478,6 +479,7 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">PIL</span><span class="w"> </span><span class="kn">import</span> <span class="n">Image</span>
 </pre></div>
 </div>
 </div>
@@ -524,7 +526,7 @@ document.write(`
 <span class="n">urban_sur_th</span> <span class="o">=</span> <span class="mi">10</span>
 <span class="n">orog_diff</span> <span class="o">=</span> <span class="mi">100</span>
 <span class="n">sftlf_th</span> <span class="o">=</span> <span class="mi">70</span>
-<span class="n">scale</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">ratio_r2u</span> <span class="o">=</span> <span class="mi">2</span>
 <span class="n">min_city_size</span> <span class="o">=</span> <span class="mi">8</span>
 <span class="n">lon_lim</span> <span class="o">=</span> <span class="mi">1</span>
 <span class="n">lat_lim</span> <span class="o">=</span> <span class="mi">1</span>
@@ -564,7 +566,8 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Found: [&#39;ALARO1-SFX&#39;, &#39;CCLM6-0-1-URB&#39;, &#39;CNRM-ALADIN64E1&#39;, &#39;HCLIM43-ALADIN&#39;, &#39;ICON-CLM-202407-1-1&#39;, &#39;RACMO23E&#39;, &#39;REMO2020-2-2&#39;, &#39;REMO2020-2-2-MR2&#39;, &#39;REMO2020-2-2-iMOVE&#39;, &#39;REMO2020-2-2-iMOVE-LUC&#39;, &#39;RegCM5-0&#39;] for variables: [&#39;tasmin&#39;]
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Opening catalog from https://raw.githubusercontent.com/euro-cordex/joint-evaluation/refs/heads/main/CORDEX-CMIP6.json
+Found 14 datasets for variables [&#39;tasmin&#39;]: [&#39;RACMO23E&#39;, &#39;COSMO-CLM-6-0-clm3&#39;, &#39;ICON-CLM-202407-1-1&#39;, &#39;CCLM6-0-1-URB&#39;, &#39;HCLIM43-ALADIN&#39;, &#39;ROAM-NBS&#39;, &#39;REMO2020-2-2-iMOVE-LUC&#39;, &#39;REMO2020-2-2-MR2&#39;, &#39;REMO2020-2-2&#39;, &#39;REMO2020-2-2-iMOVE&#39;, &#39;WRF451Q&#39;, &#39;CNRM-ALADIN64E1&#39;, &#39;RegCM5-0&#39;, &#39;ALARO1-SFX&#39;]
 
 --&gt; The keys in the returned dictionary of datasets are constructed as follows:
 	&#39;project_id.domain_id.institution_id.driving_source_id.driving_experiment_id.driving_variant_label.source_id.version_realization.frequency.version&#39;
@@ -588,185 +591,123 @@ document.write(`
 </style>
 </div><div class="output text_html">
     <div>
-      <progress value='60' class='' max='60' style='width:300px; height:20px; vertical-align: middle;'></progress>
-      100.00% [60/60 00:04&lt;00:00]
+      <progress value='29' class='' max='29' style='width:300px; height:20px; vertical-align: middle;'></progress>
+      100.00% [29/29 00:05&lt;00:00]
     </div>
-    </div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.CNRM-ESM2-1.ssp370.r1i1p1f2.HCLIM43-ALADIN.v1-r1.fx.v20241205
-Found 59 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.EC-Earth3-Veg.ssp370.r1i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
-Found 59 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.KNMI.NorESM2-MM.ssp126.r1i1p1f1.RACMO23E.v1-r1.fx.v20241216
-Found 59 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.EC-Earth3-Veg.ssp370.r2i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
-Found 59 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.KNMI.EC-Earth3-Veg.historical.r1i1p1f1.RACMO23E.v1-r1.fx.v20241216
-Found 59 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.KNMI.MPI-ESM1-2-HR.ssp126.r1i1p1f1.RACMO23E.v1-r1.fx.v20241216
-Found 59 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.KNMI.MPI-ESM1-2-HR.historical.r1i1p1f1.RACMO23E.v1-r1.fx.v20241216
-Found 59 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.KNMI.EC-Earth3-Veg.ssp370.r1i1p1f1.RACMO23E.v1-r1.fx.v20241216
-Found 59 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.MIROC6.ssp370.r1i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
-Found 59 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.KNMI.ERA5.evaluation.r1i1p1f1.RACMO23E.v1-r1.fx.v20241216
-Found 59 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.EC-Earth3-Veg.ssp126.r1i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
-Found 59 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2.v1-r1.fx.v20241120
-Warning for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2.v1-r1.fx.v20241120: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
-Warning for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2.v1-r1.fx.v20241120: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
-Found 59 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.CNRM-MF.ERA5.evaluation.r1i1p1f1.CNRM-ALADIN64E1.v1-r1.fx.v20250505
-Found 59 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.EC-Earth3-Veg.ssp370.r3i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
-Found 59 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-METNo.NorESM2-MM.ssp126.r1i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
-Found 59 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.MPI-ESM1-2-HR.ssp126.r1i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
-Found 59 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-METNo.NorESM2-MM.ssp370.r1i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
-Found 59 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.EC-Earth3-Veg.historical.r2i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
-Found 59 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.MIROC6.ssp126.r1i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
-Found 59 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.MIROC6.historical.r1i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
-Found 59 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.MPI-ESM1-2-HR.ssp370.r1i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
-Found 59 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.KNMI.CNRM-ESM2-1.historical.r1i1p1f2.RACMO23E.v1-r1.fx.v20241216
-Found 59 datasets
+    </div><div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>decoding dataset CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-iMOVE-LUC.v1-r1.fx.v20250515
+Warning for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-iMOVE-LUC.v1-r1.fx.v20250515: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+Warning for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-iMOVE-LUC.v1-r1.fx.v20250515: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+Found 28 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.CLMcom-CMCC.ERA5.evaluation.r1i1p1f1.CCLM6-0-1-URB.v1-r1.fx.v20250201
+Found 28 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.DWD-BSH.ERA5.evaluation.r1i1p1f1.ROAM-NBS.v1-r1.fx.v20240920
+Warning for CORDEX-CMIP6.EUR-12.DWD-BSH.ERA5.evaluation.r1i1p1f1.ROAM-NBS.v1-r1.fx.v20240920: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+Warning for CORDEX-CMIP6.EUR-12.DWD-BSH.ERA5.evaluation.r1i1p1f1.ROAM-NBS.v1-r1.fx.v20240920: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+Warning for CORDEX-CMIP6.EUR-12.DWD-BSH.ERA5.evaluation.r1i1p1f1.ROAM-NBS.v1-r1.fx.v20240920: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+Found 28 datasets
 decoding dataset CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-iMOVE.v1-r1.fx.v20250515
 Warning for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-iMOVE.v1-r1.fx.v20250515: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
 Warning for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-iMOVE.v1-r1.fx.v20250515: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
-Found 59 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.CLMcom-CMCC.ERA5.evaluation.r1i1p1f1.CCLM6-0-1-URB.v1-r1.fx.v20250201
-Found 59 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.CNRM-MF.CNRM-ESM2-1.historical.r1i1p1f2.CNRM-ALADIN64E1.v1-r1.fx.v20250328
-Warning for CORDEX-CMIP6.EUR-12.CNRM-MF.CNRM-ESM2-1.historical.r1i1p1f2.CNRM-ALADIN64E1.v1-r1.fx.v20250328: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
-Warning for CORDEX-CMIP6.EUR-12.CNRM-MF.CNRM-ESM2-1.historical.r1i1p1f2.CNRM-ALADIN64E1.v1-r1.fx.v20250328: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
-Found 59 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.KNMI.EC-Earth3.historical.r1i1p1f1.RACMO23E.v1-r1.fx.v20241216
-Found 59 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.ERA5.evaluation.r1i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
-Found 59 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.RMIB-UGent.ERA5.evaluation.r1i1p1f1.ALARO1-SFX.v1-r1.fx.v20241009
-Found 59 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.KNMI.EC-Earth3.ssp126.r1i1p1f1.RACMO23E.v1-r1.fx.v20241216
-Found 59 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.KNMI.EC-Earth3-Veg.ssp126.r1i1p1f1.RACMO23E.v1-r1.fx.v20241216
-Found 59 datasets
+Found 28 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2.v1-r1.fx.v20241120
+Found 28 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.KNMI.ERA5.evaluation.r1i1p1f1.RACMO23E.v1-r1.fx.v20241216
+Found 28 datasets
 decoding dataset CORDEX-CMIP6.EUR-12.ICTP.ERA5.evaluation.r1i1p1f1.RegCM5-0.v1-r1.fx.v20250415
-Found 59 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.EC-Earth3-Veg.ssp126.r2i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
-Found 59 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-iMOVE-LUC.v1-r1.mon.v20250515
-Warning for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-iMOVE-LUC.v1-r1.mon.v20250515: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
-Found 59 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.KNMI.EC-Earth3.ssp370.r1i1p1f1.RACMO23E.v1-r1.fx.v20241216
-Found 59 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.KNMI.CNRM-ESM2-1.ssp370.r1i1p1f2.RACMO23E.v1-r1.fx.v20241216
-Found 59 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.KNMI.NorESM2-MM.ssp370.r1i1p1f1.RACMO23E.v1-r1.fx.v20241216
-Found 59 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.EC-Earth3-Veg.ssp126.r3i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
-Found 59 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-iMOVE.v1-r1.mon.v20250515
-Warning for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-iMOVE.v1-r1.mon.v20250515: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
-Found 59 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-MR2.v1-r1.fx.v20241120
-Warning for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-MR2.v1-r1.fx.v20241120: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
-Warning for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-MR2.v1-r1.fx.v20241120: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
-Found 59 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.CNRM-MF.CNRM-ESM2-1.ssp370.r1i1p1f2.CNRM-ALADIN64E1.v1-r1.fx.v20250328
-Warning for CORDEX-CMIP6.EUR-12.CNRM-MF.CNRM-ESM2-1.ssp370.r1i1p1f2.CNRM-ALADIN64E1.v1-r1.fx.v20250328: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
-Warning for CORDEX-CMIP6.EUR-12.CNRM-MF.CNRM-ESM2-1.ssp370.r1i1p1f2.CNRM-ALADIN64E1.v1-r1.fx.v20250328: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
-Found 59 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.CNRM-MF.ERA5.evaluation.r1i1p1f1.CNRM-ALADIN64E1.v1-r1.mon.v20250505
-Warning for CORDEX-CMIP6.EUR-12.CNRM-MF.ERA5.evaluation.r1i1p1f1.CNRM-ALADIN64E1.v1-r1.mon.v20250505: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
-Found 59 datasets
+Found 28 datasets
 decoding dataset CORDEX-CMIP6.EUR-12.CLMcom-Hereon.ERA5.evaluation.r1i1p1f1.ICON-CLM-202407-1-1.v1-r1.fx.v20240920
 Warning for CORDEX-CMIP6.EUR-12.CLMcom-Hereon.ERA5.evaluation.r1i1p1f1.ICON-CLM-202407-1-1.v1-r1.fx.v20240920: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
 Warning for CORDEX-CMIP6.EUR-12.CLMcom-Hereon.ERA5.evaluation.r1i1p1f1.ICON-CLM-202407-1-1.v1-r1.fx.v20240920: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
 Warning for CORDEX-CMIP6.EUR-12.CLMcom-Hereon.ERA5.evaluation.r1i1p1f1.ICON-CLM-202407-1-1.v1-r1.fx.v20240920: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
-Found 59 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.EC-Earth3-Veg.historical.r1i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
-Found 59 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-iMOVE-LUC.v1-r1.fx.v20250515
-Warning for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-iMOVE-LUC.v1-r1.fx.v20250515: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
-Warning for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-iMOVE-LUC.v1-r1.fx.v20250515: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
-Found 59 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.CNRM-ESM2-1.historical.r1i1p1f2.HCLIM43-ALADIN.v1-r1.fx.v20241205
-Found 59 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-METNo.NorESM2-MM.historical.r1i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
-Found 59 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.KNMI.NorESM2-MM.historical.r1i1p1f1.RACMO23E.v1-r1.fx.v20241216
-Found 59 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.KNMI.MPI-ESM1-2-HR.ssp370.r1i1p1f1.RACMO23E.v1-r1.fx.v20241216
-Found 59 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.CLMcom-CMCC.ERA5.evaluation.r1i1p1f1.CCLM6-0-1-URB.v1-r1.mon.v20250201
-Found 59 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.EC-Earth3-Veg.historical.r3i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
-Found 59 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.CNRM-ESM2-1.ssp126.r1i1p1f2.HCLIM43-ALADIN.v1-r1.fx.v20241205
-Found 59 datasets
+Found 28 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.ERA5.evaluation.r1i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
+Found 28 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.RMIB-UGent.ERA5.evaluation.r1i1p1f1.ALARO1-SFX.v1-r1.fx.v20241009
+Found 28 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.AUTH.ERA5.evaluation.r1i1p1f1.WRF451Q.v1-r3.mon.v20250630
+Found 28 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.ERA5.evaluation.r1i1p1f1.HCLIM43-ALADIN.v1-r1.mon.v20241205
+Found 28 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.CNRM-MF.ERA5.evaluation.r1i1p1f1.CNRM-ALADIN64E1.v1-r1.fx.v20250505
+Found 28 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-MR2.v1-r1.fx.v20241120
+Found 28 datasets
 decoding dataset CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-MR2.v1-r1.mon.v20241120
 Warning for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-MR2.v1-r1.mon.v20241120: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
-Found 59 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.MPI-ESM1-2-HR.historical.r1i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
-Found 59 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.ERA5.evaluation.r1i1p1f1.HCLIM43-ALADIN.v1-r1.mon.v20241205
-Found 59 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.KNMI.CNRM-ESM2-1.ssp126.r1i1p1f2.RACMO23E.v1-r1.fx.v20241216
-Found 59 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.ICTP.ERA5.evaluation.r1i1p1f1.RegCM5-0.v1-r1.mon.v20250415
-Found 59 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.CLMcom-Hereon.ERA5.evaluation.r1i1p1f1.ICON-CLM-202407-1-1.v1-r1.mon.v20240920
-Warning for CORDEX-CMIP6.EUR-12.CLMcom-Hereon.ERA5.evaluation.r1i1p1f1.ICON-CLM-202407-1-1.v1-r1.mon.v20240920: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
-Found 59 datasets
-decoding dataset CORDEX-CMIP6.EUR-12.KNMI.ERA5.evaluation.r1i1p1f1.RACMO23E.v1-r1.mon.v20241216
-Found 59 datasets
+Found 28 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-iMOVE-LUC.v1-r1.mon.v20250515
+Warning for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-iMOVE-LUC.v1-r1.mon.v20250515: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+Found 28 datasets
 decoding dataset CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2.v1-r1.mon.v20241120
 Warning for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2.v1-r1.mon.v20241120: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
-Found 59 datasets
+Found 28 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.ICTP.ERA5.evaluation.r1i1p1f1.RegCM5-0.v1-r1.mon.v20250415
+Found 28 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.CLMcom-Hereon.ERA5.evaluation.r1i1p1f1.ICON-CLM-202407-1-1.v1-r1.mon.v20240920
+Warning for CORDEX-CMIP6.EUR-12.CLMcom-Hereon.ERA5.evaluation.r1i1p1f1.ICON-CLM-202407-1-1.v1-r1.mon.v20240920: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+Found 28 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-iMOVE.v1-r1.mon.v20250515
+Warning for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-iMOVE.v1-r1.mon.v20250515: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+Found 28 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.DWD-BSH.ERA5.evaluation.r1i1p1f1.ROAM-NBS.v1-r1.mon.v20240920
+Warning for CORDEX-CMIP6.EUR-12.DWD-BSH.ERA5.evaluation.r1i1p1f1.ROAM-NBS.v1-r1.mon.v20240920: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+Found 28 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.IDL-FCUL.ERA5.evaluation.r1i1p1f1.WRF451Q.v1-r1.fx.v20240630
+Warning for CORDEX-CMIP6.EUR-12.IDL-FCUL.ERA5.evaluation.r1i1p1f1.WRF451Q.v1-r1.fx.v20240630: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+Warning for CORDEX-CMIP6.EUR-12.IDL-FCUL.ERA5.evaluation.r1i1p1f1.WRF451Q.v1-r1.fx.v20240630: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+Warning for CORDEX-CMIP6.EUR-12.IDL-FCUL.ERA5.evaluation.r1i1p1f1.WRF451Q.v1-r1.fx.v20240630: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+Found 28 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.CESAM-UA.ERA5.evaluation.r1i1p1f1.WRF451Q.v1-r2.fx.v20250630
+Warning for CORDEX-CMIP6.EUR-12.CESAM-UA.ERA5.evaluation.r1i1p1f1.WRF451Q.v1-r2.fx.v20250630: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+Warning for CORDEX-CMIP6.EUR-12.CESAM-UA.ERA5.evaluation.r1i1p1f1.WRF451Q.v1-r2.fx.v20250630: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+Warning for CORDEX-CMIP6.EUR-12.CESAM-UA.ERA5.evaluation.r1i1p1f1.WRF451Q.v1-r2.fx.v20250630: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+Found 28 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.CLMcom-CMCC.ERA5.evaluation.r1i1p1f1.CCLM6-0-1-URB.v1-r1.mon.v20250201
+Found 28 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.RMIB-UGent.ERA5.evaluation.r1i1p1f1.ALARO1-SFX.v1-r1.mon.v20241009
+Found 28 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.KNMI.ERA5.evaluation.r1i1p1f1.RACMO23E.v1-r1.mon.v20241216
+Found 28 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.CNRM-MF.ERA5.evaluation.r1i1p1f1.CNRM-ALADIN64E1.v1-r1.mon.v20250505
+Warning for CORDEX-CMIP6.EUR-12.CNRM-MF.ERA5.evaluation.r1i1p1f1.CNRM-ALADIN64E1.v1-r1.mon.v20250505: Variable(s) referenced in cell_measures not in variables: [&#39;areacella&#39;]
+Found 28 datasets
+decoding dataset CORDEX-CMIP6.EUR-12.CLMcom-Hereon.ERA5.evaluation.r1i1p1f1.COSMO-CLM-6-0-clm3.v1-r1.mon.v20230222
+Found 28 datasets
 </pre></div>
 </div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/evaltools/evaltools/fix.py:69: UserWarning: Grid mapping name latitude_longitude is not supported for CORDEX-CMIP6.EUR-12.CNRM-MF.CNRM-ESM2-1.historical.r1i1p1f2.CNRM-ALADIN64E1.v1-r1.fx.v20250328
-  warnings.warn(
-/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/evaltools/evaltools/fix.py:88: UserWarning: Grid mapping has (198.0, 39.25) which is inconsistent with (-162.0, 39.25) for EUR-12 and CORDEX-CMIP6.EUR-12.ICTP.ERA5.evaluation.r1i1p1f1.RegCM5-0.v1-r1.fx.v20250415.
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/evaltools/evaltools/fix.py:88: UserWarning: Grid mapping has (198.0, 39.25) which is inconsistent with (-162.0, 39.25) for EUR-12 and CORDEX-CMIP6.EUR-12.ICTP.ERA5.evaluation.r1i1p1f1.RegCM5-0.v1-r1.fx.v20250415.
+  warnings.warn(message)
+/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/evaltools/evaltools/fix.py:88: UserWarning: Grid mapping has (18.0, 39.25) which is inconsistent with (-162.0, 39.25) for EUR-11 and CORDEX-CMIP6.EUR-12.AUTH.ERA5.evaluation.r1i1p1f1.WRF451Q.v1-r3.mon.v20250630.
+  warnings.warn(message)
+/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/evaltools/evaltools/fix.py:88: UserWarning: Grid mapping has (198.0, 39.25) which is inconsistent with (-162.0, 39.25) for EUR-12 and CORDEX-CMIP6.EUR-12.ICTP.ERA5.evaluation.r1i1p1f1.RegCM5-0.v1-r1.mon.v20250415.
   warnings.warn(message)
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Fix failed for CORDEX-CMIP6.EUR-12.CNRM-MF.CNRM-ESM2-1.historical.r1i1p1f2.CNRM-ALADIN64E1.v1-r1.fx.v20250328: Grid mapping name latitude_longitude is not supported for CORDEX-CMIP6.EUR-12.CNRM-MF.CNRM-ESM2-1.historical.r1i1p1f2.CNRM-ALADIN64E1.v1-r1.fx.v20250328
-Dataset CORDEX-CMIP6.EUR-12.CNRM-MF.CNRM-ESM2-1.historical.r1i1p1f2.CNRM-ALADIN64E1.v1-r1.fx.v20250328 will be ignored...
-Fix failed for CORDEX-CMIP6.EUR-12.ICTP.ERA5.evaluation.r1i1p1f1.RegCM5-0.v1-r1.fx.v20250415: Grid mapping has (198.0, 39.25) which is inconsistent with (-162.0, 39.25) for EUR-12 and CORDEX-CMIP6.EUR-12.ICTP.ERA5.evaluation.r1i1p1f1.RegCM5-0.v1-r1.fx.v20250415.
-Dataset CORDEX-CMIP6.EUR-12.ICTP.ERA5.evaluation.r1i1p1f1.RegCM5-0.v1-r1.fx.v20250415 will be ignored...
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/evaltools/evaltools/fix.py:69: UserWarning: Grid mapping name latitude_longitude is not supported for CORDEX-CMIP6.EUR-12.CNRM-MF.CNRM-ESM2-1.ssp370.r1i1p1f2.CNRM-ALADIN64E1.v1-r1.fx.v20250328
-  warnings.warn(
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Fix failed for CORDEX-CMIP6.EUR-12.CNRM-MF.CNRM-ESM2-1.ssp370.r1i1p1f2.CNRM-ALADIN64E1.v1-r1.fx.v20250328: Grid mapping name latitude_longitude is not supported for CORDEX-CMIP6.EUR-12.CNRM-MF.CNRM-ESM2-1.ssp370.r1i1p1f2.CNRM-ALADIN64E1.v1-r1.fx.v20250328
-Dataset CORDEX-CMIP6.EUR-12.CNRM-MF.CNRM-ESM2-1.ssp370.r1i1p1f2.CNRM-ALADIN64E1.v1-r1.fx.v20250328 will be ignored...
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/evaltools/evaltools/fix.py:88: UserWarning: Grid mapping has (198.0, 39.25) which is inconsistent with (-162.0, 39.25) for EUR-12 and CORDEX-CMIP6.EUR-12.ICTP.ERA5.evaluation.r1i1p1f1.RegCM5-0.v1-r1.mon.v20250415.
-  warnings.warn(message)
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Fix failed for CORDEX-CMIP6.EUR-12.ICTP.ERA5.evaluation.r1i1p1f1.RegCM5-0.v1-r1.mon.v20250415: Grid mapping has (198.0, 39.25) which is inconsistent with (-162.0, 39.25) for EUR-12 and CORDEX-CMIP6.EUR-12.ICTP.ERA5.evaluation.r1i1p1f1.RegCM5-0.v1-r1.mon.v20250415.
-Dataset CORDEX-CMIP6.EUR-12.ICTP.ERA5.evaluation.r1i1p1f1.RegCM5-0.v1-r1.mon.v20250415 will be ignored...
-merging CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-iMOVE-LUC.v1-r1.mon.v20250515 with CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-iMOVE-LUC.v1-r1.fx.v20250515
-merging CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-iMOVE.v1-r1.mon.v20250515 with CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-iMOVE.v1-r1.fx.v20250515
-merging CORDEX-CMIP6.EUR-12.CNRM-MF.ERA5.evaluation.r1i1p1f1.CNRM-ALADIN64E1.v1-r1.mon.v20250505 with CORDEX-CMIP6.EUR-12.CNRM-MF.ERA5.evaluation.r1i1p1f1.CNRM-ALADIN64E1.v1-r1.fx.v20250505
-merging CORDEX-CMIP6.EUR-12.CLMcom-CMCC.ERA5.evaluation.r1i1p1f1.CCLM6-0-1-URB.v1-r1.mon.v20250201 with CORDEX-CMIP6.EUR-12.CLMcom-CMCC.ERA5.evaluation.r1i1p1f1.CCLM6-0-1-URB.v1-r1.fx.v20250201
-merging CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-MR2.v1-r1.mon.v20241120 with CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-MR2.v1-r1.fx.v20241120
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>fx dataset not found for CORDEX-CMIP6.EUR-12.AUTH.ERA5.evaluation.r1i1p1f1.WRF451Q.v1-r3.mon.v20250630
 merging CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.ERA5.evaluation.r1i1p1f1.HCLIM43-ALADIN.v1-r1.mon.v20241205 with CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.ERA5.evaluation.r1i1p1f1.HCLIM43-ALADIN.v1-r1.fx.v20241205
-merging CORDEX-CMIP6.EUR-12.CLMcom-Hereon.ERA5.evaluation.r1i1p1f1.ICON-CLM-202407-1-1.v1-r1.mon.v20240920 with CORDEX-CMIP6.EUR-12.CLMcom-Hereon.ERA5.evaluation.r1i1p1f1.ICON-CLM-202407-1-1.v1-r1.fx.v20240920
-merging CORDEX-CMIP6.EUR-12.KNMI.ERA5.evaluation.r1i1p1f1.RACMO23E.v1-r1.mon.v20241216 with CORDEX-CMIP6.EUR-12.KNMI.ERA5.evaluation.r1i1p1f1.RACMO23E.v1-r1.fx.v20241216
+merging CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-MR2.v1-r1.mon.v20241120 with CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-MR2.v1-r1.fx.v20241120
+merging CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-iMOVE-LUC.v1-r1.mon.v20250515 with CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-iMOVE-LUC.v1-r1.fx.v20250515
 merging CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2.v1-r1.mon.v20241120 with CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2.v1-r1.fx.v20241120
+merging CORDEX-CMIP6.EUR-12.ICTP.ERA5.evaluation.r1i1p1f1.RegCM5-0.v1-r1.mon.v20250415 with CORDEX-CMIP6.EUR-12.ICTP.ERA5.evaluation.r1i1p1f1.RegCM5-0.v1-r1.fx.v20250415
+merging CORDEX-CMIP6.EUR-12.CLMcom-Hereon.ERA5.evaluation.r1i1p1f1.ICON-CLM-202407-1-1.v1-r1.mon.v20240920 with CORDEX-CMIP6.EUR-12.CLMcom-Hereon.ERA5.evaluation.r1i1p1f1.ICON-CLM-202407-1-1.v1-r1.fx.v20240920
+merging CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-iMOVE.v1-r1.mon.v20250515 with CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-iMOVE.v1-r1.fx.v20250515
+merging CORDEX-CMIP6.EUR-12.DWD-BSH.ERA5.evaluation.r1i1p1f1.ROAM-NBS.v1-r1.mon.v20240920 with CORDEX-CMIP6.EUR-12.DWD-BSH.ERA5.evaluation.r1i1p1f1.ROAM-NBS.v1-r1.fx.v20240920
+merging CORDEX-CMIP6.EUR-12.CLMcom-CMCC.ERA5.evaluation.r1i1p1f1.CCLM6-0-1-URB.v1-r1.mon.v20250201 with CORDEX-CMIP6.EUR-12.CLMcom-CMCC.ERA5.evaluation.r1i1p1f1.CCLM6-0-1-URB.v1-r1.fx.v20250201
+merging CORDEX-CMIP6.EUR-12.RMIB-UGent.ERA5.evaluation.r1i1p1f1.ALARO1-SFX.v1-r1.mon.v20241009 with CORDEX-CMIP6.EUR-12.RMIB-UGent.ERA5.evaluation.r1i1p1f1.ALARO1-SFX.v1-r1.fx.v20241009
+merging CORDEX-CMIP6.EUR-12.KNMI.ERA5.evaluation.r1i1p1f1.RACMO23E.v1-r1.mon.v20241216 with CORDEX-CMIP6.EUR-12.KNMI.ERA5.evaluation.r1i1p1f1.RACMO23E.v1-r1.fx.v20241216
+merging CORDEX-CMIP6.EUR-12.CNRM-MF.ERA5.evaluation.r1i1p1f1.CNRM-ALADIN64E1.v1-r1.mon.v20250505 with CORDEX-CMIP6.EUR-12.CNRM-MF.ERA5.evaluation.r1i1p1f1.CNRM-ALADIN64E1.v1-r1.fx.v20250505
+fx dataset not found for CORDEX-CMIP6.EUR-12.CLMcom-Hereon.ERA5.evaluation.r1i1p1f1.COSMO-CLM-6-0-clm3.v1-r1.mon.v20230222
+Rewriting coordinates for CORDEX-CMIP6.EUR-12.HCLIMcom-SMHI.ERA5.evaluation.r1i1p1f1.HCLIM43-ALADIN.v1-r1.mon.v20241205
+Rewriting coordinates for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-MR2.v1-r1.mon.v20241120
+Rewriting coordinates for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-iMOVE-LUC.v1-r1.mon.v20250515
+Rewriting coordinates for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2.v1-r1.mon.v20241120
+Rewriting coordinates for CORDEX-CMIP6.EUR-12.CLMcom-Hereon.ERA5.evaluation.r1i1p1f1.ICON-CLM-202407-1-1.v1-r1.mon.v20240920
+Rewriting coordinates for CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2-iMOVE.v1-r1.mon.v20250515
+Rewriting coordinates for CORDEX-CMIP6.EUR-12.DWD-BSH.ERA5.evaluation.r1i1p1f1.ROAM-NBS.v1-r1.mon.v20240920
+Rewriting coordinates for CORDEX-CMIP6.EUR-12.CLMcom-CMCC.ERA5.evaluation.r1i1p1f1.CCLM6-0-1-URB.v1-r1.mon.v20250201
+Rewriting coordinates for CORDEX-CMIP6.EUR-12.RMIB-UGent.ERA5.evaluation.r1i1p1f1.ALARO1-SFX.v1-r1.mon.v20241009
+Rewriting coordinates for CORDEX-CMIP6.EUR-12.KNMI.ERA5.evaluation.r1i1p1f1.RACMO23E.v1-r1.mon.v20241216
+Rewriting coordinates for CORDEX-CMIP6.EUR-12.CNRM-MF.ERA5.evaluation.r1i1p1f1.CNRM-ALADIN64E1.v1-r1.mon.v20250505
 </pre></div>
 </div>
 </div>
@@ -818,6 +759,63 @@ merging CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2.v1-r1.m
 </div>
 </div>
 </div>
+</section>
+<section id="load-observations-for-paris">
+<h2>Load observations for Paris<a class="headerlink" href="#load-observations-for-paris" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">var_map</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;tas&#39;</span><span class="p">:</span> <span class="s1">&#39;TAVG&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;tasmin&#39;</span><span class="p">:</span> <span class="s1">&#39;TMIN&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;tasmax&#39;</span><span class="p">:</span> <span class="s1">&#39;TMAX&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;pr&#39;</span><span class="p">:</span> <span class="s1">&#39;PRCP&#39;</span><span class="p">,</span>
+    <span class="s1">&#39;sfcWind&#39;</span><span class="p">:</span> <span class="s1">&#39;SNWD&#39;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">root</span> <span class="o">=</span> <span class="s2">&quot;/mnt/CORDEX_CMIP6_tmp/aux_data/PARIS_surface_weather_data/&quot;</span>
+<span class="n">files_obs_paris</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">traverseDir</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="s1">&#39;.csv&#39;</span><span class="p">))</span>
+<span class="n">files_obs_paris</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">files_obs_paris</span> <span class="k">if</span> <span class="s2">&quot;198001&quot;</span> <span class="ow">in</span> <span class="n">f</span><span class="p">]</span>
+
+
+<span class="n">df_all</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">files_obs_paris</span><span class="p">:</span>
+
+    <span class="k">if</span> <span class="n">variable</span> <span class="o">==</span> <span class="s1">&#39;pr&#39;</span><span class="p">:</span>
+        <span class="n">var_paris</span> <span class="o">=</span> <span class="s1">&#39;RR1&#39;</span>
+    <span class="k">elif</span> <span class="n">variable</span> <span class="o">==</span> <span class="s1">&#39;tas&#39;</span><span class="p">:</span>
+        <span class="n">var_paris</span> <span class="o">=</span> <span class="s1">&#39;T&#39;</span>
+    <span class="k">elif</span> <span class="n">variable</span> <span class="o">==</span> <span class="s1">&#39;tasmax&#39;</span><span class="p">:</span>
+        <span class="n">var_paris</span> <span class="o">=</span> <span class="s1">&#39;T&#39;</span>
+    <span class="k">elif</span> <span class="n">variable</span> <span class="o">==</span> <span class="s1">&#39;tasmin&#39;</span><span class="p">:</span>
+        <span class="n">var_paris</span> <span class="o">=</span> <span class="s1">&#39;T&#39;</span>
+    <span class="k">elif</span> <span class="n">varuable</span> <span class="o">==</span> <span class="s1">&#39;sfcWind&#39;</span><span class="p">:</span>
+        <span class="n">var_paris</span> <span class="o">==</span> <span class="s1">&#39;FF&#39;</span>
+    
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
+        <span class="n">file</span><span class="p">,</span>
+        <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;;&quot;</span><span class="p">,</span>
+        <span class="n">decimal</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">,</span>
+        <span class="n">na_values</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">]</span>
+    <span class="p">)</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;DATE&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;DATE&quot;</span><span class="p">],</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">%H&quot;</span><span class="p">)</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;DATE&quot;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span>
+    <span class="n">df_var</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">index</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+    <span class="n">df_var</span><span class="p">[</span><span class="n">var_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">variable</span><span class="p">,</span> <span class="kc">None</span><span class="p">)]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">var_paris</span><span class="p">]</span>
+    <span class="n">df_var</span><span class="p">[</span><span class="s1">&#39;NAME&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.csv&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">df_var</span><span class="p">[</span><span class="s1">&#39;code&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;POSTE&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">df_all</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df_var</span><span class="p">)</span>
+
+<span class="n">df_obs_Paris</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">df_all</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 <section id="load-static-variables">
 <h3>Load static variables<a class="headerlink" href="#load-static-variables" title="Link to this heading">#</a></h3>
 <p>Load static variables, such as urban fraction (sfturf), terrain elevation (orography) or land-sea fraction (sftlf).</p>
@@ -843,7 +841,7 @@ merging CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2.v1-r1.m
         <span class="n">urban_sur_th</span><span class="o">=</span><span class="n">urban_sur_th</span><span class="p">,</span>
         <span class="n">orog_diff</span><span class="o">=</span><span class="n">orog_diff</span><span class="p">,</span>
         <span class="n">sftlf_th</span><span class="o">=</span><span class="n">sftlf_th</span><span class="p">,</span>
-        <span class="n">scale</span><span class="o">=</span><span class="n">scale</span><span class="p">,</span>
+        <span class="n">ratio_r2u</span><span class="o">=</span><span class="n">ratio_r2u</span><span class="p">,</span>
         <span class="n">min_city_size</span><span class="o">=</span><span class="n">min_city_size</span><span class="p">,</span>
         <span class="n">lon_city</span><span class="o">=</span><span class="n">lon_city</span><span class="p">,</span>
         <span class="n">lat_city</span><span class="o">=</span><span class="n">lat_city</span><span class="p">,</span>
@@ -901,6 +899,7 @@ merging CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2.v1-r1.m
         <span class="n">city</span><span class="p">,</span>
         <span class="n">stan_data</span><span class="p">,</span>
         <span class="n">ds_RCM</span><span class="p">,</span>
+        <span class="n">df_obs_Paris</span><span class="p">,</span>
         <span class="n">variable</span><span class="p">,</span>
         <span class="n">idate</span><span class="o">=</span><span class="s2">&quot;1991-01-01&quot;</span><span class="p">,</span>
         <span class="n">fdate</span><span class="o">=</span><span class="s2">&quot;2020-12-31&quot;</span><span class="p">,</span>
@@ -934,154 +933,27 @@ merging CORDEX-CMIP6.EUR-12.GERICS.ERA5.evaluation.r1i1p1f1.REMO2020-2-2.v1-r1.m
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:103: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
-  print(f&#39;{city} -- {stn_data.NAME[0]} - {var} has {100*valid_records:.1f}% valid records in {idate} to {fdate}&#39;)
-/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:103: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
-  print(f&#39;{city} -- {stn_data.NAME[0]} - {var} has {100*valid_records:.1f}% valid records in {idate} to {fdate}&#39;)
-/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:103: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
-  print(f&#39;{city} -- {stn_data.NAME[0]} - {var} has {100*valid_records:.1f}% valid records in {idate} to {fdate}&#39;)
-/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:103: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
-  print(f&#39;{city} -- {stn_data.NAME[0]} - {var} has {100*valid_records:.1f}% valid records in {idate} to {fdate}&#39;)
-/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:103: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
-  print(f&#39;{city} -- {stn_data.NAME[0]} - {var} has {100*valid_records:.1f}% valid records in {idate} to {fdate}&#39;)
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">rcm_names</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">rcm_names</span><span class="p">)</span>
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Paris -- PARIS-MONTSOURIS - TMIN has 90.0% valid records in 1991-01-01 to 2020-12-31
-Paris -- MELUN - TMIN has 90.0% valid records in 1991-01-01 to 2020-12-31
-Paris -- TOUSSUS-LE-NOBLE - TMIN has 90.0% valid records in 1991-01-01 to 2020-12-31
-Paris -- TRAPPES - TMIN has 90.0% valid records in 1991-01-01 to 2020-12-31
-Paris -- VILLACOUBLAY - TMIN has 90.0% valid records in 1991-01-01 to 2020-12-31
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:103: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
-  print(f&#39;{city} -- {stn_data.NAME[0]} - {var} has {100*valid_records:.1f}% valid records in {idate} to {fdate}&#39;)
-/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:103: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
-  print(f&#39;{city} -- {stn_data.NAME[0]} - {var} has {100*valid_records:.1f}% valid records in {idate} to {fdate}&#39;)
-/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:103: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
-  print(f&#39;{city} -- {stn_data.NAME[0]} - {var} has {100*valid_records:.1f}% valid records in {idate} to {fdate}&#39;)
-/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:103: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
-  print(f&#39;{city} -- {stn_data.NAME[0]} - {var} has {100*valid_records:.1f}% valid records in {idate} to {fdate}&#39;)
-/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:152: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value &#39;True&#39; has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
-  valid_obs.loc[valid_obs[&#39;code&#39;].str.contains(obs.code), &#39;inside_city&#39;] = is_inside.values[0]
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Paris -- ORLY - TMIN has 90.0% valid records in 1991-01-01 to 2020-12-31
-Paris -- BRETIGNY-SAPC - TMIN has 89.9% valid records in 1991-01-01 to 2020-12-31
-Paris -- SAINT-MAUR - TMIN has 89.8% valid records in 1991-01-01 to 2020-12-31
-Paris -- ROISSY - TMIN has 90.0% valid records in 1991-01-01 to 2020-12-31
-There are 5 series inside the city and 4 outside
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/urban_areas.py:156: UserWarning: Only one label was provided to `remove_small_objects`. Did you mean to use a boolean array?
-  cleaned_mask = morphology.remove_small_objects(labeled_mask, min_size=self.min_city_size)
-/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:103: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
-  print(f&#39;{city} -- {stn_data.NAME[0]} - {var} has {100*valid_records:.1f}% valid records in {idate} to {fdate}&#39;)
-/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:103: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
-  print(f&#39;{city} -- {stn_data.NAME[0]} - {var} has {100*valid_records:.1f}% valid records in {idate} to {fdate}&#39;)
-/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:103: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
-  print(f&#39;{city} -- {stn_data.NAME[0]} - {var} has {100*valid_records:.1f}% valid records in {idate} to {fdate}&#39;)
-/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:103: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
-  print(f&#39;{city} -- {stn_data.NAME[0]} - {var} has {100*valid_records:.1f}% valid records in {idate} to {fdate}&#39;)
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Paris -- PARIS-MONTSOURIS - TMIN has 90.0% valid records in 1991-01-01 to 2020-12-31
-Paris -- MELUN - TMIN has 90.0% valid records in 1991-01-01 to 2020-12-31
-Paris -- TOUSSUS-LE-NOBLE - TMIN has 90.0% valid records in 1991-01-01 to 2020-12-31
-Paris -- TRAPPES - TMIN has 90.0% valid records in 1991-01-01 to 2020-12-31
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:103: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
-  print(f&#39;{city} -- {stn_data.NAME[0]} - {var} has {100*valid_records:.1f}% valid records in {idate} to {fdate}&#39;)
-/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:103: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
-  print(f&#39;{city} -- {stn_data.NAME[0]} - {var} has {100*valid_records:.1f}% valid records in {idate} to {fdate}&#39;)
-/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:103: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
-  print(f&#39;{city} -- {stn_data.NAME[0]} - {var} has {100*valid_records:.1f}% valid records in {idate} to {fdate}&#39;)
-/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:103: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
-  print(f&#39;{city} -- {stn_data.NAME[0]} - {var} has {100*valid_records:.1f}% valid records in {idate} to {fdate}&#39;)
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Paris -- VILLACOUBLAY - TMIN has 90.0% valid records in 1991-01-01 to 2020-12-31
-Paris -- ORLY - TMIN has 90.0% valid records in 1991-01-01 to 2020-12-31
-Paris -- BRETIGNY-SAPC - TMIN has 89.9% valid records in 1991-01-01 to 2020-12-31
-Paris -- SAINT-MAUR - TMIN has 89.8% valid records in 1991-01-01 to 2020-12-31
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:103: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
-  print(f&#39;{city} -- {stn_data.NAME[0]} - {var} has {100*valid_records:.1f}% valid records in {idate} to {fdate}&#39;)
-/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:152: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value &#39;True&#39; has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
-  valid_obs.loc[valid_obs[&#39;code&#39;].str.contains(obs.code), &#39;inside_city&#39;] = is_inside.values[0]
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Paris -- ROISSY - TMIN has 90.0% valid records in 1991-01-01 to 2020-12-31
-There are 5 series inside the city and 4 outside
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/urban_areas.py:156: UserWarning: Only one label was provided to `remove_small_objects`. Did you mean to use a boolean array?
-  cleaned_mask = morphology.remove_small_objects(labeled_mask, min_size=self.min_city_size)
-/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:103: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
-  print(f&#39;{city} -- {stn_data.NAME[0]} - {var} has {100*valid_records:.1f}% valid records in {idate} to {fdate}&#39;)
-/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:103: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
-  print(f&#39;{city} -- {stn_data.NAME[0]} - {var} has {100*valid_records:.1f}% valid records in {idate} to {fdate}&#39;)
-/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:103: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
-  print(f&#39;{city} -- {stn_data.NAME[0]} - {var} has {100*valid_records:.1f}% valid records in {idate} to {fdate}&#39;)
-/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:103: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
-  print(f&#39;{city} -- {stn_data.NAME[0]} - {var} has {100*valid_records:.1f}% valid records in {idate} to {fdate}&#39;)
-/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:103: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
-  print(f&#39;{city} -- {stn_data.NAME[0]} - {var} has {100*valid_records:.1f}% valid records in {idate} to {fdate}&#39;)
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Paris -- PARIS-MONTSOURIS - TMIN has 90.0% valid records in 1991-01-01 to 2020-12-31
-Paris -- MELUN - TMIN has 90.0% valid records in 1991-01-01 to 2020-12-31
-Paris -- TOUSSUS-LE-NOBLE - TMIN has 90.0% valid records in 1991-01-01 to 2020-12-31
-Paris -- TRAPPES - TMIN has 90.0% valid records in 1991-01-01 to 2020-12-31
-Paris -- VILLACOUBLAY - TMIN has 90.0% valid records in 1991-01-01 to 2020-12-31
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:103: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
-  print(f&#39;{city} -- {stn_data.NAME[0]} - {var} has {100*valid_records:.1f}% valid records in {idate} to {fdate}&#39;)
-/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:103: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
-  print(f&#39;{city} -- {stn_data.NAME[0]} - {var} has {100*valid_records:.1f}% valid records in {idate} to {fdate}&#39;)
-/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:103: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
-  print(f&#39;{city} -- {stn_data.NAME[0]} - {var} has {100*valid_records:.1f}% valid records in {idate} to {fdate}&#39;)
-/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:103: FutureWarning: Series.__getitem__ treating keys as positions is deprecated. In a future version, integer keys will always be treated as labels (consistent with DataFrame behavior). To access a value by position, use `ser.iloc[pos]`
-  print(f&#39;{city} -- {stn_data.NAME[0]} - {var} has {100*valid_records:.1f}% valid records in {idate} to {fdate}&#39;)
-/mnt/CORDEX_CMIP6_tmp/user_tmp/jdiezsierra/urclimask/urclimask/GHCNd_stations.py:152: FutureWarning: Setting an item of incompatible dtype is deprecated and will raise an error in a future version of pandas. Value &#39;True&#39; has dtype incompatible with float64, please explicitly cast to a compatible dtype first.
-  valid_obs.loc[valid_obs[&#39;code&#39;].str.contains(obs.code), &#39;inside_city&#39;] = is_inside.values[0]
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Paris -- ORLY - TMIN has 90.0% valid records in 1991-01-01 to 2020-12-31
-Paris -- BRETIGNY-SAPC - TMIN has 89.9% valid records in 1991-01-01 to 2020-12-31
-Paris -- SAINT-MAUR - TMIN has 89.8% valid records in 1991-01-01 to 2020-12-31
-Paris -- ROISSY - TMIN has 90.0% valid records in 1991-01-01 to 2020-12-31
-There are 5 series inside the city and 4 outside
-</pre></div>
-</div>
-<img alt="_images/412176cf63e90c3cfd8d81580dd47adbeff375f28f4923fc452fa0eb203a316d.png" src="_images/412176cf63e90c3cfd8d81580dd47adbeff375f28f4923fc452fa0eb203a316d.png" />
-<img alt="_images/dd9c5eafb54ca304355caf61775176832b907d76d10ddf14f9ba5798b694656f.png" src="_images/dd9c5eafb54ca304355caf61775176832b907d76d10ddf14f9ba5798b694656f.png" />
-<img alt="_images/5480c07c45bab6fe6a115809acece8a764e3732fe179083d1f3d88868202c2aa.png" src="_images/5480c07c45bab6fe6a115809acece8a764e3732fe179083d1f3d88868202c2aa.png" />
-<img alt="_images/b458804328d7e61b201ddee1d65e2ec5768805f3860feb219ecc804292e396ba.png" src="_images/b458804328d7e61b201ddee1d65e2ec5768805f3860feb219ecc804292e396ba.png" />
-<img alt="_images/62767a1dc0c2dde72822d16f18b3f429f67147db46a6e6e61549d588473b53ec.png" src="_images/62767a1dc0c2dde72822d16f18b3f429f67147db46a6e6e61549d588473b53ec.png" />
-<img alt="_images/76bb54c2e3417323cd837c34e9b1180538fabe136a87d63518a5c20d76e3b312.png" src="_images/76bb54c2e3417323cd837c34e9b1180538fabe136a87d63518a5c20d76e3b312.png" />
-<img alt="_images/4a7ba9c26707d6467676b9a152084f4d5ab3e185132107b2ea6aa99c32c2b55a.png" src="_images/4a7ba9c26707d6467676b9a152084f4d5ab3e185132107b2ea6aa99c32c2b55a.png" />
-<img alt="_images/0ecfa669cedd2635fda252d8e5ff8c56348e337b737d8e3c9fc7f3ccba262537.png" src="_images/0ecfa669cedd2635fda252d8e5ff8c56348e337b737d8e3c9fc7f3ccba262537.png" />
-<img alt="_images/89c1a4ed292488f77ebfd985c1cea664454248dd67345c832c1efe0bbe2365b7.png" src="_images/89c1a4ed292488f77ebfd985c1cea664454248dd67345c832c1efe0bbe2365b7.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">PIL</span><span class="w"> </span><span class="kn">import</span> <span class="n">Image</span>
-
-<span class="n">imgs</span> <span class="o">=</span> <span class="p">[</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">imgs</span> <span class="o">=</span> <span class="p">[</span>
     <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span>
         <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">save_figure_path</span><span class="si">}</span><span class="s2">/CMIP6_Paris_UHI_map_</span><span class="si">{</span><span class="n">variable</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">rcm_name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">period</span><span class="o">.</span><span class="n">start</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">period</span><span class="o">.</span><span class="n">stop</span><span class="si">}</span><span class="s2">.png&quot;</span>
     <span class="p">)</span>
     <span class="k">for</span> <span class="n">rcm_name</span> <span class="ow">in</span> <span class="n">rcm_names</span>
+    
 <span class="p">]</span>
 <span class="n">imgs</span> <span class="o">=</span> <span class="p">[</span><span class="n">img</span><span class="o">.</span><span class="n">crop</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">getbbox</span><span class="p">())</span> <span class="k">for</span> <span class="n">img</span> <span class="ow">in</span> <span class="n">imgs</span><span class="p">]</span>
 
 <span class="n">w</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">imgs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">size</span>
-<span class="n">final_img</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;RGB&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span> <span class="o">*</span> <span class="n">w</span><span class="p">,</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">h</span><span class="p">),</span> <span class="s2">&quot;white&quot;</span><span class="p">)</span>
+<span class="n">final_img</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;RGB&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span> <span class="o">*</span> <span class="n">w</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">imgs</span><span class="p">)</span> <span class="o">*</span> <span class="n">h</span><span class="p">),</span> <span class="s2">&quot;white&quot;</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="n">n_i</span><span class="p">,</span> <span class="n">img</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">imgs</span><span class="p">):</span>
     <span class="n">final_img</span><span class="o">.</span><span class="n">paste</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_i</span> <span class="o">*</span> <span class="n">h</span><span class="p">))</span>
@@ -1095,9 +967,7 @@ There are 5 series inside the city and 4 outside
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">PIL</span><span class="w"> </span><span class="kn">import</span> <span class="n">Image</span>
-
-<span class="n">imgs</span> <span class="o">=</span> <span class="p">[</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">imgs</span> <span class="o">=</span> <span class="p">[</span>
     <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span>
         <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">save_figure_path</span><span class="si">}</span><span class="s2">/CMIP6_Paris_Annual_cycle_</span><span class="si">{</span><span class="n">variable</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">rcm_name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">period</span><span class="o">.</span><span class="n">start</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">period</span><span class="o">.</span><span class="n">stop</span><span class="si">}</span><span class="s2">.png&quot;</span>
     <span class="p">)</span>
@@ -1106,7 +976,7 @@ There are 5 series inside the city and 4 outside
 <span class="n">imgs</span> <span class="o">=</span> <span class="p">[</span><span class="n">img</span><span class="o">.</span><span class="n">crop</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">getbbox</span><span class="p">())</span> <span class="k">for</span> <span class="n">img</span> <span class="ow">in</span> <span class="n">imgs</span><span class="p">]</span>
 
 <span class="n">w</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">imgs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">size</span>
-<span class="n">final_img</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;RGB&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span> <span class="o">*</span> <span class="n">w</span><span class="p">,</span> <span class="mi">3</span> <span class="o">*</span> <span class="n">h</span><span class="p">),</span> <span class="s2">&quot;white&quot;</span><span class="p">)</span>
+<span class="n">final_img</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;RGB&quot;</span><span class="p">,</span> <span class="p">(</span><span class="mi">1</span> <span class="o">*</span> <span class="n">w</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">imgs</span><span class="p">)</span> <span class="o">*</span> <span class="n">h</span><span class="p">),</span> <span class="s2">&quot;white&quot;</span><span class="p">)</span>
 
 <span class="k">for</span> <span class="n">n_i</span><span class="p">,</span> <span class="n">img</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">imgs</span><span class="p">):</span>
     <span class="n">final_img</span><span class="o">.</span><span class="n">paste</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_i</span> <span class="o">*</span> <span class="n">h</span><span class="p">))</span>
@@ -1136,7 +1006,7 @@ There are 5 series inside the city and 4 outside
 <span class="n">new_w2</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">w2</span> <span class="o">*</span> <span class="n">h1</span> <span class="o">/</span> <span class="n">h2</span><span class="p">)</span>
 <span class="n">img2</span> <span class="o">=</span> <span class="n">img2</span><span class="o">.</span><span class="n">resize</span><span class="p">((</span><span class="n">new_w2</span><span class="p">,</span> <span class="n">h1</span><span class="p">),</span> <span class="n">Image</span><span class="o">.</span><span class="n">LANCZOS</span><span class="p">)</span>
 
-<span class="n">final_img</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;RGB&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">w1</span> <span class="o">+</span> <span class="n">new_w2</span><span class="p">,</span> <span class="n">h1</span><span class="p">),</span> <span class="s2">&quot;white&quot;</span><span class="p">)</span>
+<span class="n">final_img</span> <span class="o">=</span> <span class="n">Image</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="s2">&quot;RGB&quot;</span><span class="p">,</span> <span class="p">(</span><span class="n">w1</span> <span class="o">+</span> <span class="n">w2</span><span class="p">,</span> <span class="n">h1</span><span class="p">),</span> <span class="s2">&quot;white&quot;</span><span class="p">)</span>
 
 <span class="n">final_img</span><span class="o">.</span><span class="n">paste</span><span class="p">(</span><span class="n">img1</span><span class="p">,</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
 <span class="n">final_img</span><span class="o">.</span><span class="n">paste</span><span class="p">(</span><span class="n">img2</span><span class="p">,</span> <span class="p">(</span><span class="n">w1</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span>
@@ -1146,6 +1016,16 @@ There are 5 series inside the city and 4 outside
 <span class="p">)</span>
 </pre></div>
 </div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">final_img</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/dfc77e08063bf8a22cec111e7f4de4ff740b8753d9c4ce7226331ce4b224c048.png" src="_images/dfc77e08063bf8a22cec111e7f4de4ff740b8753d9c4ce7226331ce4b224c048.png" />
 </div>
 </div>
 </section>
@@ -1204,7 +1084,8 @@ There are 5 series inside the city and 4 outside
 </li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#cordex-eur-cmip6">CORDEX-EUR-CMIP6</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#cmip6">CMIP6</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#define-urban-areas-and-vicinity">Define urban areas and vicinity</a><ul class="nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#define-urban-areas-and-vicinity">Define urban areas and vicinity</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#load-observations-for-paris">Load observations for Paris</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#load-static-variables">Load static variables</a></li>
 </ul>
 </li>
