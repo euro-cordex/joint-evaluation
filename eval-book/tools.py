@@ -369,8 +369,7 @@ def convert_celsius_to_kelvin(ds, variable, threshold=200):
                 "sea_surface_temperature",
                 "surface_temperature",
             ]:
-                data_vals = ds[var].values
-                if np.nanmax(data_vals) < threshold:  # Likely in °C
+                if np.nanmax(ds[var].values) < threshold:  # Likely in °C
                     ds[var] = ds[var] + 273.15
                     ds[var].attrs["units"] = "K"
                     print("Convert celsius to kelvin")
