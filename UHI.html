@@ -460,6 +460,7 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">urclimask.GHCNd_stations</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_valid_timeseries</span><span class="p">,</span> <span class="n">inside_city</span>
@@ -759,11 +760,11 @@ Rewriting coordinates for CORDEX-CMIP6.EUR-12.CNRM-MF.ERA5.evaluation.r1i1p1f1.C
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">var_map</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s1">&#39;tas&#39;</span><span class="p">:</span> <span class="s1">&#39;TAVG&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;tasmin&#39;</span><span class="p">:</span> <span class="s1">&#39;TMIN&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;tasmax&#39;</span><span class="p">:</span> <span class="s1">&#39;TMAX&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;pr&#39;</span><span class="p">:</span> <span class="s1">&#39;PRCP&#39;</span><span class="p">,</span>
-    <span class="s1">&#39;sfcWind&#39;</span><span class="p">:</span> <span class="s1">&#39;SNWD&#39;</span>
+    <span class="s2">&quot;tas&quot;</span><span class="p">:</span> <span class="s2">&quot;TAVG&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;tasmin&quot;</span><span class="p">:</span> <span class="s2">&quot;TMIN&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;tasmax&quot;</span><span class="p">:</span> <span class="s2">&quot;TMAX&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;pr&quot;</span><span class="p">:</span> <span class="s2">&quot;PRCP&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;sfcWind&quot;</span><span class="p">:</span> <span class="s2">&quot;SNWD&quot;</span><span class="p">,</span>
 <span class="p">}</span>
 </pre></div>
 </div>
@@ -772,44 +773,39 @@ Rewriting coordinates for CORDEX-CMIP6.EUR-12.CNRM-MF.ERA5.evaluation.r1i1p1f1.C
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">root</span> <span class="o">=</span> <span class="s2">&quot;/mnt/CORDEX_CMIP6_tmp/aux_data/PARIS_surface_weather_data/&quot;</span>
-<span class="n">files_obs_paris</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">traverseDir</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="s1">&#39;.csv&#39;</span><span class="p">))</span>
+<span class="n">files_obs_paris</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">traverseDir</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="s2">&quot;.csv&quot;</span><span class="p">))</span>
 <span class="n">files_obs_paris</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">files_obs_paris</span> <span class="k">if</span> <span class="s2">&quot;198001&quot;</span> <span class="ow">in</span> <span class="n">f</span><span class="p">]</span>
 
 
 <span class="n">df_all</span> <span class="o">=</span> <span class="p">[]</span>
 <span class="k">for</span> <span class="n">file</span> <span class="ow">in</span> <span class="n">files_obs_paris</span><span class="p">:</span>
 
-    <span class="k">if</span> <span class="n">variable</span> <span class="o">==</span> <span class="s1">&#39;pr&#39;</span><span class="p">:</span>
-        <span class="n">var_paris</span> <span class="o">=</span> <span class="s1">&#39;RR1&#39;</span>
-    <span class="k">elif</span> <span class="n">variable</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;tas&#39;</span><span class="p">,</span> <span class="s1">&#39;tasmax&#39;</span><span class="p">,</span> <span class="s1">&#39;tasmin&#39;</span><span class="p">]:</span>
-        <span class="n">var_paris</span> <span class="o">=</span> <span class="s1">&#39;T&#39;</span>
-    <span class="k">elif</span> <span class="n">variable</span> <span class="o">==</span> <span class="s1">&#39;sfcWind&#39;</span><span class="p">:</span>
-        <span class="n">var_paris</span> <span class="o">=</span> <span class="s1">&#39;FF&#39;</span>
-    
-    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span>
-        <span class="n">file</span><span class="p">,</span>
-        <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;;&quot;</span><span class="p">,</span>
-        <span class="n">decimal</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">,</span>
-        <span class="n">na_values</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">]</span>
-    <span class="p">)</span>
+    <span class="k">if</span> <span class="n">variable</span> <span class="o">==</span> <span class="s2">&quot;pr&quot;</span><span class="p">:</span>
+        <span class="n">var_paris</span> <span class="o">=</span> <span class="s2">&quot;RR1&quot;</span>
+    <span class="k">elif</span> <span class="n">variable</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;tas&quot;</span><span class="p">,</span> <span class="s2">&quot;tasmax&quot;</span><span class="p">,</span> <span class="s2">&quot;tasmin&quot;</span><span class="p">]:</span>
+        <span class="n">var_paris</span> <span class="o">=</span> <span class="s2">&quot;T&quot;</span>
+    <span class="k">elif</span> <span class="n">variable</span> <span class="o">==</span> <span class="s2">&quot;sfcWind&quot;</span><span class="p">:</span>
+        <span class="n">var_paris</span> <span class="o">=</span> <span class="s2">&quot;FF&quot;</span>
+
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">file</span><span class="p">,</span> <span class="n">sep</span><span class="o">=</span><span class="s2">&quot;;&quot;</span><span class="p">,</span> <span class="n">decimal</span><span class="o">=</span><span class="s2">&quot;,&quot;</span><span class="p">,</span> <span class="n">na_values</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="s2">&quot; &quot;</span><span class="p">])</span>
     <span class="n">df</span><span class="p">[</span><span class="s2">&quot;DATE&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;DATE&quot;</span><span class="p">],</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;%Y%m</span><span class="si">%d</span><span class="s2">%H&quot;</span><span class="p">)</span>
     <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s2">&quot;DATE&quot;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span>
-    
-    <span class="n">station_code</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;POSTE&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">station_name</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.csv&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 
-    <span class="k">if</span> <span class="n">variable</span> <span class="o">==</span> <span class="s1">&#39;tasmax&#39;</span><span class="p">:</span>
+    <span class="n">station_code</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;POSTE&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">station_name</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.csv&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="n">variable</span> <span class="o">==</span> <span class="s2">&quot;tasmax&quot;</span><span class="p">:</span>
         <span class="n">df_aux</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="n">var_paris</span><span class="p">]]</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s2">&quot;D&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
-    <span class="k">elif</span> <span class="n">variable</span> <span class="o">==</span> <span class="s1">&#39;tasmin&#39;</span><span class="p">:</span>
+    <span class="k">elif</span> <span class="n">variable</span> <span class="o">==</span> <span class="s2">&quot;tasmin&quot;</span><span class="p">:</span>
         <span class="n">df_aux</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="n">var_paris</span><span class="p">]]</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s2">&quot;D&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">min</span><span class="p">()</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">df_aux</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="n">var_paris</span><span class="p">]]</span>
-    
-    <span class="n">df_var</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">index</span> <span class="o">=</span> <span class="n">df_aux</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
-    <span class="n">df_var</span><span class="p">[</span><span class="n">var_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">variable</span><span class="p">,</span> <span class="kc">None</span><span class="p">)]</span> <span class="o">=</span> <span class="n">df_aux</span><span class="p">[</span><span class="n">var_paris</span><span class="p">]</span>  
-    <span class="n">df_var</span><span class="p">[</span><span class="s1">&#39;NAME&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;_&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.csv&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="n">df_var</span><span class="p">[</span><span class="s1">&#39;code&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">station_code</span>
+
+    <span class="n">df_var</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">df_aux</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+    <span class="n">df_var</span><span class="p">[</span><span class="n">var_map</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">variable</span><span class="p">,</span> <span class="kc">None</span><span class="p">)]</span> <span class="o">=</span> <span class="n">df_aux</span><span class="p">[</span><span class="n">var_paris</span><span class="p">]</span>
+    <span class="n">df_var</span><span class="p">[</span><span class="s2">&quot;NAME&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">file</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.csv&quot;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">df_var</span><span class="p">[</span><span class="s2">&quot;code&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">station_code</span>
     <span class="n">df_all</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df_var</span><span class="p">)</span>
 
 <span class="n">df_obs</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">df_all</span><span class="p">)</span>
@@ -1140,7 +1136,6 @@ Paris -- ROISSY - TMIN has 90.0% valid records in 1991-01-01 to 2020-12-31
         <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">save_figure_path</span><span class="si">}</span><span class="s2">/CMIP6_Paris_UHI_map_</span><span class="si">{</span><span class="n">variable</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">rcm_name</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">period</span><span class="o">.</span><span class="n">start</span><span class="si">}</span><span class="s2">-</span><span class="si">{</span><span class="n">period</span><span class="o">.</span><span class="n">stop</span><span class="si">}</span><span class="s2">.png&quot;</span>
     <span class="p">)</span>
     <span class="k">for</span> <span class="n">rcm_name</span> <span class="ow">in</span> <span class="n">rcm_names</span>
-    
 <span class="p">]</span>
 <span class="n">imgs</span> <span class="o">=</span> <span class="p">[</span><span class="n">img</span><span class="o">.</span><span class="n">crop</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">getbbox</span><span class="p">())</span> <span class="k">for</span> <span class="n">img</span> <span class="ow">in</span> <span class="n">imgs</span><span class="p">]</span>
 

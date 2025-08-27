@@ -1333,16 +1333,19 @@ document.write(`
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">ensure_uniform_cftime</span><span class="p">(</span><span class="n">ds</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Asegura que las fechas en el Dataset tengan un tipo uniforme de cftime.&quot;&quot;&quot;</span>
     <span class="n">time_vals</span> <span class="o">=</span> <span class="n">ds</span><span class="o">.</span><span class="n">time</span><span class="o">.</span><span class="n">values</span>
-    <span class="n">types</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">time_vals</span><span class="p">)</span>
-    
+    <span class="n">types</span> <span class="o">=</span> <span class="p">{</span><span class="nb">type</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">time_vals</span><span class="p">}</span>
+
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">types</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
         <span class="c1"># Usamos el tipo del primer elemento para reconstruir todos</span>
         <span class="n">base_type</span> <span class="o">=</span> <span class="nb">type</span><span class="p">(</span><span class="n">time_vals</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-        <span class="n">uniform_time</span> <span class="o">=</span> <span class="p">[</span><span class="n">base_type</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">year</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">month</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">day</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">hour</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">minute</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">second</span><span class="p">)</span>
-                        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">time_vals</span><span class="p">]</span>
-        <span class="n">ds</span><span class="p">[</span><span class="s1">&#39;time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="n">uniform_time</span><span class="p">)</span>
-    
+        <span class="n">uniform_time</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">base_type</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">year</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">month</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">day</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">hour</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">minute</span><span class="p">,</span> <span class="n">t</span><span class="o">.</span><span class="n">second</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">time_vals</span>
+        <span class="p">]</span>
+        <span class="n">ds</span><span class="p">[</span><span class="s2">&quot;time&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="n">uniform_time</span><span class="p">)</span>
+
     <span class="k">return</span> <span class="n">ds</span>
+
 
 <span class="k">def</span><span class="w"> </span><span class="nf">compute_tcoiav</span><span class="p">(</span><span class="n">model_ds</span><span class="p">,</span> <span class="n">reference_ds</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
@@ -1372,7 +1375,7 @@ document.write(`
         <span class="c1"># Homogeneiza los tipos de tiempo si hay mezcla de cftime</span>
         <span class="n">model_ds</span> <span class="o">=</span> <span class="n">ensure_uniform_cftime</span><span class="p">(</span><span class="n">model_ds</span><span class="p">)</span>
         <span class="n">reference_ds</span> <span class="o">=</span> <span class="n">ensure_uniform_cftime</span><span class="p">(</span><span class="n">reference_ds</span><span class="p">)</span>
-    
+
         <span class="n">model_mean</span> <span class="o">=</span> <span class="n">model_ds</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;time.year&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">)</span>
         <span class="n">reference_mean</span> <span class="o">=</span> <span class="n">reference_ds</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;time.year&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">)</span>
 
@@ -1421,7 +1424,7 @@ document.write(`
         <span class="c1"># Homogeneiza los tipos de tiempo si hay mezcla de cftime</span>
         <span class="n">model_ds</span> <span class="o">=</span> <span class="n">ensure_uniform_cftime</span><span class="p">(</span><span class="n">model_ds</span><span class="p">)</span>
         <span class="n">reference_ds</span> <span class="o">=</span> <span class="n">ensure_uniform_cftime</span><span class="p">(</span><span class="n">reference_ds</span><span class="p">)</span>
-    
+
         <span class="n">model_mean</span> <span class="o">=</span> <span class="n">model_ds</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;time.year&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">)</span>
         <span class="n">reference_mean</span> <span class="o">=</span> <span class="n">reference_ds</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s2">&quot;time.year&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="s2">&quot;time&quot;</span><span class="p">)</span>
 
@@ -1844,9 +1847,9 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#del dsets[</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># del dsets[</span>
 <span class="c1">#    &quot;CORDEX.EUR-11.MPI-CSC.ERAINT.evaluation.r1i1p1.REMO2009.v1.mon.v20160525&quot;</span>
-<span class="c1">#]  # problems with calendar (one year less)</span>
+<span class="c1"># ]  # problems with calendar (one year less)</span>
 </pre></div>
 </div>
 </div>
