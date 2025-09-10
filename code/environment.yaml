@@ -17,6 +17,7 @@ dependencies:
   - netcdf4
   - aiohttp
   - compliance-checker
+  - cc-plugin-cc6
   - requests
   - pip:
     - git+https://github.com/euro-cordex/evaltools
