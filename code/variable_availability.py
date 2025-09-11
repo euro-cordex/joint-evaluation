@@ -81,10 +81,9 @@ if __name__ == "__main__":
     plans = (
         pd.read_csv(url_plans)
         .query(
-            "domain == 'EUR-12' & experiment == 'evaluation' & status in ['completed',]"
+            "domain_id == 'EUR-12' & driving_experiment_id == 'evaluation' & status in ['completed',]"
         )
         .assign(mip_era="CMIP6")
-        .rename(columns={"rcm_name": "source_id"})
         .loc[:, ["mip_era", "source_id"]]
         .set_index(["mip_era", "source_id"])
     )
