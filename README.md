@@ -77,7 +77,7 @@ and you will get a dictionary of datasets back. Note that this, for now, will on
 
 ## Compliance
 
-There is a dedicated repository that addresses dataset compliance issues at JSC-CORDEX. These are mainly related to the [CF Conventions](https://cfconventions.org) (CF-1.11) and the [CORDEX-CMIP6 archive specifications](https://zenodo.org/records/15047096). Please ensure that your datasets have no high-priority issues. Otherwise, they may not be suitable for evaluation analyses and could cause problems when being published to ESGF.
+There is a [dedicated repository](https://github.com/euro-cordex/jsc-compliance-check) that addresses dataset compliance issues at JSC-CORDEX. These are mainly related to the [CF Conventions](https://cfconventions.org) (CF-1.11) and the [CORDEX-CMIP6 archive specifications](https://zenodo.org/records/15047096). Please ensure that your datasets have no high-priority issues. Otherwise, they may not be suitable for evaluation analyses and could cause problems when being published to ESGF.
 
 ## Starting Jupyter Lab
 
