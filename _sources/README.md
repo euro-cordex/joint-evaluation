@@ -75,6 +75,10 @@ dataset_dict = cat.search(variable_id=["tas", "orog", "sftlf"]).to_dataset_dict(
 ```
 and you will get a dictionary of datasets back. Note that this, for now, will only work when you are logged in to `jsc-cordex` since datasets reside on the local filesystem. For more info about `intake-esm`, please also see the [documentation](https://intake-esm.readthedocs.io/en/stable/how-to/understand-keys-and-how-to-change-them.html).
 
+## Compliance
+
+There is a dedicated repository that addresses dataset compliance issues at JSC-CORDEX. These are mainly related to the [CF Conventions](https://cfconventions.org) (CF-1.11) and the [CORDEX-CMIP6 archive specifications](https://zenodo.org/records/15047096). Please ensure that your datasets have no high-priority issues. Otherwise, they may not be suitable for evaluation analyses and could cause problems when being published to ESGF.
+
 ## Starting Jupyter Lab
 
 If you want to work interactively on jsc-cordex, you can use jupyterlab via ssh (right now, jsc-cordex is not available from [Jupyter-JSC](https://jupyter.jsc.fz-juelich.de)).
