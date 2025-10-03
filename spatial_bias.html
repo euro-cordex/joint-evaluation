@@ -470,6 +470,7 @@ document.write(`
     <span class="n">standardize_unit</span><span class="p">,</span>
     <span class="n">var_dic</span><span class="p">,</span>
     <span class="n">variable_mapping</span><span class="p">,</span>
+    <span class="n">check_time</span><span class="p">,</span>
 <span class="p">)</span>
 
 <span class="n">dask</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">scheduler</span><span class="o">=</span><span class="s2">&quot;single-threaded&quot;</span><span class="p">)</span>
@@ -477,859 +478,35 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;dask.config.set at 0x7256d9731960&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;dask.config.set at 0x70c96038d7b0&gt;
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">dashboard_address</span><span class="o">=</span><span class="s2">&quot;localhost:8787&quot;</span><span class="p">,</span> <span class="n">threads_per_worker</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">dask</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dask.distributed</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span>
+
+<span class="c1"># make sure we don&#39;t fill up sys tmp</span>
+<span class="n">dask</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">temporary_directory</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;/mnt/CORDEX_CMIP6_tmp/user_tmp/</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;USER&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">/dask-tmp&quot;</span><span class="p">)</span>
+<span class="c1"># no hyperthreading, netcdf is not threadsafe</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">dashboard_address</span><span class="o">=</span><span class="s2">&quot;localhost:8888&quot;</span><span class="p">,</span> <span class="n">threads_per_worker</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">client</span>
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_html"><div>
-    <div style="width: 24px; height: 24px; background-color: #e1e1e1; border: 3px solid #9D9D9D; border-radius: 5px; position: absolute;"> </div>
-    <div style="margin-left: 48px;">
-        <h3 style="margin-bottom: 0px;">Client</h3>
-        <p style="color: #9D9D9D; margin-bottom: 0px;">Client-ac204195-6bc4-11f0-9a34-fa163e72b0e0</p>
-        <table style="width: 100%; text-align: left;">
-
-        <tr>
-        
-            <td style="text-align: left;"><strong>Connection method:</strong> Cluster object</td>
-            <td style="text-align: left;"><strong>Cluster type:</strong> distributed.LocalCluster</td>
-        
-        </tr>
-
-        
-            <tr>
-                <td style="text-align: left;">
-                    <strong>Dashboard: </strong> <a href="http://127.0.0.1:8787/status" target="_blank">http://127.0.0.1:8787/status</a>
-                </td>
-                <td style="text-align: left;"></td>
-            </tr>
-        
-
-        </table>
-
-        
-
-        
-            <details>
-            <summary style="margin-bottom: 20px;"><h3 style="display: inline;">Cluster Info</h3></summary>
-            <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-mod-trusted jp-OutputArea-output">
-    <div style="width: 24px; height: 24px; background-color: #e1e1e1; border: 3px solid #9D9D9D; border-radius: 5px; position: absolute;">
-    </div>
-    <div style="margin-left: 48px;">
-        <h3 style="margin-bottom: 0px; margin-top: 0px;">LocalCluster</h3>
-        <p style="color: #9D9D9D; margin-bottom: 0px;">70b66979</p>
-        <table style="width: 100%; text-align: left;">
-            <tr>
-                <td style="text-align: left;">
-                    <strong>Dashboard:</strong> <a href="http://127.0.0.1:8787/status" target="_blank">http://127.0.0.1:8787/status</a>
-                </td>
-                <td style="text-align: left;">
-                    <strong>Workers:</strong> 16
-                </td>
-            </tr>
-            <tr>
-                <td style="text-align: left;">
-                    <strong>Total threads:</strong> 16
-                </td>
-                <td style="text-align: left;">
-                    <strong>Total memory:</strong> 125.79 GiB
-                </td>
-            </tr>
-            
-            <tr>
-    <td style="text-align: left;"><strong>Status:</strong> running</td>
-    <td style="text-align: left;"><strong>Using processes:</strong> True</td>
-</tr>
-
-            
-        </table>
-
-        <details>
-            <summary style="margin-bottom: 20px;">
-                <h3 style="display: inline;">Scheduler Info</h3>
-            </summary>
-
-            <div style="">
-    <div>
-        <div style="width: 24px; height: 24px; background-color: #FFF7E5; border: 3px solid #FF6132; border-radius: 5px; position: absolute;"> </div>
-        <div style="margin-left: 48px;">
-            <h3 style="margin-bottom: 0px;">Scheduler</h3>
-            <p style="color: #9D9D9D; margin-bottom: 0px;">Scheduler-e8ad9034-4ab0-495d-ba11-4ce85a9bde75</p>
-            <table style="width: 100%; text-align: left;">
-                <tr>
-                    <td style="text-align: left;">
-                        <strong>Comm:</strong> tcp://127.0.0.1:44315
-                    </td>
-                    <td style="text-align: left;">
-                        <strong>Workers:</strong> 0 
-                    </td>
-                </tr>
-                <tr>
-                    <td style="text-align: left;">
-                        <strong>Dashboard:</strong> <a href="http://127.0.0.1:8787/status" target="_blank">http://127.0.0.1:8787/status</a>
-                    </td>
-                    <td style="text-align: left;">
-                        <strong>Total threads:</strong> 0
-                    </td>
-                </tr>
-                <tr>
-                    <td style="text-align: left;">
-                        <strong>Started:</strong> Just now
-                    </td>
-                    <td style="text-align: left;">
-                        <strong>Total memory:</strong> 0 B
-                    </td>
-                </tr>
-            </table>
-        </div>
-    </div>
-
-    <details style="margin-left: 48px;">
-        <summary style="margin-bottom: 20px;">
-            <h3 style="display: inline;">Workers</h3>
-        </summary>
-
-        
-        <div style="margin-bottom: 20px;">
-            <div style="width: 24px; height: 24px; background-color: #DBF5FF; border: 3px solid #4CC9FF; border-radius: 5px; position: absolute;"> </div>
-            <div style="margin-left: 48px;">
-            <details>
-                <summary>
-                    <h4 style="margin-bottom: 0px; display: inline;">Worker: 0</h4>
-                </summary>
-                <table style="width: 100%; text-align: left;">
-                    <tr>
-                        <td style="text-align: left;">
-                            <strong>Comm: </strong> tcp://127.0.0.1:45907
-                        </td>
-                        <td style="text-align: left;">
-                            <strong>Total threads: </strong> 1
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: left;">
-                            <strong>Dashboard: </strong> <a href="http://127.0.0.1:44307/status" target="_blank">http://127.0.0.1:44307/status</a>
-                        </td>
-                        <td style="text-align: left;">
-                            <strong>Memory: </strong> 7.86 GiB
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: left;">
-                            <strong>Nanny: </strong> tcp://127.0.0.1:37159
-                        </td>
-                        <td style="text-align: left;"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" style="text-align: left;">
-                            <strong>Local directory: </strong> /tmp/dask-scratch-space-1107/worker-y5r80pmo
-                        </td>
-                    </tr>
-
-                    
-
-                    
-
-                </table>
-            </details>
-            </div>
-        </div>
-        
-        <div style="margin-bottom: 20px;">
-            <div style="width: 24px; height: 24px; background-color: #DBF5FF; border: 3px solid #4CC9FF; border-radius: 5px; position: absolute;"> </div>
-            <div style="margin-left: 48px;">
-            <details>
-                <summary>
-                    <h4 style="margin-bottom: 0px; display: inline;">Worker: 1</h4>
-                </summary>
-                <table style="width: 100%; text-align: left;">
-                    <tr>
-                        <td style="text-align: left;">
-                            <strong>Comm: </strong> tcp://127.0.0.1:35461
-                        </td>
-                        <td style="text-align: left;">
-                            <strong>Total threads: </strong> 1
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: left;">
-                            <strong>Dashboard: </strong> <a href="http://127.0.0.1:45365/status" target="_blank">http://127.0.0.1:45365/status</a>
-                        </td>
-                        <td style="text-align: left;">
-                            <strong>Memory: </strong> 7.86 GiB
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: left;">
-                            <strong>Nanny: </strong> tcp://127.0.0.1:44077
-                        </td>
-                        <td style="text-align: left;"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" style="text-align: left;">
-                            <strong>Local directory: </strong> /tmp/dask-scratch-space-1107/worker-sut2pjqs
-                        </td>
-                    </tr>
-
-                    
-
-                    
-
-                </table>
-            </details>
-            </div>
-        </div>
-        
-        <div style="margin-bottom: 20px;">
-            <div style="width: 24px; height: 24px; background-color: #DBF5FF; border: 3px solid #4CC9FF; border-radius: 5px; position: absolute;"> </div>
-            <div style="margin-left: 48px;">
-            <details>
-                <summary>
-                    <h4 style="margin-bottom: 0px; display: inline;">Worker: 2</h4>
-                </summary>
-                <table style="width: 100%; text-align: left;">
-                    <tr>
-                        <td style="text-align: left;">
-                            <strong>Comm: </strong> tcp://127.0.0.1:40359
-                        </td>
-                        <td style="text-align: left;">
-                            <strong>Total threads: </strong> 1
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: left;">
-                            <strong>Dashboard: </strong> <a href="http://127.0.0.1:46495/status" target="_blank">http://127.0.0.1:46495/status</a>
-                        </td>
-                        <td style="text-align: left;">
-                            <strong>Memory: </strong> 7.86 GiB
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: left;">
-                            <strong>Nanny: </strong> tcp://127.0.0.1:40895
-                        </td>
-                        <td style="text-align: left;"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" style="text-align: left;">
-                            <strong>Local directory: </strong> /tmp/dask-scratch-space-1107/worker-f3h4iy9c
-                        </td>
-                    </tr>
-
-                    
-
-                    
-
-                </table>
-            </details>
-            </div>
-        </div>
-        
-        <div style="margin-bottom: 20px;">
-            <div style="width: 24px; height: 24px; background-color: #DBF5FF; border: 3px solid #4CC9FF; border-radius: 5px; position: absolute;"> </div>
-            <div style="margin-left: 48px;">
-            <details>
-                <summary>
-                    <h4 style="margin-bottom: 0px; display: inline;">Worker: 3</h4>
-                </summary>
-                <table style="width: 100%; text-align: left;">
-                    <tr>
-                        <td style="text-align: left;">
-                            <strong>Comm: </strong> tcp://127.0.0.1:36947
-                        </td>
-                        <td style="text-align: left;">
-                            <strong>Total threads: </strong> 1
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: left;">
-                            <strong>Dashboard: </strong> <a href="http://127.0.0.1:43785/status" target="_blank">http://127.0.0.1:43785/status</a>
-                        </td>
-                        <td style="text-align: left;">
-                            <strong>Memory: </strong> 7.86 GiB
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: left;">
-                            <strong>Nanny: </strong> tcp://127.0.0.1:35533
-                        </td>
-                        <td style="text-align: left;"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" style="text-align: left;">
-                            <strong>Local directory: </strong> /tmp/dask-scratch-space-1107/worker-2ctl90az
-                        </td>
-                    </tr>
-
-                    
-
-                    
-
-                </table>
-            </details>
-            </div>
-        </div>
-        
-        <div style="margin-bottom: 20px;">
-            <div style="width: 24px; height: 24px; background-color: #DBF5FF; border: 3px solid #4CC9FF; border-radius: 5px; position: absolute;"> </div>
-            <div style="margin-left: 48px;">
-            <details>
-                <summary>
-                    <h4 style="margin-bottom: 0px; display: inline;">Worker: 4</h4>
-                </summary>
-                <table style="width: 100%; text-align: left;">
-                    <tr>
-                        <td style="text-align: left;">
-                            <strong>Comm: </strong> tcp://127.0.0.1:46607
-                        </td>
-                        <td style="text-align: left;">
-                            <strong>Total threads: </strong> 1
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: left;">
-                            <strong>Dashboard: </strong> <a href="http://127.0.0.1:45113/status" target="_blank">http://127.0.0.1:45113/status</a>
-                        </td>
-                        <td style="text-align: left;">
-                            <strong>Memory: </strong> 7.86 GiB
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: left;">
-                            <strong>Nanny: </strong> tcp://127.0.0.1:39607
-                        </td>
-                        <td style="text-align: left;"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" style="text-align: left;">
-                            <strong>Local directory: </strong> /tmp/dask-scratch-space-1107/worker-5td189gy
-                        </td>
-                    </tr>
-
-                    
-
-                    
-
-                </table>
-            </details>
-            </div>
-        </div>
-        
-        <div style="margin-bottom: 20px;">
-            <div style="width: 24px; height: 24px; background-color: #DBF5FF; border: 3px solid #4CC9FF; border-radius: 5px; position: absolute;"> </div>
-            <div style="margin-left: 48px;">
-            <details>
-                <summary>
-                    <h4 style="margin-bottom: 0px; display: inline;">Worker: 5</h4>
-                </summary>
-                <table style="width: 100%; text-align: left;">
-                    <tr>
-                        <td style="text-align: left;">
-                            <strong>Comm: </strong> tcp://127.0.0.1:40243
-                        </td>
-                        <td style="text-align: left;">
-                            <strong>Total threads: </strong> 1
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: left;">
-                            <strong>Dashboard: </strong> <a href="http://127.0.0.1:35725/status" target="_blank">http://127.0.0.1:35725/status</a>
-                        </td>
-                        <td style="text-align: left;">
-                            <strong>Memory: </strong> 7.86 GiB
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: left;">
-                            <strong>Nanny: </strong> tcp://127.0.0.1:40815
-                        </td>
-                        <td style="text-align: left;"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" style="text-align: left;">
-                            <strong>Local directory: </strong> /tmp/dask-scratch-space-1107/worker-83l514co
-                        </td>
-                    </tr>
-
-                    
-
-                    
-
-                </table>
-            </details>
-            </div>
-        </div>
-        
-        <div style="margin-bottom: 20px;">
-            <div style="width: 24px; height: 24px; background-color: #DBF5FF; border: 3px solid #4CC9FF; border-radius: 5px; position: absolute;"> </div>
-            <div style="margin-left: 48px;">
-            <details>
-                <summary>
-                    <h4 style="margin-bottom: 0px; display: inline;">Worker: 6</h4>
-                </summary>
-                <table style="width: 100%; text-align: left;">
-                    <tr>
-                        <td style="text-align: left;">
-                            <strong>Comm: </strong> tcp://127.0.0.1:42677
-                        </td>
-                        <td style="text-align: left;">
-                            <strong>Total threads: </strong> 1
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: left;">
-                            <strong>Dashboard: </strong> <a href="http://127.0.0.1:36633/status" target="_blank">http://127.0.0.1:36633/status</a>
-                        </td>
-                        <td style="text-align: left;">
-                            <strong>Memory: </strong> 7.86 GiB
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: left;">
-                            <strong>Nanny: </strong> tcp://127.0.0.1:38143
-                        </td>
-                        <td style="text-align: left;"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" style="text-align: left;">
-                            <strong>Local directory: </strong> /tmp/dask-scratch-space-1107/worker-9s2wcqq1
-                        </td>
-                    </tr>
-
-                    
-
-                    
-
-                </table>
-            </details>
-            </div>
-        </div>
-        
-        <div style="margin-bottom: 20px;">
-            <div style="width: 24px; height: 24px; background-color: #DBF5FF; border: 3px solid #4CC9FF; border-radius: 5px; position: absolute;"> </div>
-            <div style="margin-left: 48px;">
-            <details>
-                <summary>
-                    <h4 style="margin-bottom: 0px; display: inline;">Worker: 7</h4>
-                </summary>
-                <table style="width: 100%; text-align: left;">
-                    <tr>
-                        <td style="text-align: left;">
-                            <strong>Comm: </strong> tcp://127.0.0.1:42103
-                        </td>
-                        <td style="text-align: left;">
-                            <strong>Total threads: </strong> 1
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: left;">
-                            <strong>Dashboard: </strong> <a href="http://127.0.0.1:34117/status" target="_blank">http://127.0.0.1:34117/status</a>
-                        </td>
-                        <td style="text-align: left;">
-                            <strong>Memory: </strong> 7.86 GiB
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: left;">
-                            <strong>Nanny: </strong> tcp://127.0.0.1:40133
-                        </td>
-                        <td style="text-align: left;"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" style="text-align: left;">
-                            <strong>Local directory: </strong> /tmp/dask-scratch-space-1107/worker-vmv_ftly
-                        </td>
-                    </tr>
-
-                    
-
-                    
-
-                </table>
-            </details>
-            </div>
-        </div>
-        
-        <div style="margin-bottom: 20px;">
-            <div style="width: 24px; height: 24px; background-color: #DBF5FF; border: 3px solid #4CC9FF; border-radius: 5px; position: absolute;"> </div>
-            <div style="margin-left: 48px;">
-            <details>
-                <summary>
-                    <h4 style="margin-bottom: 0px; display: inline;">Worker: 8</h4>
-                </summary>
-                <table style="width: 100%; text-align: left;">
-                    <tr>
-                        <td style="text-align: left;">
-                            <strong>Comm: </strong> tcp://127.0.0.1:37823
-                        </td>
-                        <td style="text-align: left;">
-                            <strong>Total threads: </strong> 1
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: left;">
-                            <strong>Dashboard: </strong> <a href="http://127.0.0.1:43341/status" target="_blank">http://127.0.0.1:43341/status</a>
-                        </td>
-                        <td style="text-align: left;">
-                            <strong>Memory: </strong> 7.86 GiB
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: left;">
-                            <strong>Nanny: </strong> tcp://127.0.0.1:39661
-                        </td>
-                        <td style="text-align: left;"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" style="text-align: left;">
-                            <strong>Local directory: </strong> /tmp/dask-scratch-space-1107/worker-9z2ym1ug
-                        </td>
-                    </tr>
-
-                    
-
-                    
-
-                </table>
-            </details>
-            </div>
-        </div>
-        
-        <div style="margin-bottom: 20px;">
-            <div style="width: 24px; height: 24px; background-color: #DBF5FF; border: 3px solid #4CC9FF; border-radius: 5px; position: absolute;"> </div>
-            <div style="margin-left: 48px;">
-            <details>
-                <summary>
-                    <h4 style="margin-bottom: 0px; display: inline;">Worker: 9</h4>
-                </summary>
-                <table style="width: 100%; text-align: left;">
-                    <tr>
-                        <td style="text-align: left;">
-                            <strong>Comm: </strong> tcp://127.0.0.1:42169
-                        </td>
-                        <td style="text-align: left;">
-                            <strong>Total threads: </strong> 1
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: left;">
-                            <strong>Dashboard: </strong> <a href="http://127.0.0.1:44853/status" target="_blank">http://127.0.0.1:44853/status</a>
-                        </td>
-                        <td style="text-align: left;">
-                            <strong>Memory: </strong> 7.86 GiB
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: left;">
-                            <strong>Nanny: </strong> tcp://127.0.0.1:40147
-                        </td>
-                        <td style="text-align: left;"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" style="text-align: left;">
-                            <strong>Local directory: </strong> /tmp/dask-scratch-space-1107/worker-gam98gek
-                        </td>
-                    </tr>
-
-                    
-
-                    
-
-                </table>
-            </details>
-            </div>
-        </div>
-        
-        <div style="margin-bottom: 20px;">
-            <div style="width: 24px; height: 24px; background-color: #DBF5FF; border: 3px solid #4CC9FF; border-radius: 5px; position: absolute;"> </div>
-            <div style="margin-left: 48px;">
-            <details>
-                <summary>
-                    <h4 style="margin-bottom: 0px; display: inline;">Worker: 10</h4>
-                </summary>
-                <table style="width: 100%; text-align: left;">
-                    <tr>
-                        <td style="text-align: left;">
-                            <strong>Comm: </strong> tcp://127.0.0.1:36455
-                        </td>
-                        <td style="text-align: left;">
-                            <strong>Total threads: </strong> 1
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: left;">
-                            <strong>Dashboard: </strong> <a href="http://127.0.0.1:37651/status" target="_blank">http://127.0.0.1:37651/status</a>
-                        </td>
-                        <td style="text-align: left;">
-                            <strong>Memory: </strong> 7.86 GiB
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: left;">
-                            <strong>Nanny: </strong> tcp://127.0.0.1:39013
-                        </td>
-                        <td style="text-align: left;"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" style="text-align: left;">
-                            <strong>Local directory: </strong> /tmp/dask-scratch-space-1107/worker-whumb3_5
-                        </td>
-                    </tr>
-
-                    
-
-                    
-
-                </table>
-            </details>
-            </div>
-        </div>
-        
-        <div style="margin-bottom: 20px;">
-            <div style="width: 24px; height: 24px; background-color: #DBF5FF; border: 3px solid #4CC9FF; border-radius: 5px; position: absolute;"> </div>
-            <div style="margin-left: 48px;">
-            <details>
-                <summary>
-                    <h4 style="margin-bottom: 0px; display: inline;">Worker: 11</h4>
-                </summary>
-                <table style="width: 100%; text-align: left;">
-                    <tr>
-                        <td style="text-align: left;">
-                            <strong>Comm: </strong> tcp://127.0.0.1:35599
-                        </td>
-                        <td style="text-align: left;">
-                            <strong>Total threads: </strong> 1
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: left;">
-                            <strong>Dashboard: </strong> <a href="http://127.0.0.1:46267/status" target="_blank">http://127.0.0.1:46267/status</a>
-                        </td>
-                        <td style="text-align: left;">
-                            <strong>Memory: </strong> 7.86 GiB
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: left;">
-                            <strong>Nanny: </strong> tcp://127.0.0.1:32833
-                        </td>
-                        <td style="text-align: left;"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" style="text-align: left;">
-                            <strong>Local directory: </strong> /tmp/dask-scratch-space-1107/worker-i689jw85
-                        </td>
-                    </tr>
-
-                    
-
-                    
-
-                </table>
-            </details>
-            </div>
-        </div>
-        
-        <div style="margin-bottom: 20px;">
-            <div style="width: 24px; height: 24px; background-color: #DBF5FF; border: 3px solid #4CC9FF; border-radius: 5px; position: absolute;"> </div>
-            <div style="margin-left: 48px;">
-            <details>
-                <summary>
-                    <h4 style="margin-bottom: 0px; display: inline;">Worker: 12</h4>
-                </summary>
-                <table style="width: 100%; text-align: left;">
-                    <tr>
-                        <td style="text-align: left;">
-                            <strong>Comm: </strong> tcp://127.0.0.1:42569
-                        </td>
-                        <td style="text-align: left;">
-                            <strong>Total threads: </strong> 1
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: left;">
-                            <strong>Dashboard: </strong> <a href="http://127.0.0.1:40839/status" target="_blank">http://127.0.0.1:40839/status</a>
-                        </td>
-                        <td style="text-align: left;">
-                            <strong>Memory: </strong> 7.86 GiB
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: left;">
-                            <strong>Nanny: </strong> tcp://127.0.0.1:40963
-                        </td>
-                        <td style="text-align: left;"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" style="text-align: left;">
-                            <strong>Local directory: </strong> /tmp/dask-scratch-space-1107/worker-jrrfe5er
-                        </td>
-                    </tr>
-
-                    
-
-                    
-
-                </table>
-            </details>
-            </div>
-        </div>
-        
-        <div style="margin-bottom: 20px;">
-            <div style="width: 24px; height: 24px; background-color: #DBF5FF; border: 3px solid #4CC9FF; border-radius: 5px; position: absolute;"> </div>
-            <div style="margin-left: 48px;">
-            <details>
-                <summary>
-                    <h4 style="margin-bottom: 0px; display: inline;">Worker: 13</h4>
-                </summary>
-                <table style="width: 100%; text-align: left;">
-                    <tr>
-                        <td style="text-align: left;">
-                            <strong>Comm: </strong> tcp://127.0.0.1:42475
-                        </td>
-                        <td style="text-align: left;">
-                            <strong>Total threads: </strong> 1
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: left;">
-                            <strong>Dashboard: </strong> <a href="http://127.0.0.1:40847/status" target="_blank">http://127.0.0.1:40847/status</a>
-                        </td>
-                        <td style="text-align: left;">
-                            <strong>Memory: </strong> 7.86 GiB
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: left;">
-                            <strong>Nanny: </strong> tcp://127.0.0.1:34351
-                        </td>
-                        <td style="text-align: left;"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" style="text-align: left;">
-                            <strong>Local directory: </strong> /tmp/dask-scratch-space-1107/worker-w225ce2h
-                        </td>
-                    </tr>
-
-                    
-
-                    
-
-                </table>
-            </details>
-            </div>
-        </div>
-        
-        <div style="margin-bottom: 20px;">
-            <div style="width: 24px; height: 24px; background-color: #DBF5FF; border: 3px solid #4CC9FF; border-radius: 5px; position: absolute;"> </div>
-            <div style="margin-left: 48px;">
-            <details>
-                <summary>
-                    <h4 style="margin-bottom: 0px; display: inline;">Worker: 14</h4>
-                </summary>
-                <table style="width: 100%; text-align: left;">
-                    <tr>
-                        <td style="text-align: left;">
-                            <strong>Comm: </strong> tcp://127.0.0.1:42345
-                        </td>
-                        <td style="text-align: left;">
-                            <strong>Total threads: </strong> 1
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: left;">
-                            <strong>Dashboard: </strong> <a href="http://127.0.0.1:41849/status" target="_blank">http://127.0.0.1:41849/status</a>
-                        </td>
-                        <td style="text-align: left;">
-                            <strong>Memory: </strong> 7.86 GiB
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: left;">
-                            <strong>Nanny: </strong> tcp://127.0.0.1:41781
-                        </td>
-                        <td style="text-align: left;"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" style="text-align: left;">
-                            <strong>Local directory: </strong> /tmp/dask-scratch-space-1107/worker-mq2nfjam
-                        </td>
-                    </tr>
-
-                    
-
-                    
-
-                </table>
-            </details>
-            </div>
-        </div>
-        
-        <div style="margin-bottom: 20px;">
-            <div style="width: 24px; height: 24px; background-color: #DBF5FF; border: 3px solid #4CC9FF; border-radius: 5px; position: absolute;"> </div>
-            <div style="margin-left: 48px;">
-            <details>
-                <summary>
-                    <h4 style="margin-bottom: 0px; display: inline;">Worker: 15</h4>
-                </summary>
-                <table style="width: 100%; text-align: left;">
-                    <tr>
-                        <td style="text-align: left;">
-                            <strong>Comm: </strong> tcp://127.0.0.1:35857
-                        </td>
-                        <td style="text-align: left;">
-                            <strong>Total threads: </strong> 1
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: left;">
-                            <strong>Dashboard: </strong> <a href="http://127.0.0.1:37857/status" target="_blank">http://127.0.0.1:37857/status</a>
-                        </td>
-                        <td style="text-align: left;">
-                            <strong>Memory: </strong> 7.86 GiB
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="text-align: left;">
-                            <strong>Nanny: </strong> tcp://127.0.0.1:38299
-                        </td>
-                        <td style="text-align: left;"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2" style="text-align: left;">
-                            <strong>Local directory: </strong> /tmp/dask-scratch-space-1107/worker-neibdgka
-                        </td>
-                    </tr>
-
-                    
-
-                    
-
-                </table>
-            </details>
-            </div>
-        </div>
-        
-
-    </details>
 </div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">open_datasets</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">evaltools.source</span><span class="w"> </span><span class="kn">import</span> <span class="n">xarray_open_kwargs</span>
 
-        </details>
-    </div>
+<span class="c1"># creates chunksizes about 100MB</span>
+<span class="n">xarray_open_kwargs</span><span class="p">[</span><span class="s1">&#39;chunks&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="mi">160</span><span class="p">}</span>
+</pre></div>
 </div>
-            </details>
-        
-
-    </div>
-</div></div></div>
+</div>
 </div>
 <div class="cell tag_parameters docutils container">
 <div class="cell_input docutils container">
@@ -1337,9 +514,9 @@ document.write(`
 <span class="n">frequency</span> <span class="o">=</span> <span class="s2">&quot;mon&quot;</span>
 <span class="n">domain</span> <span class="o">=</span> <span class="s2">&quot;EUR-11&quot;</span>
 <span class="n">regridding</span> <span class="o">=</span> <span class="s2">&quot;bilinear&quot;</span>
-<span class="n">period_star</span> <span class="o">=</span> <span class="s2">&quot;1991&quot;</span>
-<span class="n">period_stop</span> <span class="o">=</span> <span class="s2">&quot;2020&quot;</span>
-<span class="n">parent</span> <span class="o">=</span> <span class="kc">False</span>
+<span class="n">period_star</span> <span class="o">=</span> <span class="s2">&quot;1989&quot;</span>
+<span class="n">period_stop</span> <span class="o">=</span> <span class="s2">&quot;2008&quot;</span>
+<span class="n">parent</span> <span class="o">=</span> <span class="kc">True</span>
 </pre></div>
 </div>
 </div>
@@ -1385,6 +562,8 @@ document.write(`
 <span class="n">ref_on_rotated</span> <span class="o">=</span> <span class="n">regridder</span><span class="p">(</span><span class="n">eobs</span><span class="p">)</span>
 <span class="k">if</span> <span class="ow">not</span> <span class="n">check_equal_period</span><span class="p">(</span><span class="n">ref_on_rotated</span><span class="p">,</span> <span class="n">period</span><span class="p">):</span>
     <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Temporal coverage of dataset does not match with </span><span class="si">{</span><span class="n">period</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">if</span> <span class="ow">not</span> <span class="n">check_time</span><span class="p">(</span><span class="n">ref_on_rotated</span><span class="p">)[</span><span class="s1">&#39;continuous&#39;</span><span class="p">]:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Time dimension is not continuois&quot;</span><span class="p">)</span>
 <span class="n">ref_seasmean</span> <span class="o">=</span> <span class="n">seasonal_mean</span><span class="p">(</span><span class="n">ref_on_rotated</span><span class="p">[</span><span class="n">variable</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">period</span><span class="p">))</span><span class="o">.</span><span class="n">compute</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -1412,17 +591,32 @@ document.write(`
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">dset</span> <span class="ow">in</span> <span class="n">dsets</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">check_equal_period</span><span class="p">(</span><span class="n">dsets</span><span class="p">[</span><span class="n">dset</span><span class="p">],</span> <span class="n">period</span><span class="p">):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Temporal coveÇrage of </span><span class="si">{</span><span class="n">dset</span><span class="si">}</span><span class="s2"> does not match with </span><span class="si">{</span><span class="n">period</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Temporal coverage of </span><span class="si">{</span><span class="n">dset</span><span class="si">}</span><span class="s2"> does not match with </span><span class="si">{</span><span class="n">period</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">dset</span><span class="p">,</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">dsets</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">dset</span> <span class="ow">in</span> <span class="n">dsets</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">check_time</span><span class="p">(</span><span class="n">dsets</span><span class="p">[</span><span class="n">dset</span><span class="p">])[</span><span class="s1">&#39;continuous&#39;</span><span class="p">]:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Time dimension is not continuois for </span><span class="si">{</span><span class="n">dset</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Time dimension is not continuois for era5
+Time dimension is not continuois for cerra
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## regidding masking the data with the sftlf</span>
+<span class="k">for</span> <span class="n">dset</span><span class="p">,</span> <span class="n">ds</span> <span class="ow">in</span> <span class="n">dsets</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
     <span class="n">regridder</span> <span class="o">=</span> <span class="n">xe</span><span class="o">.</span><span class="n">Regridder</span><span class="p">(</span><span class="n">ds</span><span class="p">,</span> <span class="n">rotated_grid</span><span class="p">,</span> <span class="n">method</span><span class="o">=</span><span class="n">regridding</span><span class="p">,</span> <span class="n">unmapped_to_nan</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">dsets</span><span class="p">[</span><span class="n">dset</span><span class="p">]</span> <span class="o">=</span> <span class="n">regridder</span><span class="p">(</span><span class="n">ds</span><span class="p">)</span>
-    <span class="c1"># mask with sftf and correct heigh with elevation</span>
 </pre></div>
 </div>
 </div>
@@ -1469,15 +663,15 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ref_seasmean</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">season</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ref_seasmean</span><span class="o">.</span><span class="n">isel</span><span class="p">(</span><span class="n">season</span> <span class="o">=</span> <span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.collections.QuadMesh at 0x7255483598a0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.collections.QuadMesh at 0x70c7b2fc2b60&gt;
 </pre></div>
 </div>
-<img alt="_images/0957fe4b17ec68b8eb051abbdc1faf36f51b0a79db2ca051e7f3fea1cd2161e3.png" src="_images/0957fe4b17ec68b8eb051abbdc1faf36f51b0a79db2ca051e7f3fea1cd2161e3.png" />
+<img alt="_images/04e601aa4e89c8dc02eac45fff83a5282799a184e74a658a1931adc0d4ca80aa.png" src="_images/04e601aa4e89c8dc02eac45fff83a5282799a184e74a658a1931adc0d4ca80aa.png" />
 </div>
 </div>
 </section>
@@ -1507,6 +701,17 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">dsets</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">dsets</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">variables</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">var</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;orog&quot;</span><span class="p">,</span> <span class="s2">&quot;sftlf&quot;</span><span class="p">]:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">dset</span> <span class="ow">in</span> <span class="n">dsets</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
     <span class="n">dsets</span><span class="p">[</span><span class="n">dset</span><span class="p">]</span> <span class="o">=</span> <span class="n">dsets</span><span class="p">[</span><span class="n">dset</span><span class="p">]</span><span class="o">.</span><span class="n">sel</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="n">period</span><span class="p">)</span>
 </pre></div>
@@ -1521,8 +726,12 @@ document.write(`
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Temporal coverage of CORDEX-CMIP6.EUR-12.ICTP.ERA5.evaluation.r1i1p1f1.RegCM5-0.v1-r1.mon.v20250415 does not match with slice(&#39;1991&#39;, &#39;2020&#39;, None)
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">dset</span> <span class="ow">in</span> <span class="n">dsets</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">check_time</span><span class="p">(</span><span class="n">dsets</span><span class="p">[</span><span class="n">dset</span><span class="p">])[</span><span class="s1">&#39;continuous&#39;</span><span class="p">]:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Time dimension is not continuois for </span><span class="si">{</span><span class="n">dset</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1575,7 +784,7 @@ document.write(`
     <span class="n">dim</span><span class="o">=</span><span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
         <span class="nb">list</span><span class="p">(</span>
             <span class="nb">map</span><span class="p">(</span>
-                <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">short_iid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;source_id&quot;</span><span class="p">],</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">),</span>
+                <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">short_iid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;source_id&quot;</span><span class="p">,</span> <span class="s2">&quot;version_realization&quot;</span><span class="p">],</span> <span class="n">delimiter</span> <span class="o">=</span> <span class="s2">&quot;_&quot;</span><span class="p">),</span>
                 <span class="n">diffs</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span>
             <span class="p">)</span>
         <span class="p">),</span>
@@ -1612,11 +821,60 @@ document.write(`
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dsets</span> <span class="o">=</span> <span class="n">open_datasets</span><span class="p">(</span>
     <span class="p">[</span><span class="n">variable</span><span class="p">],</span>
-    <span class="n">frequency</span><span class="o">=</span><span class="n">frequency</span><span class="p">,</span>
+    <span class="n">frequency</span><span class="o">=</span><span class="s1">&#39;mon&#39;</span><span class="p">,</span>
     <span class="n">driving_source_id</span><span class="o">=</span><span class="n">driving_source_id</span><span class="p">,</span>
     <span class="n">mask</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">add_missing_bounds</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dsets_day</span> <span class="o">=</span> <span class="n">open_datasets</span><span class="p">(</span>
+    <span class="p">[</span><span class="n">variable</span><span class="p">],</span>
+    <span class="n">frequency</span><span class="o">=</span><span class="s1">&#39;day&#39;</span><span class="p">,</span>
+    <span class="n">source_id</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;WRF381P&#39;</span><span class="p">,</span> <span class="s1">&#39;HIRHAM5&#39;</span><span class="p">,</span> <span class="s1">&#39;RegCM4-6&#39;</span><span class="p">],</span>
+    <span class="n">driving_source_id</span><span class="o">=</span><span class="n">driving_source_id</span><span class="p">,</span>
+    <span class="n">mask</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">add_missing_bounds</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">static_vars</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;orog&quot;</span><span class="p">,</span> <span class="s2">&quot;sftlf&quot;</span><span class="p">,</span> <span class="s2">&quot;areacella&quot;</span><span class="p">,</span> <span class="s2">&quot;mask&quot;</span><span class="p">]</span>
+<span class="c1">## resample dset_day</span>
+<span class="n">dsets_mon</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">dset</span> <span class="ow">in</span> <span class="n">dsets_day</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="n">dsets_copy</span> <span class="o">=</span> <span class="n">dsets_day</span><span class="p">[</span><span class="n">dset</span><span class="p">]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+    <span class="n">ds_var_mon</span> <span class="o">=</span> <span class="n">dsets_copy</span><span class="p">[[</span><span class="n">variable</span><span class="p">]]</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="n">time</span><span class="o">=</span><span class="s2">&quot;ME&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">static_vars</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">dsets_copy</span><span class="o">.</span><span class="n">variables</span><span class="p">:</span>
+            <span class="n">ds_var_mon</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">dsets_copy</span><span class="p">[</span><span class="n">var</span><span class="p">]</span>
+            
+    <span class="n">dsets_mon</span><span class="p">[</span><span class="n">dset</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;.day.&#39;</span><span class="p">,</span> <span class="s1">&#39;.mon.&#39;</span><span class="p">)]</span> <span class="o">=</span> <span class="n">ds_var_mon</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dsets</span> <span class="o">=</span> <span class="n">dsets</span> <span class="o">|</span> <span class="n">dsets_mon</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">dsets</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">k</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">dsets</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">.</span><span class="n">variables</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">var</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;orog&quot;</span><span class="p">,</span> <span class="s2">&quot;sftlf&quot;</span><span class="p">]:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1634,6 +892,15 @@ document.write(`
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">dset</span> <span class="ow">in</span> <span class="n">dsets</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">check_equal_period</span><span class="p">(</span><span class="n">dsets</span><span class="p">[</span><span class="n">dset</span><span class="p">],</span> <span class="n">period</span><span class="p">):</span>
         <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Temporal coverage of </span><span class="si">{</span><span class="n">dset</span><span class="si">}</span><span class="s2"> does not match with </span><span class="si">{</span><span class="n">period</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">dset</span> <span class="ow">in</span> <span class="n">dsets</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">check_time</span><span class="p">(</span><span class="n">ref_on_rotated</span><span class="p">)[</span><span class="s1">&#39;continuous&#39;</span><span class="p">]:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Time dimension is not continuois for </span><span class="si">{</span><span class="n">dset</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -1691,7 +958,7 @@ document.write(`
     <span class="n">dim</span><span class="o">=</span><span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
         <span class="nb">list</span><span class="p">(</span>
             <span class="nb">map</span><span class="p">(</span>
-                <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">short_iid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;source_id&quot;</span><span class="p">],</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">),</span>
+                <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">short_iid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;source_id&quot;</span><span class="p">,</span> <span class="s2">&quot;version_realization&quot;</span><span class="p">],</span> <span class="n">delimiter</span> <span class="o">=</span> <span class="s2">&quot;_&quot;</span><span class="p">),</span>
                 <span class="n">diffs</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span>
             <span class="p">)</span>
         <span class="p">),</span>
@@ -1738,8 +1005,10 @@ document.write(`
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">projects</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;CMIP5&quot;</span><span class="p">,</span> <span class="s2">&quot;CMIP6&quot;</span><span class="p">]</span>
-<span class="n">models_cmip6</span> <span class="o">=</span> <span class="n">eur_colors</span><span class="p">[</span><span class="n">eur_colors</span><span class="p">[</span><span class="s2">&quot;mip_era&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;CMIP6&quot;</span><span class="p">][</span><span class="s2">&quot;model&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
-<span class="n">parents_cmip6</span> <span class="o">=</span> <span class="n">eur_colors</span><span class="p">[</span><span class="n">eur_colors</span><span class="p">[</span><span class="s2">&quot;mip_era&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;CMIP6&quot;</span><span class="p">][</span><span class="s2">&quot;parent&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+<span class="n">models_cmip6</span> <span class="o">=</span> <span class="n">eur_colors</span><span class="p">[</span><span class="n">eur_colors</span><span class="p">[</span><span class="s2">&quot;mip_era&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;CMIP6&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+                <span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;model&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;model_version&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">parents_cmip6</span> <span class="o">=</span> <span class="n">eur_colors</span><span class="p">[</span><span class="n">eur_colors</span><span class="p">[</span><span class="s2">&quot;mip_era&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;CMIP6&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
+                <span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;parent&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">row</span><span class="p">[</span><span class="s1">&#39;parent_version&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
 <span class="n">parents_cmip6</span><span class="p">[</span>
     <span class="n">eur_colors</span><span class="p">[</span><span class="n">eur_colors</span><span class="p">[</span><span class="s2">&quot;mip_era&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;CMIP6&quot;</span><span class="p">][</span><span class="s2">&quot;parent_mip_era&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="s2">&quot;CMIP6&quot;</span>
 <span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
@@ -1766,6 +1035,27 @@ document.write(`
 <span class="n">models</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">models</span> <span class="k">if</span> <span class="s2">&quot;_nan&quot;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">m</span><span class="p">]</span>
 <span class="n">seen</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
 <span class="n">models</span> <span class="o">=</span> <span class="p">[</span><span class="n">m</span> <span class="k">for</span> <span class="n">m</span> <span class="ow">in</span> <span class="n">models</span> <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">m</span> <span class="ow">in</span> <span class="n">seen</span> <span class="ow">or</span> <span class="n">seen</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">m</span><span class="p">))]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## include </span>
+<span class="n">model</span> <span class="o">=</span> <span class="s2">&quot;cmip6_HCLIM43-ALADIN_v1-r1&quot;</span>
+<span class="n">new_models</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;cmip5_HIRHAM5_v1&quot;</span><span class="p">,</span> <span class="s2">&quot;cmip5_RCA4_v1&quot;</span><span class="p">]</span>
+
+<span class="k">if</span> <span class="n">model</span> <span class="ow">in</span> <span class="n">models</span><span class="p">:</span>
+    <span class="n">idx</span> <span class="o">=</span> <span class="n">models</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+    <span class="n">models</span><span class="p">[</span><span class="n">idx</span><span class="o">+</span><span class="mi">1</span><span class="p">:</span><span class="n">idx</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_models</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">models</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">models</span>
 </pre></div>
 </div>
 </div>
@@ -1964,22 +1254,22 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_121396/3819085825.py:3: FutureWarning: This is a FutureWarning example
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/tmp/ipykernel_2524121/3819085825.py:3: FutureWarning: This is a FutureWarning example
   warnings.warn(&quot;This is a FutureWarning example&quot;, FutureWarning)
-/tmp/ipykernel_121396/3819085825.py:168: UserWarning: This figure includes Axes that are not compatible with tight_layout, so results might be incorrect.
+/tmp/ipykernel_2524121/3819085825.py:168: UserWarning: This figure includes Axes that are not compatible with tight_layout, so results might be incorrect.
   plt.tight_layout(pad=1.0, w_pad=0.5, h_pad=0.5)
-/tmp/ipykernel_121396/3819085825.py:168: UserWarning: This figure includes Axes that are not compatible with tight_layout, so results might be incorrect.
+/tmp/ipykernel_2524121/3819085825.py:168: UserWarning: This figure includes Axes that are not compatible with tight_layout, so results might be incorrect.
   plt.tight_layout(pad=1.0, w_pad=0.5, h_pad=0.5)
-/tmp/ipykernel_121396/3819085825.py:168: UserWarning: This figure includes Axes that are not compatible with tight_layout, so results might be incorrect.
+/tmp/ipykernel_2524121/3819085825.py:168: UserWarning: This figure includes Axes that are not compatible with tight_layout, so results might be incorrect.
   plt.tight_layout(pad=1.0, w_pad=0.5, h_pad=0.5)
-/tmp/ipykernel_121396/3819085825.py:168: UserWarning: This figure includes Axes that are not compatible with tight_layout, so results might be incorrect.
+/tmp/ipykernel_2524121/3819085825.py:168: UserWarning: This figure includes Axes that are not compatible with tight_layout, so results might be incorrect.
   plt.tight_layout(pad=1.0, w_pad=0.5, h_pad=0.5)
 </pre></div>
 </div>
-<img alt="_images/49b815f8d488037a8286900876dc0e198023a6b53c7ab0c3e92e13e5d0142117.png" src="_images/49b815f8d488037a8286900876dc0e198023a6b53c7ab0c3e92e13e5d0142117.png" />
-<img alt="_images/6d4e4c508f4fc8c123f655fed3f32e6b1c44db5148af2cddd39b0e5be4e55260.png" src="_images/6d4e4c508f4fc8c123f655fed3f32e6b1c44db5148af2cddd39b0e5be4e55260.png" />
-<img alt="_images/c7cf61c5ba27d81faa7b76eddce14c8fd5342d416c1875892671c777adc75e15.png" src="_images/c7cf61c5ba27d81faa7b76eddce14c8fd5342d416c1875892671c777adc75e15.png" />
-<img alt="_images/5c1d84094a28a099332244295bed9d62bee2bc44620549c0f0209b775408cb87.png" src="_images/5c1d84094a28a099332244295bed9d62bee2bc44620549c0f0209b775408cb87.png" />
+<img alt="_images/757a1710f29780208317fe6ed1383c5b1f6476401d81c9b3cc9039efddf4ed35.png" src="_images/757a1710f29780208317fe6ed1383c5b1f6476401d81c9b3cc9039efddf4ed35.png" />
+<img alt="_images/cdffbf409c4c71ddbc06197755f58343273a149fda3bf66e67e7818432576466.png" src="_images/cdffbf409c4c71ddbc06197755f58343273a149fda3bf66e67e7818432576466.png" />
+<img alt="_images/b36a1d2de4373ede0ab77e94f13e4f05740d927f919268e86b85891afd0b8319.png" src="_images/b36a1d2de4373ede0ab77e94f13e4f05740d927f919268e86b85891afd0b8319.png" />
+<img alt="_images/a15662ea74192373210346e65c775d04ff0b680a63ef8d607fe7114182bcf137.png" src="_images/a15662ea74192373210346e65c775d04ff0b680a63ef8d607fe7114182bcf137.png" />
 </div>
 </div>
 </section>

@@ -408,7 +408,7 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Spatial bias (Figures 2, 3 and 4 from Kotlarski et al. 2014)</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#seasonal-bias-figures-5-6-7-and-8-from-kotlarski-et-al-2014">Seasonal bias (Figures 5, 6, 7 and 8 from Kotlarski et al. 2014)</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#regional-bias-figures-5-6-7-and-8-from-kotlarski-et-al-2014">Regional bias (Figures 5, 6, 7 and 8 from Kotlarski et al. 2014)</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#temporal-taylor-diagrams-figures-11-and-12-from-kotlarski-et-al-2014">Temporal Taylor diagrams (Figures 11 and 12 from Kotlarski et al. 2014)</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#uhi">UHI</a></li>
 </ul>
@@ -426,8 +426,21 @@ document.write(`
   <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
-
 <span class="kn">import</span><span class="w"> </span><span class="nn">papermill</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pm</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">dask</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dask.distributed</span><span class="w"> </span><span class="kn">import</span> <span class="n">Client</span>
+
+<span class="c1"># make sure we don&#39;t fill up sys tmp</span>
+<span class="n">dask</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">temporary_directory</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;/mnt/CORDEX_CMIP6_tmp/user_tmp/</span><span class="si">{</span><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;USER&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">/dask-tmp&quot;</span><span class="p">)</span>
+<span class="c1"># no hyperthreading, netcdf is not threadsafe</span>
+<span class="n">client</span> <span class="o">=</span> <span class="n">Client</span><span class="p">(</span><span class="n">dashboard_address</span><span class="o">=</span><span class="s2">&quot;localhost:8888&quot;</span><span class="p">,</span> <span class="n">threads_per_worker</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">client</span>
 </pre></div>
 </div>
 </div>
@@ -478,16 +491,16 @@ document.write(`
 </div>
 </div>
 </section>
-<section class="tex2jax_ignore mathjax_ignore" id="seasonal-bias-figures-5-6-7-and-8-from-kotlarski-et-al-2014">
-<h1>Seasonal bias (Figures 5, 6, 7 and 8 from Kotlarski et al. 2014)<a class="headerlink" href="#seasonal-bias-figures-5-6-7-and-8-from-kotlarski-et-al-2014" title="Link to this heading">#</a></h1>
+<section class="tex2jax_ignore mathjax_ignore" id="regional-bias-figures-5-6-7-and-8-from-kotlarski-et-al-2014">
+<h1>Regional bias (Figures 5, 6, 7 and 8 from Kotlarski et al. 2014)<a class="headerlink" href="#regional-bias-figures-5-6-7-and-8-from-kotlarski-et-al-2014" title="Link to this heading">#</a></h1>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Seasonal Bias</span>
 <span class="n">input_notebook</span> <span class="o">=</span> <span class="s2">&quot;regional_bias.ipynb&quot;</span>
 
 <span class="c1"># Iterate over variables</span>
-<span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;tas&quot;</span><span class="p">,</span> <span class="s2">&quot;pr&quot;</span><span class="p">]:</span>
-    <span class="c1"># for variable in [&quot;pr95&quot;, &quot;tas&quot;, &quot;tas95&quot;, &quot;pr&quot;]:</span>
+<span class="c1">#for variable in [&quot;pr95&quot;, &quot;tas&quot;, &quot;tas95&quot;, &quot;pr&quot;]:</span>
+<span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;pr95&quot;</span><span class="p">]:</span>
 
     <span class="n">output_notebook</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;regional_bias_</span><span class="si">{</span><span class="n">variable</span><span class="si">}</span><span class="s2">.ipynb&quot;</span>
     <span class="c1"># Generate parameters for the current city</span>
@@ -566,8 +579,6 @@ document.write(`
 
 <span class="c1"># Iterate over variables</span>
 <span class="k">for</span> <span class="n">variable</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;tasmin&quot;</span><span class="p">]:</span>
-    <span class="c1"># for variable in [&quot;pr95&quot;, &quot;tas&quot;, &quot;tas95&quot;, &quot;pr&quot;]:</span>
-
     <span class="n">output_notebook</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;UHI_</span><span class="si">{</span><span class="n">variable</span><span class="si">}</span><span class="s2">.ipynb&quot;</span>
     <span class="c1"># Generate parameters for the current city</span>
     <span class="n">parameters</span> <span class="o">=</span> <span class="p">{</span>
@@ -639,7 +650,7 @@ document.write(`
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Spatial bias (Figures 2, 3 and 4 from Kotlarski et al. 2014)</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#seasonal-bias-figures-5-6-7-and-8-from-kotlarski-et-al-2014">Seasonal bias (Figures 5, 6, 7 and 8 from Kotlarski et al. 2014)</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#regional-bias-figures-5-6-7-and-8-from-kotlarski-et-al-2014">Regional bias (Figures 5, 6, 7 and 8 from Kotlarski et al. 2014)</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#temporal-taylor-diagrams-figures-11-and-12-from-kotlarski-et-al-2014">Temporal Taylor diagrams (Figures 11 and 12 from Kotlarski et al. 2014)</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#uhi">UHI</a></li>
 </ul>
