@@ -135,7 +135,7 @@ def main():
 
     os.environ["ESGF_PYCLIENT_NO_FACETS_STAR_WARNING"] = "1"
 
-    dest = "/mnt/CORDEX_CMIP6_tmp/aux_data/cmip5-cordex/"
+    dest = "/mnt/CORDEX_CMIP6_tmp/aux_data/cordex-cmip5/"
     nodeURL = "http://esgf-data.dkrz.de/esg-search"
 
     dreq = pd.read_csv(
