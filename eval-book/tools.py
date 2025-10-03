@@ -5,6 +5,7 @@ import xesmf as xe
 from warnings import warn
 import numpy as np
 import os
+import cftime
 from evaltools.source import get_source_collection, open_and_sort
 
 import cmocean
@@ -74,6 +75,18 @@ var_dic = {
         "cmap": "RdBu_r",
         "units": "hpa",
         "datasets": ["era5", "cerra"],
+    },
+    "pr95": {
+        "variable": "pr",
+        "name": "Precipitation 95%-P [%]",
+        "diff": "rel",
+        "aggr": "P95",
+    },
+    "tas95": {
+        "variable": "tas",
+        "name": "Temperature 95%-P [K]",
+        "diff": "abs",
+        "aggr": "P95",
     },
 }
 
@@ -369,7 +382,7 @@ def convert_celsius_to_kelvin(ds, variable, threshold=200):
                 "sea_surface_temperature",
                 "surface_temperature",
             ]:
-                if np.nanmax(ds[var].values) < threshold:  # Likely in °C
+                if ds[var].max().compute() < threshold:  # Likely in °C
                     ds[var] = ds[var] + 273.15
                     ds[var].attrs["units"] = "K"
                     print("Convert celsius to kelvin")
@@ -665,3 +678,55 @@ class TaylorDiagram(object):
         contours = self.ax.contour(ts, rs, rms, levels, **kwargs)
 
         return contours
+
+def check_time(ds, dim='time', tol=None):
+    """
+    Checks if an xarray DataArray has monotonic and continuous time.
+    Works for cftime or numpy datetime64.
+
+    Parameters:
+    - ds: xarray.DataArray
+    - dim: name of the time dimension (default 'time')
+    - tol: tolerance in seconds for fixed-frequency series (optional)
+
+    Returns:
+    - dict with keys 'monotonic', 'continuous', and 'inferred_frequency'
+    """
+    times = ds[dim].values
+
+    # Monotonically increasing
+    monotonic = np.all(times[1:] > times[:-1])
+
+    continuous = False
+    inferred_freq = None
+
+    # Try to infer frequency and check continuity
+    try:
+        # If times are cftime objects, convert to pandas Timestamps where possible
+        if isinstance(times[0], cftime.datetime):
+            # Convert to datetime using the year, month, day, etc.
+            times_for_pandas = pd.to_datetime(
+                [pd.Timestamp(t.year, t.month, t.day,
+                              t.hour, t.minute, t.second) for t in times]
+            )
+        else:
+            times_for_pandas = pd.to_datetime(times)
+
+        ts = pd.Series(np.arange(len(times_for_pandas)), index=times_for_pandas)
+        inferred_freq = pd.infer_freq(ts.index)
+    except Exception:
+        # If frequency cannot be inferred, check continuity with constant timedelta
+        diffs = np.diff([t.toordinal() if isinstance(t, cftime.datetime) 
+                         else t.astype('O') for t in times])
+        if tol is None:
+            tol = np.timedelta64(1, 's')
+        continuous = np.all(np.abs(diffs - diffs[0]) <= tol)
+    else:
+        # If frequency is known, check continuity using pandas date_range
+        expected_range = pd.date_range(start=times_for_pandas[0], 
+                                       end=times_for_pandas[-1], freq=inferred_freq)
+        continuous = len(expected_range) == len(times_for_pandas)
+
+    return {'monotonic': monotonic,
+            'continuous': continuous,
+            'inferred_frequency': inferred_freq}
