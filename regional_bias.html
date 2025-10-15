@@ -486,11 +486,10 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">open_datasets</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">evaltools.source</span><span class="w"> </span><span class="kn">import</span> <span class="n">xarray_open_kwargs</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">evaltools.source</span><span class="w"> </span><span class="kn">import</span> <span class="n">xarray_open_kwargs</span>
 
 <span class="c1"># creates chunksizes about 100MB</span>
-<span class="n">xarray_open_kwargs</span><span class="p">[</span><span class="s1">&#39;chunks&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;time&#39;</span><span class="p">:</span> <span class="mi">160</span><span class="p">}</span>
+<span class="n">xarray_open_kwargs</span><span class="p">[</span><span class="s2">&quot;chunks&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;time&quot;</span><span class="p">:</span> <span class="mi">160</span><span class="p">}</span>
 </pre></div>
 </div>
 </div>
@@ -696,11 +695,11 @@ document.write(`
             <span class="n">mask</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">add_missing_bounds</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="k">if</span> <span class="n">mip_era</span> <span class="o">==</span> <span class="s1">&#39;CMIP5&#39;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">mip_era</span> <span class="o">==</span> <span class="s2">&quot;CMIP5&quot;</span><span class="p">:</span>
             <span class="n">dsets_day</span> <span class="o">=</span> <span class="n">open_datasets</span><span class="p">(</span>
                 <span class="p">[</span><span class="n">variable</span><span class="p">],</span>
-                <span class="n">frequency</span><span class="o">=</span><span class="s1">&#39;day&#39;</span><span class="p">,</span>
-                <span class="n">source_id</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;WRF381P&#39;</span><span class="p">,</span> <span class="s1">&#39;HIRHAM5&#39;</span><span class="p">,</span> <span class="s1">&#39;RegCM4-6&#39;</span><span class="p">],</span>
+                <span class="n">frequency</span><span class="o">=</span><span class="s2">&quot;day&quot;</span><span class="p">,</span>
+                <span class="n">source_id</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;WRF381P&quot;</span><span class="p">,</span> <span class="s2">&quot;HIRHAM5&quot;</span><span class="p">,</span> <span class="s2">&quot;RegCM4-6&quot;</span><span class="p">],</span>
                 <span class="n">driving_source_id</span><span class="o">=</span><span class="n">driving_source_id</span><span class="p">,</span>
                 <span class="n">mask</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                 <span class="n">add_missing_bounds</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -714,9 +713,9 @@ document.write(`
                 <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">static_vars</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">dsets_copy</span><span class="o">.</span><span class="n">variables</span><span class="p">:</span>
                         <span class="n">ds_var_mon</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">dsets_copy</span><span class="p">[</span><span class="n">var</span><span class="p">]</span>
-                <span class="n">dsets_mon</span><span class="p">[</span><span class="n">dset</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;.day.&#39;</span><span class="p">,</span> <span class="s1">&#39;.mon.&#39;</span><span class="p">)]</span> <span class="o">=</span> <span class="n">ds_var_mon</span>
+                <span class="n">dsets_mon</span><span class="p">[</span><span class="n">dset</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.day.&quot;</span><span class="p">,</span> <span class="s2">&quot;.mon.&quot;</span><span class="p">)]</span> <span class="o">=</span> <span class="n">ds_var_mon</span>
             <span class="n">dsets</span> <span class="o">=</span> <span class="n">dsets</span> <span class="o">|</span> <span class="n">dsets_mon</span>
-    
+
         <span class="k">for</span> <span class="n">dset</span> <span class="ow">in</span> <span class="n">dsets</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">check_equal_period</span><span class="p">(</span><span class="n">dsets</span><span class="p">[</span><span class="n">dset</span><span class="p">],</span> <span class="n">period</span><span class="p">):</span>
                 <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Temporal coverage of </span><span class="si">{</span><span class="n">dset</span><span class="si">}</span><span class="s2"> does not match with </span><span class="si">{</span><span class="n">period</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
@@ -758,7 +757,9 @@ document.write(`
             <span class="n">dim</span><span class="o">=</span><span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
                 <span class="nb">list</span><span class="p">(</span>
                     <span class="nb">map</span><span class="p">(</span>
-                        <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">short_iid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;source_id&quot;</span><span class="p">,</span> <span class="s2">&quot;version_realization&quot;</span><span class="p">],</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;_&quot;</span><span class="p">),</span>
+                        <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">short_iid</span><span class="p">(</span>
+                            <span class="n">x</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;source_id&quot;</span><span class="p">,</span> <span class="s2">&quot;version_realization&quot;</span><span class="p">],</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;_&quot;</span>
+                        <span class="p">),</span>
                         <span class="n">diffs</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span>
                     <span class="p">)</span>
                 <span class="p">),</span>
@@ -874,7 +875,11 @@ document.write(`
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">list_model_version</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">((</span><span class="n">eur_colors</span><span class="p">[</span><span class="s2">&quot;model&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="n">eur_colors</span><span class="p">[</span><span class="s2">&quot;model_version&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">))</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">list_model_version</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+    <span class="p">(</span>
+        <span class="n">eur_colors</span><span class="p">[</span><span class="s2">&quot;model&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="n">eur_colors</span><span class="p">[</span><span class="s2">&quot;model_version&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -949,7 +954,6 @@ document.write(`
     <span class="n">cmip6_biases_sp</span> <span class="o">=</span> <span class="p">{</span><span class="n">season</span><span class="p">:</span> <span class="p">[]</span> <span class="k">for</span> <span class="n">season</span> <span class="ow">in</span> <span class="n">seasons</span><span class="p">}</span>
     <span class="n">cmip5_biases_sp</span> <span class="o">=</span> <span class="p">{</span><span class="n">season</span><span class="p">:</span> <span class="p">[]</span> <span class="k">for</span> <span class="n">season</span> <span class="ow">in</span> <span class="n">seasons</span><span class="p">}</span>
 
-    
     <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">df_CMIP6_region_fp</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
         <span class="n">dset_id</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;dset_id&quot;</span><span class="p">]</span>
         <span class="n">dset_id_in_table</span> <span class="o">=</span> <span class="n">dset_id</span> <span class="ow">in</span> <span class="n">list_model_version</span>
@@ -959,8 +963,9 @@ document.write(`
             <span class="k">else</span> <span class="n">default_color</span>
         <span class="p">)</span>
         <span class="n">parent</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">eur_colors</span><span class="p">[</span><span class="n">list_model_version</span> <span class="o">==</span> <span class="n">dset_id</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
-                <span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">row</span><span class="o">.</span><span class="n">parent</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">row</span><span class="o">.</span><span class="n">parent_version</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">eur_colors</span><span class="p">[</span><span class="n">list_model_version</span> <span class="o">==</span> <span class="n">dset_id</span><span class="p">]</span>
+            <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">row</span><span class="o">.</span><span class="n">parent</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">row</span><span class="o">.</span><span class="n">parent_version</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
             <span class="k">if</span> <span class="n">dset_id_in_table</span>
             <span class="k">else</span> <span class="kc">None</span>
         <span class="p">)</span>
@@ -1003,8 +1008,9 @@ document.write(`
             <span class="k">else</span> <span class="n">default_color</span>
         <span class="p">)</span>
         <span class="n">parent</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">eur_colors</span><span class="p">[</span><span class="n">list_model_version</span> <span class="o">==</span> <span class="n">dset_id</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
-                <span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">row</span><span class="o">.</span><span class="n">parent</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">row</span><span class="o">.</span><span class="n">parent_version</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">eur_colors</span><span class="p">[</span><span class="n">list_model_version</span> <span class="o">==</span> <span class="n">dset_id</span><span class="p">]</span>
+            <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">row</span><span class="o">.</span><span class="n">parent</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">row</span><span class="o">.</span><span class="n">parent_version</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
             <span class="k">if</span> <span class="n">dset_id_in_table</span>
             <span class="k">else</span> <span class="kc">None</span>
         <span class="p">)</span>
@@ -1506,7 +1512,6 @@ See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stab
     <span class="n">cmip6_biases_sp</span> <span class="o">=</span> <span class="p">{</span><span class="n">season</span><span class="p">:</span> <span class="p">[]</span> <span class="k">for</span> <span class="n">season</span> <span class="ow">in</span> <span class="n">seasons</span><span class="p">}</span>
     <span class="n">cmip5_biases_sp</span> <span class="o">=</span> <span class="p">{</span><span class="n">season</span><span class="p">:</span> <span class="p">[]</span> <span class="k">for</span> <span class="n">season</span> <span class="ow">in</span> <span class="n">seasons</span><span class="p">}</span>
 
-    
     <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">df_CMIP6_region_fp</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
         <span class="n">dset_id</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;dset_id&quot;</span><span class="p">]</span>
         <span class="n">dset_id_in_table</span> <span class="o">=</span> <span class="n">dset_id</span> <span class="ow">in</span> <span class="n">list_model_version</span>
@@ -1516,8 +1521,9 @@ See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stab
             <span class="k">else</span> <span class="n">default_color</span>
         <span class="p">)</span>
         <span class="n">parent</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">eur_colors</span><span class="p">[</span><span class="n">list_model_version</span> <span class="o">==</span> <span class="n">dset_id</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
-                <span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">row</span><span class="o">.</span><span class="n">parent</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">row</span><span class="o">.</span><span class="n">parent_version</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">eur_colors</span><span class="p">[</span><span class="n">list_model_version</span> <span class="o">==</span> <span class="n">dset_id</span><span class="p">]</span>
+            <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">row</span><span class="o">.</span><span class="n">parent</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">row</span><span class="o">.</span><span class="n">parent_version</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
             <span class="k">if</span> <span class="n">dset_id_in_table</span>
             <span class="k">else</span> <span class="kc">None</span>
         <span class="p">)</span>
@@ -1560,8 +1566,9 @@ See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stab
             <span class="k">else</span> <span class="n">default_color</span>
         <span class="p">)</span>
         <span class="n">parent</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">eur_colors</span><span class="p">[</span><span class="n">list_model_version</span> <span class="o">==</span> <span class="n">dset_id</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
-                <span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">row</span><span class="o">.</span><span class="n">parent</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">row</span><span class="o">.</span><span class="n">parent_version</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">eur_colors</span><span class="p">[</span><span class="n">list_model_version</span> <span class="o">==</span> <span class="n">dset_id</span><span class="p">]</span>
+            <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">row</span><span class="o">.</span><span class="n">parent</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">row</span><span class="o">.</span><span class="n">parent_version</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
             <span class="k">if</span> <span class="n">dset_id_in_table</span>
             <span class="k">else</span> <span class="kc">None</span>
         <span class="p">)</span>
@@ -2032,16 +2039,15 @@ See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stab
         <span class="o">-</span> <span class="mf">0.2</span>
         <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="mf">0.025</span><span class="p">,</span> <span class="mf">0.025</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">df_CMIP5_region_fp</span><span class="p">[</span><span class="s2">&quot;season_num&quot;</span><span class="p">]))</span>
     <span class="p">)</span>
-    <span class="n">df_CMIP6_region_fp</span><span class="p">[</span><span class="s2">&quot;season_shifted&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">df_CMIP6_region_fp</span><span class="p">[</span><span class="s2">&quot;season_num&quot;</span><span class="p">]</span>
-        <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="mf">0.025</span><span class="p">,</span> <span class="mf">0.025</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">df_CMIP6_region_fp</span><span class="p">[</span><span class="s2">&quot;season_num&quot;</span><span class="p">]))</span>
-    <span class="p">)</span>
+    <span class="n">df_CMIP6_region_fp</span><span class="p">[</span><span class="s2">&quot;season_shifted&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_CMIP6_region_fp</span><span class="p">[</span>
+        <span class="s2">&quot;season_num&quot;</span>
+    <span class="p">]</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="mf">0.025</span><span class="p">,</span> <span class="mf">0.025</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">df_CMIP6_region_fp</span><span class="p">[</span><span class="s2">&quot;season_num&quot;</span><span class="p">]))</span>
     <span class="n">df_obs_region_fp</span><span class="p">[</span><span class="s2">&quot;season_shifted&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_obs_region_fp</span><span class="p">[</span><span class="s2">&quot;season_num&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.2</span>
 
     <span class="c1"># Create lists to store the bias values for calculating median</span>
     <span class="n">cmip6_biases_fp</span> <span class="o">=</span> <span class="p">{</span><span class="n">season</span><span class="p">:</span> <span class="p">[]</span> <span class="k">for</span> <span class="n">season</span> <span class="ow">in</span> <span class="n">seasons</span><span class="p">}</span>
     <span class="n">cmip5_biases_fp</span> <span class="o">=</span> <span class="p">{</span><span class="n">season</span><span class="p">:</span> <span class="p">[]</span> <span class="k">for</span> <span class="n">season</span> <span class="ow">in</span> <span class="n">seasons</span><span class="p">}</span>
-    
+
     <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">df_CMIP6_region_fp</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
         <span class="n">dset_id</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;dset_id&quot;</span><span class="p">]</span>
         <span class="n">dset_id_in_table</span> <span class="o">=</span> <span class="n">dset_id</span> <span class="ow">in</span> <span class="n">list_model_version</span>
@@ -2051,8 +2057,9 @@ See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stab
             <span class="k">else</span> <span class="n">default_color</span>
         <span class="p">)</span>
         <span class="n">parent</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">eur_colors</span><span class="p">[</span><span class="n">list_model_version</span> <span class="o">==</span> <span class="n">dset_id</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
-                <span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">row</span><span class="o">.</span><span class="n">parent</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">row</span><span class="o">.</span><span class="n">parent_version</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">eur_colors</span><span class="p">[</span><span class="n">list_model_version</span> <span class="o">==</span> <span class="n">dset_id</span><span class="p">]</span>
+            <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">row</span><span class="o">.</span><span class="n">parent</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">row</span><span class="o">.</span><span class="n">parent_version</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
             <span class="k">if</span> <span class="n">dset_id_in_table</span>
             <span class="k">else</span> <span class="kc">None</span>
         <span class="p">)</span>
@@ -2085,7 +2092,6 @@ See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stab
                     <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span>
                     <span class="n">zorder</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                 <span class="p">)</span>
-
 
     <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">df_CMIP5_region_fp</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
         <span class="n">dset_id</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;dset_id&quot;</span><span class="p">]</span>
@@ -2132,7 +2138,6 @@ See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stab
         <span class="k">if</span> <span class="n">dset_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">:</span>
             <span class="n">handles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">scatter</span><span class="p">)</span>
             <span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dset_id</span><span class="p">)</span>
-
 
     <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">var_dic</span><span class="p">[</span><span class="n">index</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">])</span>
     <span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">var_dic</span><span class="p">[</span><span class="n">index</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">])</span>
@@ -2394,16 +2399,15 @@ See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stab
         <span class="o">-</span> <span class="mf">0.2</span>
         <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="mf">0.025</span><span class="p">,</span> <span class="mf">0.025</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">df_CMIP5_region_fp</span><span class="p">[</span><span class="s2">&quot;season_num&quot;</span><span class="p">]))</span>
     <span class="p">)</span>
-    <span class="n">df_CMIP6_region_fp</span><span class="p">[</span><span class="s2">&quot;season_shifted&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="n">df_CMIP6_region_fp</span><span class="p">[</span><span class="s2">&quot;season_num&quot;</span><span class="p">]</span>
-        <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="mf">0.025</span><span class="p">,</span> <span class="mf">0.025</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">df_CMIP6_region_fp</span><span class="p">[</span><span class="s2">&quot;season_num&quot;</span><span class="p">]))</span>
-    <span class="p">)</span>
+    <span class="n">df_CMIP6_region_fp</span><span class="p">[</span><span class="s2">&quot;season_shifted&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_CMIP6_region_fp</span><span class="p">[</span>
+        <span class="s2">&quot;season_num&quot;</span>
+    <span class="p">]</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="o">-</span><span class="mf">0.025</span><span class="p">,</span> <span class="mf">0.025</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">df_CMIP6_region_fp</span><span class="p">[</span><span class="s2">&quot;season_num&quot;</span><span class="p">]))</span>
     <span class="n">df_obs_region_fp</span><span class="p">[</span><span class="s2">&quot;season_shifted&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_obs_region_fp</span><span class="p">[</span><span class="s2">&quot;season_num&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="mf">0.2</span>
 
     <span class="c1"># Create lists to store the bias values for calculating median</span>
     <span class="n">cmip6_biases_fp</span> <span class="o">=</span> <span class="p">{</span><span class="n">season</span><span class="p">:</span> <span class="p">[]</span> <span class="k">for</span> <span class="n">season</span> <span class="ow">in</span> <span class="n">seasons</span><span class="p">}</span>
     <span class="n">cmip5_biases_fp</span> <span class="o">=</span> <span class="p">{</span><span class="n">season</span><span class="p">:</span> <span class="p">[]</span> <span class="k">for</span> <span class="n">season</span> <span class="ow">in</span> <span class="n">seasons</span><span class="p">}</span>
-    
+
     <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">df_CMIP6_region_fp</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
         <span class="n">dset_id</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;dset_id&quot;</span><span class="p">]</span>
         <span class="n">dset_id_in_table</span> <span class="o">=</span> <span class="n">dset_id</span> <span class="ow">in</span> <span class="n">list_model_version</span>
@@ -2413,8 +2417,9 @@ See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stab
             <span class="k">else</span> <span class="n">default_color</span>
         <span class="p">)</span>
         <span class="n">parent</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">eur_colors</span><span class="p">[</span><span class="n">list_model_version</span> <span class="o">==</span> <span class="n">dset_id</span><span class="p">]</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span>
-                <span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">row</span><span class="o">.</span><span class="n">parent</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">row</span><span class="o">.</span><span class="n">parent_version</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">eur_colors</span><span class="p">[</span><span class="n">list_model_version</span> <span class="o">==</span> <span class="n">dset_id</span><span class="p">]</span>
+            <span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="k">lambda</span> <span class="n">row</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">row</span><span class="o">.</span><span class="n">parent</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">row</span><span class="o">.</span><span class="n">parent_version</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+            <span class="o">.</span><span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
             <span class="k">if</span> <span class="n">dset_id_in_table</span>
             <span class="k">else</span> <span class="kc">None</span>
         <span class="p">)</span>
@@ -2447,7 +2452,6 @@ See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stab
                     <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;-&quot;</span><span class="p">,</span>
                     <span class="n">zorder</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                 <span class="p">)</span>
-
 
     <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">df_CMIP5_region_fp</span><span class="o">.</span><span class="n">iterrows</span><span class="p">():</span>
         <span class="n">dset_id</span> <span class="o">=</span> <span class="n">row</span><span class="p">[</span><span class="s2">&quot;dset_id&quot;</span><span class="p">]</span>
@@ -2494,7 +2498,6 @@ See the caveats in the documentation: https://pandas.pydata.org/pandas-docs/stab
         <span class="k">if</span> <span class="n">dset_id</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">labels</span><span class="p">:</span>
             <span class="n">handles</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">scatter</span><span class="p">)</span>
             <span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">dset_id</span><span class="p">)</span>
-
 
     <span class="n">axes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">var_dic</span><span class="p">[</span><span class="n">index</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">])</span>
     <span class="n">axes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="n">var_dic</span><span class="p">[</span><span class="n">index</span><span class="p">][</span><span class="s2">&quot;name&quot;</span><span class="p">])</span>

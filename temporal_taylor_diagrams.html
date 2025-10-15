@@ -955,7 +955,14 @@ Periodic in longitude?      False
 <span class="n">dset_id_tcoiav</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
     <span class="nb">list</span><span class="p">(</span><span class="n">diffs</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span>
     <span class="n">dim</span><span class="o">=</span><span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
-        <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">short_iid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;source_id&quot;</span><span class="p">,</span> <span class="s2">&quot;version_realization&quot;</span><span class="p">],</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;_&quot;</span><span class="p">),</span> <span class="n">diffs</span><span class="o">.</span><span class="n">keys</span><span class="p">())),</span>
+        <span class="nb">list</span><span class="p">(</span>
+            <span class="nb">map</span><span class="p">(</span>
+                <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">short_iid</span><span class="p">(</span>
+                    <span class="n">x</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;source_id&quot;</span><span class="p">,</span> <span class="s2">&quot;version_realization&quot;</span><span class="p">],</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;_&quot;</span>
+                <span class="p">),</span>
+                <span class="n">diffs</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span>
+            <span class="p">)</span>
+        <span class="p">),</span>
         <span class="n">dims</span><span class="o">=</span><span class="s2">&quot;dset_id&quot;</span><span class="p">,</span>
     <span class="p">),</span>
     <span class="n">compat</span><span class="o">=</span><span class="s2">&quot;override&quot;</span><span class="p">,</span>
@@ -977,7 +984,14 @@ Periodic in longitude?      False
 <span class="n">dset_id_riav</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
     <span class="nb">list</span><span class="p">(</span><span class="n">diffs</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span>
     <span class="n">dim</span><span class="o">=</span><span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
-        <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">short_iid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;source_id&quot;</span><span class="p">,</span> <span class="s2">&quot;version_realization&quot;</span><span class="p">],</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;_&quot;</span><span class="p">),</span> <span class="n">diffs</span><span class="o">.</span><span class="n">keys</span><span class="p">())),</span>
+        <span class="nb">list</span><span class="p">(</span>
+            <span class="nb">map</span><span class="p">(</span>
+                <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">short_iid</span><span class="p">(</span>
+                    <span class="n">x</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;source_id&quot;</span><span class="p">,</span> <span class="s2">&quot;version_realization&quot;</span><span class="p">],</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;_&quot;</span>
+                <span class="p">),</span>
+                <span class="n">diffs</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span>
+            <span class="p">)</span>
+        <span class="p">),</span>
         <span class="n">dims</span><span class="o">=</span><span class="s2">&quot;dset_id&quot;</span><span class="p">,</span>
     <span class="p">),</span>
     <span class="n">compat</span><span class="o">=</span><span class="s2">&quot;override&quot;</span><span class="p">,</span>
@@ -1027,8 +1041,8 @@ Periodic in longitude?      False
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dsets_day</span> <span class="o">=</span> <span class="n">open_datasets</span><span class="p">(</span>
     <span class="p">[</span><span class="n">variable</span><span class="p">],</span>
-    <span class="n">frequency</span><span class="o">=</span><span class="s1">&#39;day&#39;</span><span class="p">,</span>
-    <span class="n">source_id</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;WRF381P&#39;</span><span class="p">,</span> <span class="s1">&#39;HIRHAM5&#39;</span><span class="p">,</span> <span class="s1">&#39;RegCM4-6&#39;</span><span class="p">],</span>
+    <span class="n">frequency</span><span class="o">=</span><span class="s2">&quot;day&quot;</span><span class="p">,</span>
+    <span class="n">source_id</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;WRF381P&quot;</span><span class="p">,</span> <span class="s2">&quot;HIRHAM5&quot;</span><span class="p">,</span> <span class="s2">&quot;RegCM4-6&quot;</span><span class="p">],</span>
     <span class="n">driving_source_id</span><span class="o">=</span><span class="n">driving_source_id</span><span class="p">,</span>
     <span class="n">mask</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="n">add_missing_bounds</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
@@ -1042,7 +1056,7 @@ Periodic in longitude?      False
     <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">static_vars</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">dsets_copy</span><span class="o">.</span><span class="n">variables</span><span class="p">:</span>
             <span class="n">ds_var_mon</span><span class="p">[</span><span class="n">var</span><span class="p">]</span> <span class="o">=</span> <span class="n">dsets_copy</span><span class="p">[</span><span class="n">var</span><span class="p">]</span>
-    <span class="n">dsets_mon</span><span class="p">[</span><span class="n">dset</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;.day.&#39;</span><span class="p">,</span> <span class="s1">&#39;.mon.&#39;</span><span class="p">)]</span> <span class="o">=</span> <span class="n">ds_var_mon</span>
+    <span class="n">dsets_mon</span><span class="p">[</span><span class="n">dset</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;.day.&quot;</span><span class="p">,</span> <span class="s2">&quot;.mon.&quot;</span><span class="p">)]</span> <span class="o">=</span> <span class="n">ds_var_mon</span>
 <span class="n">dsets</span> <span class="o">=</span> <span class="n">dsets</span> <span class="o">|</span> <span class="n">dsets_mon</span>
 </pre></div>
 </div>
@@ -1117,7 +1131,14 @@ Periodic in longitude?      False
 <span class="n">dset_id_tcoiav</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
     <span class="nb">list</span><span class="p">(</span><span class="n">diffs</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span>
     <span class="n">dim</span><span class="o">=</span><span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
-        <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">short_iid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;source_id&quot;</span><span class="p">,</span> <span class="s2">&quot;version_realization&quot;</span><span class="p">],</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;_&quot;</span><span class="p">),</span> <span class="n">diffs</span><span class="o">.</span><span class="n">keys</span><span class="p">())),</span>
+        <span class="nb">list</span><span class="p">(</span>
+            <span class="nb">map</span><span class="p">(</span>
+                <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">short_iid</span><span class="p">(</span>
+                    <span class="n">x</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;source_id&quot;</span><span class="p">,</span> <span class="s2">&quot;version_realization&quot;</span><span class="p">],</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;_&quot;</span>
+                <span class="p">),</span>
+                <span class="n">diffs</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span>
+            <span class="p">)</span>
+        <span class="p">),</span>
         <span class="n">dims</span><span class="o">=</span><span class="s2">&quot;dset_id&quot;</span><span class="p">,</span>
     <span class="p">),</span>
     <span class="n">compat</span><span class="o">=</span><span class="s2">&quot;override&quot;</span><span class="p">,</span>
@@ -1139,7 +1160,14 @@ Periodic in longitude?      False
 <span class="n">dset_id_riav</span> <span class="o">=</span> <span class="n">xr</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span>
     <span class="nb">list</span><span class="p">(</span><span class="n">diffs</span><span class="o">.</span><span class="n">values</span><span class="p">()),</span>
     <span class="n">dim</span><span class="o">=</span><span class="n">xr</span><span class="o">.</span><span class="n">DataArray</span><span class="p">(</span>
-        <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">short_iid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;source_id&quot;</span><span class="p">,</span> <span class="s2">&quot;version_realization&quot;</span><span class="p">],</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;_&quot;</span><span class="p">),</span> <span class="n">diffs</span><span class="o">.</span><span class="n">keys</span><span class="p">())),</span>
+        <span class="nb">list</span><span class="p">(</span>
+            <span class="nb">map</span><span class="p">(</span>
+                <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">short_iid</span><span class="p">(</span>
+                    <span class="n">x</span><span class="p">,</span> <span class="p">[</span><span class="s2">&quot;source_id&quot;</span><span class="p">,</span> <span class="s2">&quot;version_realization&quot;</span><span class="p">],</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">&quot;_&quot;</span>
+                <span class="p">),</span>
+                <span class="n">diffs</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span>
+            <span class="p">)</span>
+        <span class="p">),</span>
         <span class="n">dims</span><span class="o">=</span><span class="s2">&quot;dset_id&quot;</span><span class="p">,</span>
     <span class="p">),</span>
     <span class="n">compat</span><span class="o">=</span><span class="s2">&quot;override&quot;</span><span class="p">,</span>
@@ -1231,7 +1259,11 @@ Periodic in longitude?      False
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">list_model_version</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">((</span><span class="n">eur_colors</span><span class="p">[</span><span class="s2">&quot;model&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="n">eur_colors</span><span class="p">[</span><span class="s2">&quot;model_version&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">))</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">list_model_version</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span>
+    <span class="p">(</span>
+        <span class="n">eur_colors</span><span class="p">[</span><span class="s2">&quot;model&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;_&quot;</span> <span class="o">+</span> <span class="n">eur_colors</span><span class="p">[</span><span class="s2">&quot;model_version&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="p">)</span>
 </pre></div>
 </div>
 </div>
