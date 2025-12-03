@@ -4,6 +4,19 @@
 
 <img src="https://imgs.xkcd.com/comics/data_trap.png" width="300" align="right"/>
 
+> **⚠️ Note: Rewritten Git History**
+>
+> This repository’s history was rewritten to remove large files from past commits.
+> If you cloned or forked this repository **before 2025-12-03**, you must re-clone or
+> reset your local copy:
+>
+> ```bash
+> git fetch --all
+> git reset --hard origin/main
+> ```
+>
+> Old clones are not compatible with the new commit history.
+
 Joint evaluation of the CMIP6 downscaling within EURO-CORDEX.
 
 This repository is supposed to help in organizing the EURO-CORDEX joint evaluation, e.g., it holds meta data like tables, and catalogs, but also README files and [issues](https://github.com/euro-cordex/joint-evaluation/issues) regarding evaluation. If you have any topics, questions or suggestions, please don't hesitate to [open a new issue](https://github.com/euro-cordex/joint-evaluation/issues/new)! There is also the possibility to [join a team](https://github.com/orgs/euro-cordex/teams) to stay in touch easily if you want.
