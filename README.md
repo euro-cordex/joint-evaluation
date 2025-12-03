@@ -17,6 +17,10 @@
 >
 > Old clones are not compatible with the new commit history.
 
+> **⚠️ Note: Moved Catalog**
+>
+> The catalog handling has been moved to a [separate repository](https://github.com/euro-cordex/jsc-cordex-catalog).
+
 Joint evaluation of the CMIP6 downscaling within EURO-CORDEX.
 
 This repository is supposed to help in organizing the EURO-CORDEX joint evaluation, e.g., it holds meta data like tables, and catalogs, but also README files and [issues](https://github.com/euro-cordex/joint-evaluation/issues) regarding evaluation. If you have any topics, questions or suggestions, please don't hesitate to [open a new issue](https://github.com/euro-cordex/joint-evaluation/issues/new)! There is also the possibility to [join a team](https://github.com/orgs/euro-cordex/teams) to stay in touch easily if you want.
