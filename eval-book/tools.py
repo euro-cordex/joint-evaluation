@@ -691,8 +691,7 @@ class TaylorDiagram(object):
 
         return contours
 
-
-def check_time(ds, dim="time", tol=None):
+def check_time(ds, dim='time', tol=None):
     """
     Checks if an xarray DataArray has monotonic and continuous time.
     Works for cftime or numpy datetime64.
@@ -719,10 +718,8 @@ def check_time(ds, dim="time", tol=None):
         if isinstance(times[0], cftime.datetime):
             # Convert to datetime using the year, month, day, etc.
             times_for_pandas = pd.to_datetime(
-                [
-                    pd.Timestamp(t.year, t.month, t.day, t.hour, t.minute, t.second)
-                    for t in times
-                ]
+                [pd.Timestamp(t.year, t.month, t.day,
+                              t.hour, t.minute, t.second) for t in times]
             )
         else:
             times_for_pandas = pd.to_datetime(times)
@@ -731,29 +728,17 @@ def check_time(ds, dim="time", tol=None):
         inferred_freq = pd.infer_freq(ts.index)
     except Exception:
         # If frequency cannot be inferred, check continuity with constant timedelta
-        diffs = np.diff(
-            [
-                t.toordinal() if isinstance(t, cftime.datetime) else t.astype("O")
-                for t in times
-            ]
-        )
+        diffs = np.diff([t.toordinal() if isinstance(t, cftime.datetime) 
+                         else t.astype('O') for t in times])
         if tol is None:
-            tol = np.timedelta64(1, "s")
+            tol = np.timedelta64(1, 's')
         continuous = np.all(np.abs(diffs - diffs[0]) <= tol)
     else:
         # If frequency is known, check continuity using pandas date_range
-        expected_range = pd.date_range(
-            start=times_for_pandas[0], end=times_for_pandas[-1], freq=inferred_freq
-        )
+        expected_range = pd.date_range(start=times_for_pandas[0], 
+                                       end=times_for_pandas[-1], freq=inferred_freq)
         continuous = len(expected_range) == len(times_for_pandas)
 
-<<<<<<< Updated upstream
-    return {
-        "monotonic": monotonic,
-        "continuous": continuous,
-        "inferred_frequency": inferred_freq,
-    }
-=======
     return {'monotonic': monotonic,
             'continuous': continuous,
             'inferred_frequency': inferred_freq}
@@ -1090,4 +1075,3 @@ def plot_regional_biases(**kwargs):
         transparent=True,
     )
     return fig, axes
->>>>>>> Stashed changes
