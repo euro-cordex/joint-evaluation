@@ -104,7 +104,7 @@ variable_mapping = {
     "cerra": {"tas": "t2m", "pr": "tp"},
     "cerra-land": {"tas": "tas", "pr": "tp"},
     "era5": {"tas": "t2m", "pr": "tp"},
-    'rocio-ibeb': {"pr": "precipitation"},
+    "rocio-ibeb": {"pr": "precipitation"},
 }
 
 # List of models that need regridding although they are on rotated pole
@@ -115,7 +115,7 @@ def is_special_case(dset_id):
     return any(source_id in dset_id.split(".") for source_id in special_case)
 
 
-def load_obs(variable, dataset, frequency = 'mon', add_fx=True, mask=True):
+def load_obs(variable, dataset, frequency="mon", add_fx=True, mask=True):
     root = f"/mnt/CORDEX_CMIP6_tmp/aux_data/{dataset}/{frequency}/{variable}/"
 
     if dataset in ["cerra", "cerra-land", "era5"]:
@@ -123,8 +123,8 @@ def load_obs(variable, dataset, frequency = 'mon', add_fx=True, mask=True):
             np.sort(list(traverseDir(root))), concat_dim="valid_time", combine="nested"
         )
         ds = ds.rename({"valid_time": "time"})
-        #ds = fix_360_longitudes(ds, lonname="longitude")
-    elif dataset == 'rocio-ibeb':
+        # ds = fix_360_longitudes(ds, lonname="longitude")
+    elif dataset == "rocio-ibeb":
         ds = xr.open_mfdataset(
             np.sort(list(traverseDir(root))), concat_dim="time", combine="nested"
         )
@@ -132,7 +132,7 @@ def load_obs(variable, dataset, frequency = 'mon', add_fx=True, mask=True):
         ds = ds.resample(time="ME").mean().compute()
         ds["lon"] = ds["lon"].isel(time=800, drop=True)
         ds["lat"] = ds["lat"].isel(time=800, drop=True)
-        
+
     if add_fx is True:
         files_fx = list(traverseDir(f"/mnt/CORDEX_CMIP6_tmp/aux_data/{dataset}/fx/"))
         files_fx = [f for f in files_fx if "fixed" in f]
@@ -691,7 +691,8 @@ class TaylorDiagram(object):
 
         return contours
 
-def check_time(ds, dim='time', tol=None):
+
+def check_time(ds, dim="time", tol=None):
     """
     Checks if an xarray DataArray has monotonic and continuous time.
     Works for cftime or numpy datetime64.
@@ -718,8 +719,10 @@ def check_time(ds, dim='time', tol=None):
         if isinstance(times[0], cftime.datetime):
             # Convert to datetime using the year, month, day, etc.
             times_for_pandas = pd.to_datetime(
-                [pd.Timestamp(t.year, t.month, t.day,
-                              t.hour, t.minute, t.second) for t in times]
+                [
+                    pd.Timestamp(t.year, t.month, t.day, t.hour, t.minute, t.second)
+                    for t in times
+                ]
             )
         else:
             times_for_pandas = pd.to_datetime(times)
@@ -728,20 +731,28 @@ def check_time(ds, dim='time', tol=None):
         inferred_freq = pd.infer_freq(ts.index)
     except Exception:
         # If frequency cannot be inferred, check continuity with constant timedelta
-        diffs = np.diff([t.toordinal() if isinstance(t, cftime.datetime) 
-                         else t.astype('O') for t in times])
+        diffs = np.diff(
+            [
+                t.toordinal() if isinstance(t, cftime.datetime) else t.astype("O")
+                for t in times
+            ]
+        )
         if tol is None:
-            tol = np.timedelta64(1, 's')
+            tol = np.timedelta64(1, "s")
         continuous = np.all(np.abs(diffs - diffs[0]) <= tol)
     else:
         # If frequency is known, check continuity using pandas date_range
-        expected_range = pd.date_range(start=times_for_pandas[0], 
-                                       end=times_for_pandas[-1], freq=inferred_freq)
+        expected_range = pd.date_range(
+            start=times_for_pandas[0], end=times_for_pandas[-1], freq=inferred_freq
+        )
         continuous = len(expected_range) == len(times_for_pandas)
 
-    return {'monotonic': monotonic,
-            'continuous': continuous,
-            'inferred_frequency': inferred_freq}
+    return {
+        "monotonic": monotonic,
+        "continuous": continuous,
+        "inferred_frequency": inferred_freq,
+    }
+
 
 def plot_regional_biases(**kwargs):
 
@@ -764,34 +775,34 @@ def plot_regional_biases(**kwargs):
     df_CMIP5_sp_fair = kwargs["df_CMIP5_sp_fair"]
     save_figure_path = kwargs["save_figure_path"]
     reference_regions = kwargs["reference_regions"]
-    
+
     print(regs)
     default_color = "#fb6a4a"
-    
+
     fig, axes = plt.subplots(2, 2, figsize=(12, 8), sharex=True, sharey=True)
     axes = axes.flatten()
-    
+
     handles = []
     labels = []
-    
+
     for i, region in enumerate(regs):
         ax = axes[i]
-    
+
         df_CMIP6_region_fp = df_CMIP6_fp[df_CMIP6_fp["abbrevs"] == region]
         df_CMIP5_region_fp = df_CMIP5_fp[df_CMIP5_fp["abbrevs"] == region]
         df_obs_region_fp = df_obs_fp[df_obs_fp["abbrevs"] == region]
-    
+
         df_CMIP6_region_sp = df_CMIP6_sp[df_CMIP6_sp["abbrevs"] == region]
         df_CMIP5_region_sp = df_CMIP5_sp[df_CMIP5_sp["abbrevs"] == region]
         df_obs_region_sp = df_obs_sp[df_obs_sp["abbrevs"] == region]
-    
+
         df_CMIP6_region_fp["season_num"] = df_CMIP6_region_fp["season"].apply(
             lambda x: seasons.index(x)
         )
         df_CMIP6_region_sp["season_num"] = df_CMIP6_region_sp["season"].apply(
             lambda x: seasons.index(x)
         )
-    
+
         df_CMIP5_region_fp["season_num"] = df_CMIP5_region_fp["season"].apply(
             lambda x: seasons.index(x)
         )
@@ -804,26 +815,31 @@ def plot_regional_biases(**kwargs):
         df_obs_region_sp["season_num"] = df_obs_region_sp["season"].apply(
             lambda x: seasons.index(x)
         )
-    
+
         df_CMIP5_region_fp["season_shifted"] = (
             df_CMIP5_region_fp["season_num"]
             - 0.3
-            + np.random.uniform(-0.045, 0.05, size=len(df_CMIP5_region_fp["season_num"]))
+            + np.random.uniform(
+                -0.045, 0.05, size=len(df_CMIP5_region_fp["season_num"])
+            )
         )
         df_CMIP6_region_fp["season_shifted"] = (
             df_CMIP6_region_fp["season_num"]
             - 0.1
-            + np.random.uniform(-0.045, 0.045, size=len(df_CMIP6_region_fp["season_num"]))
+            + np.random.uniform(
+                -0.045, 0.045, size=len(df_CMIP6_region_fp["season_num"])
+            )
         )
         df_CMIP6_region_sp["season_shifted"] = (
             df_CMIP6_region_sp["season_num"]
             + 0.1
-            + np.random.uniform(-0.045, 0.045, size=len(df_CMIP6_region_sp["season_num"]))
+            + np.random.uniform(
+                -0.045, 0.045, size=len(df_CMIP6_region_sp["season_num"])
+            )
         )
         df_obs_region_fp["season_shifted"] = df_obs_region_fp["season_num"] + 0.3
         df_obs_region_sp["season_shifted"] = df_obs_region_sp["season_num"] + 0.4
-    
-        
+
         for idx, row in df_CMIP6_region_fp.iterrows():
             dset_id = row["dset_id"]
             dset_id_in_table = dset_id in list_model_version
@@ -833,27 +849,28 @@ def plot_regional_biases(**kwargs):
                 else default_color
             )
             parent = (
-                eur_colors[list_model_version == dset_id].apply(
-                    lambda row: f"{row.parent}_{row.parent_version}", axis=1).values[0]
+                eur_colors[list_model_version == dset_id]
+                .apply(lambda row: f"{row.parent}_{row.parent_version}", axis=1)
+                .values[0]
                 if dset_id_in_table
                 else None
             )
-    
+
             scatter = ax.scatter(
                 row["season_shifted"],
                 row[variable],
                 color=color,
-                edgecolors='lightgray',
+                edgecolors="lightgray",
                 linewidths=0.1,
                 facecolor=color,
                 marker="o",
                 s=55,
             )
-    
+
             if dset_id not in labels:
                 handles.append(scatter)
                 labels.append(dset_id)
-    
+
             if parent is not None:
                 row_cmip5 = df_CMIP5_region_fp[df_CMIP5_region_fp["dset_id"] == parent]
                 if not row_cmip5.empty:
@@ -865,7 +882,7 @@ def plot_regional_biases(**kwargs):
                         linestyle="-",
                         zorder=0,
                     )
-    
+
         for idx, row in df_CMIP6_region_sp.iterrows():
             dset_id = row["dset_id"]
             dset_id_in_table = dset_id in list_model_version
@@ -875,27 +892,28 @@ def plot_regional_biases(**kwargs):
                 else default_color
             )
             parent = (
-                eur_colors[list_model_version == dset_id].apply(
-                    lambda row: f"{row.parent}_{row.parent_version}", axis=1).values[0]
+                eur_colors[list_model_version == dset_id]
+                .apply(lambda row: f"{row.parent}_{row.parent_version}", axis=1)
+                .values[0]
                 if dset_id_in_table
                 else None
             )
-    
+
             scatter = ax.scatter(
                 row["season_shifted"],
                 row[variable],
                 color=color,
-                edgecolors='lightgray',
+                edgecolors="lightgray",
                 linewidths=0.1,
                 facecolor=color,
                 marker="o",
                 s=55,
             )
-    
+
             if dset_id not in labels:
                 handles.append(scatter)
                 labels.append(dset_id)
-    
+
         for idx, row in df_CMIP5_region_fp.iterrows():
             dset_id = row["dset_id"]
             dset_id_in_table = dset_id in list_model_version
@@ -904,7 +922,7 @@ def plot_regional_biases(**kwargs):
                 if dset_id_in_table
                 else default_color
             )
-    
+
             scatter = ax.scatter(
                 row["season_shifted"],
                 row[variable],
@@ -914,57 +932,57 @@ def plot_regional_biases(**kwargs):
                 marker="o",
                 s=55,
             )
-    
+
             if dset_id not in labels:
                 handles.append(scatter)
                 labels.append(dset_id)
-    
+
         for idx, row in df_obs_region_fp.iterrows():
             dset_id = row["dset_id"]
             if "era5" in dset_id:
                 marker = "^"
-            elif dset_id in ['cerra', 'cerra-land']:
+            elif dset_id in ["cerra", "cerra-land"]:
                 marker = "s"
             elif "rocio-ibeb" in dset_id:
-                marker = 'X' if region == 'IP' else ''
+                marker = "X" if region == "IP" else ""
             scatter = ax.scatter(
                 row["season_shifted"],
                 row[variable],
-                color='dimgray',
-                edgecolors='dimgray',
+                color="dimgray",
+                edgecolors="dimgray",
                 facecolor="none",
                 marker=marker,
                 s=55,
             )
-    
+
             if dset_id not in labels:
                 handles.append(scatter)
                 labels.append(dset_id)
-    
+
         for idx, row in df_obs_region_sp.iterrows():
             dset_id = row["dset_id"]
             if "era5" in dset_id:
                 marker = "^"
-            elif dset_id in ['cerra', 'cerra-land']:
+            elif dset_id in ["cerra", "cerra-land"]:
                 marker = "s"
             elif "rocio-ibeb" in dset_id:
-                marker = 'X' if region == 'IP' else ''
+                marker = "X" if region == "IP" else ""
             scatter = ax.scatter(
                 row["season_shifted"],
                 row[variable],
-                color='dimgray',
-                edgecolors='dimgray',
+                color="dimgray",
+                edgecolors="dimgray",
                 facecolor="none",
                 marker=marker,
                 s=55,
             )
-    
+
             if dset_id not in labels:
                 handles.append(scatter)
                 labels.append(dset_id)
-    
-        axes[0].set_ylabel(var_dic[index]["name"], fontsize = 12)
-        axes[2].set_ylabel(var_dic[index]["name"], fontsize = 12)
+
+        axes[0].set_ylabel(var_dic[index]["name"], fontsize=12)
+        axes[2].set_ylabel(var_dic[index]["name"], fontsize=12)
         # Add region label in the top-left corner of each subplot
         ax.text(
             0.05,
@@ -977,38 +995,49 @@ def plot_regional_biases(**kwargs):
             color="black",
             weight="bold",
         )
-    
+
         ax.set_xticks([0, 1, 2, 3])  # Adjust tick positions according to the shift
-        ax.set_xticklabels(seasons, fontsize = 12)  # Set the names of the seasons as labels
-    
-        ax.grid(True, axis = 'y')
+        ax.set_xticklabels(
+            seasons, fontsize=12
+        )  # Set the names of the seasons as labels
+
+        ax.grid(True, axis="y")
         ax.axhline(0, color="k", linestyle="--")
         for v in [-0.5, 0.5, 1.5, 2.5]:
-            ax.axvline(v, color="k", linestyle="--", linewidth = 0.5)
+            ax.axvline(v, color="k", linestyle="--", linewidth=0.5)
         for v in [0, 1, 2, 3]:
             for vv in [-0.3, -0.1, 0.1, 0.3, 0.4]:
                 if vv in [0.1, 0.4]:
-                    linestyle = ':'
+                    linestyle = ":"
                 else:
                     linestyle = "-"
-                #ax.axvline(v + vv, color='grey', linestyle=linestyle, linewidth = 0.5, alpha = 0.5)
-        
-        ax.tick_params(axis='x', which='both', length=0)
-        
+                # ax.axvline(v + vv, color='grey', linestyle=linestyle, linewidth = 0.5, alpha = 0.5)
+
+        ax.tick_params(axis="x", which="both", length=0)
+
         if index in ["pr", "pr95"]:
             ax.fill_between([-0.5, 3.5], 0, 25, color="#cceeff", alpha=0.35)
-    
+
         # Calculate and display the absolute median bias for each season for both CMIP5 and CMIP6
         for j, season in enumerate(seasons):
+
             def select_by_region_season(df, region, season):
                 return df[variable].loc[
-                    (df["abbrevs"] == region) &
-                    (df["season"] == season)
+                    (df["abbrevs"] == region) & (df["season"] == season)
                 ]
-            cmip6_median_fp = np.nanmedian(abs(select_by_region_season(df_CMIP6_fp_fair, region, season)))
-            cmip5_median_fp = np.nanmedian(abs(select_by_region_season(df_CMIP5_fp_fair, region, season)))
-            cmip6_median_sp = np.nanmedian(abs(select_by_region_season(df_CMIP6_sp_fair, region, season)))
-            cmip5_median_sp = np.nanmedian(abs(select_by_region_season(df_CMIP5_sp_fair, region, season)))
+
+            cmip6_median_fp = np.nanmedian(
+                abs(select_by_region_season(df_CMIP6_fp_fair, region, season))
+            )
+            cmip5_median_fp = np.nanmedian(
+                abs(select_by_region_season(df_CMIP5_fp_fair, region, season))
+            )
+            cmip6_median_sp = np.nanmedian(
+                abs(select_by_region_season(df_CMIP6_sp_fair, region, season))
+            )
+            cmip5_median_sp = np.nanmedian(
+                abs(select_by_region_season(df_CMIP5_sp_fair, region, season))
+            )
 
             if index in ["pr", "pr95"]:
                 text = f"{cmip5_median_fp:.0f}  {cmip6_median_fp:.0f}  {cmip6_median_sp:.0f}"
@@ -1017,11 +1046,13 @@ def plot_regional_biases(**kwargs):
 
             texts = [cmip5_median_fp, cmip6_median_fp, cmip6_median_sp]
             positions = [-0.3, -0.1, 0.1]
-            
+
             for text, position in zip(texts, positions):
 
-                formatted_text = f"{text:.0f}" if index in ["pr", "pr95"] else f"{text:.1f}"
-                
+                formatted_text = (
+                    f"{text:.0f}" if index in ["pr", "pr95"] else f"{text:.1f}"
+                )
+
                 # Add the absolute median bias text below the season labels
                 ax.text(
                     j + position,
@@ -1035,7 +1066,7 @@ def plot_regional_biases(**kwargs):
                 )
         #        ax.text(j, var_dic[index]['range'][0]+0.5, f'{cmip5_median:.1f}  {cmip6_median:.1f}',
         #                fontsize=10, verticalalignment='top', horizontalalignment='center', color='black')
-    
+
     fig.legend(
         handles,
         labels,
@@ -1045,23 +1076,23 @@ def plot_regional_biases(**kwargs):
         fontsize=10,
     )
 
-    if index == 'tas':
+    if index == "tas":
         plt.ylim(-4.5, 2.5)
-    if index == 'tas95':
-        plt.ylim(-0.5, 6.5)  
-    if index == 'pr':
+    if index == "tas95":
+        plt.ylim(-0.5, 6.5)
+    if index == "pr":
         plt.ylim(-50, 250)
-        ax.set_yscale('symlog', linthresh=100)
+        ax.set_yscale("symlog", linthresh=100)
         y_ticks = [-50, -25, 0, 25, 50, 100, 250]
         ax.set_yticks(y_ticks)
         ax.set_yticklabels([str(v) for v in y_ticks])
-    if index == 'pr95':
+    if index == "pr95":
         plt.ylim(-10, 700)
-        ax.set_yscale('symlog', linthresh=100)
+        ax.set_yscale("symlog", linthresh=100)
         y_ticks = [-10, 0, 25, 50, 100, 300, 700]
         ax.set_yticks(y_ticks)
         ax.set_yticklabels([str(v) for v in y_ticks])
-    
+
     plt.tight_layout()
     plt.show()
     fig.savefig(
