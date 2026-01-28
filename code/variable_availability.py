@@ -88,7 +88,8 @@ if __name__ == "__main__":
         .set_index(["mip_era", "source_id"])
     )
     catalog = pd.read_csv(
-        "catalog.csv", usecols=["variable_id", "frequency", "source_id", "mip_era"]
+        "https://euro-cordex.s3.eu-central-1.amazonaws.com/catalog/CORDEX-CMIP6-JSC.csv",
+        usecols=["variable_id", "frequency", "source_id", "mip_era"],
     )
     md_lines = ["# Variable Availability Plots\n"]
     for study in get_studies(dreq):
