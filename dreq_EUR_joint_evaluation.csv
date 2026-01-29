@@ -4,7 +4,7 @@ clt,mon,%,Total Cloud Cover Percentage,cloud_area_fraction,area: time: mean,Tren
 evspsbl,day,kg m-2 s-1,Evaporation Including Sublimation and Transpiration,water_evapotranspiration_flux,area: time: mean,ClimateServicesPrio2,
 evspsbl,mon,kg m-2 s-1,Evaporation Including Sublimation and Transpiration,water_evapotranspiration_flux,area: time: mean,WaterBudget,
 hfls,mon,W m-2,Surface Upward Latent Heat Flux,surface_upward_latent_heat_flux,area: time: mean, WaterBudget,
-hurs,1hr,%,Near-Surface Relative Humidity,relative_humidity,area: mean time: point,FWI Urban,Only 12:00 UTC output will be used
+hurs,1hr,%,Near-Surface Relative Humidity,relative_humidity,area: mean time: point,FWI Urban HeatStress,
 hurs,day,%,Near-Surface Relative Humidity,relative_humidity,area: time: mean,FWI Urban,
 huss,day,1,Near-Surface Specific Humidity,specific_humidity,area: time: mean,ClimateServicesPrio2 HeatStress,
 hus1000,6hr,1,Specific Humidity,specific_humidity,area: mean time: point,AtmRivers Multifeature,
@@ -41,7 +41,7 @@ rsds,mon,W m-2,Surface Downwelling Shortwave Radiation,surface_downwelling_short
 rsdscs,mon,W m-2,Surface Downwelling Clear-Sky Shortwave Radiation,surface_downwelling_shortwave_flux_in_air_assuming_clear_sky,area: time: mean,Trends,
 rsut,mon,W m-2,TOA Outgoing Shortwave Radiation,toa_outgoing_shortwave_flux,area: time: mean,Trends,
 rsutcs,mon,W m-2,TOA Outgoing Clear-Sky Shortwave Radiation,toa_outgoing_shortwave_flux_assuming_clear_sky,area: time: mean,Trends,
-sfcWind,1hr,m s-1,Near-Surface Wind Speed,wind_speed,area: mean time: point,FWI WindEnergy Urban,FWI will only use 12:00 UTC output
+sfcWind,1hr,m s-1,Near-Surface Wind Speed,wind_speed,area: mean time: point,FWI WindEnergy Urban HeatStress,
 sfcWind,day,m s-1,Near-Surface Wind Speed,wind_speed,area: time: mean,ClimateServicesPrio2 HeatStress WindEnergy,
 sfcWind,mon,m s-1,Near-Surface Wind Speed,wind_speed,area: time: mean,Trends Urban,
 sfcWindmax,day,m s-1,Daily Maximum Near-Surface Wind Speed,wind_speed,area: mean time: maximum,FWI,Maximum from all integrated time steps per day
@@ -55,7 +55,7 @@ snd,mon,m,Snow Depth,surface_snow_thickness,area: mean where land time: mean,Sno
 snw,day,kg m-2,Surface Snow Amount,surface_snow_amount,area: mean where land time: mean,Snow,
 snw,mon,kg m-2,Surface Snow Amount,surface_snow_amount,area: mean where land time: mean,Snow WaterBudget,
 ta850,6hr,K,Air Temperature,air_temperature,area: mean time: point,Multifeature,
-tas,1hr,K,Near-Surface Air Temperature,air_temperature,area: mean time: point,FWI Urban,Only 12:00 UTC output will be used
+tas,1hr,K,Near-Surface Air Temperature,air_temperature,area: mean time: point,FWI Urban HeatStress,Only 12:00 UTC output will be used
 tas,day,K,Near-Surface Air Temperature,air_temperature,area: time: mean,ClimateServicesPrio1 HeatStress,
 tas,mon,K,Near-Surface Air Temperature,air_temperature,area: time: mean,Overview Trends Snow ClimateClassification Urban,
 tasmax,day,K,Daily Maximum Near-Surface Air Temperature,air_temperature,area: mean time: maximum,FWI ClimateServicesPrio1 Droughts HeatStress,maximum from all integrated time steps per day
