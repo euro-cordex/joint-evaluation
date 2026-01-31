@@ -48,7 +48,13 @@ ngridcells["SEA-12"] = ngridcells["SEA-25"] * 4
 plans = (
     pd.read_csv(
         "https://raw.githubusercontent.com/WCRP-CORDEX/simulation-status/refs/heads/main/CMIP6_downscaling_plans.csv",
-        usecols=["domain_id", "institution_id", "driving_experiment_id", "status", "comments"],
+        usecols=[
+            "domain_id",
+            "institution_id",
+            "driving_experiment_id",
+            "status",
+            "comments",
+        ],
     )
     .query('domain_id == "EUR-12"')
     .query('status in ["completed", "running"]')
