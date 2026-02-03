@@ -5,9 +5,14 @@ from icecream import ic
 
 ic.disable()
 
+# usage:
+# python3 storage_extimate.py ""
+# python3 storage_extimate.py evaluation
+# python3 storage_extimate.py historical ssp126 ssp285 ssp370 ssp585
+
 experiment_patterns = sys.argv[1:]
 experiment_query = " | ".join(
-    [f'experiment.str.contains("{patt}")' for patt in experiment_patterns]
+    [f'driving_experiment_id.str.contains("{patt}")' for patt in experiment_patterns]
 )
 
 precision_factor = 4  # float
@@ -43,16 +48,22 @@ ngridcells["SEA-12"] = ngridcells["SEA-25"] * 4
 plans = (
     pd.read_csv(
         "https://raw.githubusercontent.com/WCRP-CORDEX/simulation-status/refs/heads/main/CMIP6_downscaling_plans.csv",
-        usecols=["domain", "institute", "experiment", "status", "comments"],
+        usecols=[
+            "domain_id",
+            "institution_id",
+            "driving_experiment_id",
+            "status",
+            "comments",
+        ],
     )
-    .query('domain == "EUR-12"')
+    .query('domain_id == "EUR-12"')
     .query('status in ["completed", "running"]')
     .query('~comments.str.contains("#ESD", na=False)')
     .query(experiment_query)
 )
 
 simulation_count = plans.pivot_table(
-    index="domain", columns="experiment", aggfunc="size", fill_value=0
+    index="domain_id", columns="driving_experiment_id", aggfunc="size", fill_value=0
 ).drop(columns=["selected"], errors="ignore")
 ic(simulation_count)
 
