@@ -1,15 +1,15 @@
-import cordex as cx
+import os
+from warnings import warn
+
 import cf_xarray as cfxr
+import cftime
+import cmocean
+import cordex as cx
+import matplotlib.pyplot as plt
+import numpy as np
 import xarray as xr
 import xesmf as xe
-from warnings import warn
-import numpy as np
-import os
-import cftime
 from evaltools.source import get_source_collection, open_and_sort
-import matplotlib.pyplot as plt
-
-import cmocean
 
 default_attrs_ = [
     "project_id",
@@ -536,7 +536,7 @@ def select_season(ds: xr.DataArray) -> xr.DataArray:
     return season_da
 
 
-class TaylorDiagram(object):
+class TaylorDiagram:
     """Taylor diagram.
 
     Plot model standard deviation and correlation to reference (data)
@@ -574,9 +574,9 @@ class TaylorDiagram(object):
         * rlocs: correlation values
         """
 
-        from matplotlib.projections import PolarAxes
         import mpl_toolkits.axisartist.floating_axes as FA
         import mpl_toolkits.axisartist.grid_finder as GF
+        from matplotlib.projections import PolarAxes
 
         self.refstd = refstd  # Reference standard deviation
         self.rlocs = rlocs
@@ -600,7 +600,7 @@ class TaylorDiagram(object):
         )
 
         if fig is None:
-            fig = plt.figure()  # noqa
+            fig = plt.figure()
 
         ax = FA.FloatingSubplot(fig, rect, grid_helper=ghelper)
         fig.add_subplot(ax)
