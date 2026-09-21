@@ -11,16 +11,14 @@ Functions:
 """
 
 import dask
-from dask.diagnostics import ProgressBar
 import matplotlib.pyplot as plt
-from dask.distributed import Client
+import numpy as np
 import regionmask
 import seaborn as sns
-import numpy as np
-
-
-from evaltools.source import get_source_collection, open_and_sort
+from dask.diagnostics import ProgressBar
+from dask.distributed import Client
 from evaltools.eval import regional_means
+from evaltools.source import get_source_collection, open_and_sort
 
 dask.config.set(scheduler="single-threaded")
 sns.set_theme(style="darkgrid")
