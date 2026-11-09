@@ -1,10 +1,11 @@
-from pyesgf.search import SearchConnection
 import glob
 import os
 import subprocess
+from itertools import product
+
 import numpy as np
 import pandas as pd
-from itertools import product
+from pyesgf.search import SearchConnection
 
 
 def search_dic(var, freq, exp="evaluation"):
@@ -125,9 +126,7 @@ def download_datasetid_ESGF(dataset_id, nodeURL, dest):
         # ejecute wget
         os.chmod(script_path, 0o750)
         # download_dir = os.path.dirname(script_path)
-        subprocess.check_output(
-            ["bash", "{}".format(script_path), "-s"], cwd=target_dir
-        )
+        subprocess.check_output(["bash", f"{script_path}", "-s"], cwd=target_dir)
         os.remove(script_path)
 
 
